@@ -2,12 +2,12 @@ const firebase = require('firebase')
 
 // -- // -- // -- // Firebase Config // -- // -- // -- //
 const config = {
-  apiKey: 'AIzaSyBzz-Wq2dzMgM7E8cdSYnYoX5fbVUT-XQo',
-  authDomain: 'firebones-6bc2a.firebaseapp.com',
-  databaseURL: 'https://firebones-6bc2a.firebaseio.com',
-  projectId: 'firebones-6bc2a',
-  storageBucket: 'firebones-6bc2a.appspot.com',
-  messagingSenderId: '1030378391678'
+    apiKey: "AIzaSyALoCYGUMX2Mm_BTMhbmxmzAKSucmZeQmA",
+    authDomain: "ngage-fae7f.firebaseapp.com",
+    databaseURL: "https://ngage-fae7f.firebaseio.com",
+    projectId: "ngage-fae7f",
+    storageBucket: "ngage-fae7f.appspot.com",
+    messagingSenderId: "920881987389"
 }
 // -- // -- // -- // -- // -- // -- // -- // -- // -- //
 
