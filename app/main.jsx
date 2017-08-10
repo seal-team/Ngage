@@ -1,14 +1,18 @@
 'use strict'
 import React from 'react'
-import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom'
+
 import {render} from 'react-dom'
 
 import WhoAmI from './components/WhoAmI'
-import NotFound from './components/NotFound'
 
 import firebase from 'APP/fire'
 
-import Demos from 'APP/demos'
+import Routes from './routes'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
@@ -39,7 +43,7 @@ auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 
 // Our root App component just renders a little frame with a nav
 // and whatever children the router gave us.
-const App = ({children}) =>
+const App = () => (
   <div>
     <nav>
       {/* WhoAmI takes a firebase auth API and renders either a
@@ -47,17 +51,15 @@ const App = ({children}) =>
           on if anyone's logged in */}
       <WhoAmI auth={auth}/>
     </nav>
-    {/* Render our children (whatever the router gives us) */}
-    {children}
+
+    <Routes />
   </div>
+)
 
 render(
-  <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <IndexRedirect to="demos"/>
-      {Demos /* Put all the demos and a description page at /demos */}
-    </Route>
-    <Route path='*' component={NotFound}/>
+  <Router>
+    <App />
   </Router>,
   document.getElementById('main')
 )
+
