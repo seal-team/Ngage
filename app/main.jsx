@@ -1,4 +1,5 @@
 'use strict'
+
 import React from 'react'
 import {
   BrowserRouter as Router,
@@ -6,7 +7,7 @@ import {
   Switch
 } from 'react-router-dom'
 
-import {render} from 'react-dom'
+import { render } from 'react-dom'
 
 import WhoAmI from './components/WhoAmI'
 
