@@ -5,4 +5,3 @@ A platform for creating interactive presentations
 - Make pull request
 - All pull request must be reviewed
 - Issues will be tracked with waffle.io
-
