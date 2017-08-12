@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
 
+import SlideCanvas from './SlideCanvas'
+import PropertiesBar from './PropertiesBar'
+import SideBar from './SideBar'
+import Timeline from './Timeline'
+
 class EditorMain extends Component {
   constructor(props) {
     super(props)
@@ -7,8 +12,19 @@ class EditorMain extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Editor</h1>
+      <div className="editor-main-container columns">
+        
+        <div className="column">
+          <SideBar />
+        </div>
+
+        <div className="column">
+          <PropertiesBar />
+          <SlideCanvas />
+        </div>
+
+        <Timeline />
+
       </div>
     )
   }
