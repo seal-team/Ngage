@@ -6,15 +6,12 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
-
 import { render } from 'react-dom'
-
 import WhoAmI from './components/WhoAmI'
-
 import firebase from 'APP/fire'
-
 import Routes from './routes'
 
+import '../public/index.scss'
 // Get the auth API from Firebase.
 const auth = firebase.auth()
 
