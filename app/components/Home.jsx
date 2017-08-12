@@ -10,7 +10,7 @@ export default class Home extends React.Component {
 
                 <div className="columns">
                     <div className="column text-center">
-                        <Link to="">New Presentation</Link>
+                        <Link to="/present">New Presentation</Link>
                     </div>
 
                     <div className="column text-center">
