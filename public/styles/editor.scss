@@ -4,7 +4,7 @@
 
 .editor-main-container {
   background-color: rgb(226, 226, 226);
-  height: 1000px;
+  height: 900px;
   display: flex;
   flex-direction: column;
 }
@@ -13,7 +13,9 @@
   flex: 1 0 auto;
 }
 
+//----------------------
 // ------ SIDEBAR ------
+//----------------------
 .sidebar-container {
   margin-top: 10%;
   margin-left: 1%;
@@ -31,7 +33,9 @@
   color: black;
 }
 
+//-----------------------
 // ------ TIMELINE ------
+//-----------------------
 .timeline-container {
   display: flex;
   position: fixed;
@@ -71,6 +75,7 @@
 .timeline-slide {
   background-color: white;
   border: 1px solid black;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   height: 108px;
   width: 192px;
   margin-left: 20px;
@@ -102,4 +107,28 @@
 
 .plus-slide-btn {
   margin-top: 35px;
+}
+
+//-----------------------------
+// ------ PROPERTIES BAR ------
+//-----------------------------
+.properties-bar-container {
+  height: 40px;
+  width: 900px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid black;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  background-color: rgb(158, 158, 158);
+}
+
+
+//--------------------
+//------ CANVAS ------
+//--------------------
+.slide-canvas-container {
+  height: 500px;
+  width: 900px;
+  border: 2px solid black;
+  background-color: white;
 }
