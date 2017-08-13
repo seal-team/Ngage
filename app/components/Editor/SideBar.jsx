@@ -25,7 +25,6 @@ class SideBar extends Component {
       <div>
         <div className="sidebar-whole">
 
-
           {/* All Text Options */}
           <div>
             <div className="button is-info sidebar-btn"
@@ -39,7 +38,6 @@ class SideBar extends Component {
               </div>
             }
           </div>
-
 
           {/* All Shape Options */}
           <div>
