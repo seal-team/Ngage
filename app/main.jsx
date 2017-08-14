@@ -47,10 +47,10 @@ const App = () => (
     <Nav />
 
     <div>
-        {/* WhoAmI takes a firebase auth API and renders either a
+      {/* WhoAmI takes a firebase auth API and renders either a
         greeting and a logout button, or sign in buttons, depending
         on if anyone's logged in */}
-      <WhoAmI auth={auth}/>
+      <WhoAmI auth={auth} />
     </div>
 
     <Routes />

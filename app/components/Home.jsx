@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 class Home extends Component {
-   render() {
+    render() {
         // in the future this presentationID will be passed in by react router as match.params
         const presentationID = 1
 
-        return(
+        return (
             <div>
                 <h1 className="text-center">Welcome to nGage.</h1>
 
@@ -20,7 +20,7 @@ class Home extends Component {
                     </div>
 
                     <div className="column text-center">
-                        <Link to="">Present Mode</Link>
+                        <Link to="/view/prototype">Present Mode</Link>
                     </div>
                 </div>
             </div>
