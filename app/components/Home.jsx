@@ -96,11 +96,16 @@ export default class extends React.Component {
                 <div className="modal-card">
                   <section className="modal-card-body">
 
+<<<<<<< HEAD
+                    <div className="column text-center">
+                        <Link to="/view/prototype">Present Mode</Link>
+=======
                     <div className="field">
                       <label className="label has-text-left">New Presentation</label>
                       <div className="control">
                         <input className="input" type="text" name="newPresentation" placeholder="Enter Name" onChange={this.handleChange} value={this.state.newPresentation}/>
                       </div>
+>>>>>>> master
                     </div>
                     <div className="margin-top-sm">
                       <button className="button is-primary"

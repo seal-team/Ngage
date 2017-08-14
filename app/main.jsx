@@ -46,7 +46,7 @@ const App = () => (
   <div className="app-container">
     <Nav />
 
-    {/*<div>
+    {/* <div>
          WhoAmI takes a firebase auth API and renders either a
         greeting and a logout button, or sign in buttons, depending
         on if anyone's logged in
