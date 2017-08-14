@@ -9,26 +9,28 @@ export default class extends React.Component {
     super()
     this.state = {
       newPresentation: '',
-      items: []
+      items: [],
+      uid: null
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        const itemsRef = firebase.database().ref('users').child(user.uid).child('presentations')
-        itemsRef.on('value', (snapshot) => {
-          let items = snapshot.val()
-          let newState = []
+        this.setState({uid: user.uid})
+        const usersRef = firebase.database()
+          .ref('users')
+          .child(user.uid)
+          .child('presentations')
+        usersRef.on('value', (snapshot) => {
+          const items = snapshot.val()
+          const newState = []
           for (let item in items) {
             newState.push({
               id: item,
               title: items[item].title,
             })
           }
-          console.log('items', items)
           this.setState({
             items: newState
           })
@@ -39,21 +41,33 @@ export default class extends React.Component {
     })
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault()
     const user = firebase.auth().currentUser.uid
-    //console.log('user', user)
-    const itemsRef = firebase.database().ref('users').child(user).child('presentations')
+    // console.log('user', user)
+    const usersRef = firebase.database()
+      .ref('users')
+      .child(user)
+    const presentationsRef = firebase.database()
+      .ref('presentations')
     const item = {
       title: this.state.newPresentation,
     }
-    itemsRef.push(item)
+    // add the new Presentation under the user
+    const newPresent = usersRef.child('presentations').push(item)
+    // get the key
+    const newPresentKey = newPresent.key
+    // add to the presentations
+    presentationsRef.child(newPresentKey).set(item)
+    // set it as the active one
+    usersRef.child('activePresentation').set(newPresentKey)
+
     this.setState({
       newPresentation: '',
     })
@@ -62,9 +76,10 @@ export default class extends React.Component {
   render() {
     return (
       <div className='whoami'>
+      {this.state.uid && <div>
         <header>
           <div className='wrapper'>
-            <h1>Create Presentation</h1>
+              <h1>Create Presentation</h1>
           </div>
         </header>
         <div className='container'>
@@ -94,6 +109,7 @@ export default class extends React.Component {
             </ul>
           </div>
         </section>
+      </div>}
       </div>
     )
   }
