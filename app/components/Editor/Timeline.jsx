@@ -29,7 +29,7 @@ class Timeline extends Component {
           slides.on('value', (snapshot) => {
             const value = snapshot.val()
             console.log('slides', value)
-            this.setState({slides: slides})
+            this.setState({slides: value})
           })
         })
       } else {
@@ -53,11 +53,11 @@ class Timeline extends Component {
       slides.push({number: this.state.slidesCount})
     })
     this.setState({ slidesCount: this.state.slidesCount++ })
-
   }
 
   render() {
-    let slides = this.state.slides
+    const slides = this.state.slides
+    console.log('what is this', slides)
     return (
       <div>
         <div className="timeline-strip">
@@ -66,11 +66,16 @@ class Timeline extends Component {
               <i className="fa fa-chevron-circle-left"></i>
             </span>
           </div>
-
-          <div className="timeline-slide"></div>
-          <div className="timeline-slide"></div>
-          <div className="timeline-slide"></div>
-          <div className="timeline-slide"></div>
+          {
+            slides && Object.values(slides).map((slide) => {
+              return (
+                <div className="timeline-slide">
+                  
+                  <text>{slide.number}</text>
+                </div>
+              )
+            })
+          }
 
           <div className="plus-slide-btn"
             onClick={this.handleSubmit}>
