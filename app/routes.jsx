@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import Home from './components/Home'
 import EditorMain from './components/Editor/EditorMain'
 import NotFound from './components/NotFound'
+import Presentation from './components/Presentation/PresentationMain'
 
 const Routes = () => (
     <Switch>
@@ -12,8 +13,9 @@ const Routes = () => (
 
         <Route exact path="/editor/:presentationID" component={EditorMain} />
 
-        <Route path='*' component={NotFound}/>
+        <Route exact path="/present" component={Presentation}/>
 
+        <Route path='*' component={NotFound}/>
     </Switch>
 )
 

@@ -12,7 +12,7 @@ class Home extends Component {
 
                 <div className="columns">
                     <div className="column text-center">
-                        <Link to={`/editor/${presentationID}`}>New Presentation</Link>
+                        <Link to="/present">New Presentation</Link>
                     </div>
 
                     <div className="column text-center">
