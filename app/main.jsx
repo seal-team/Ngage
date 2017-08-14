@@ -46,12 +46,12 @@ const App = () => (
   <div className="app-container">
     <Nav />
 
-    <div>
-      {/* WhoAmI takes a firebase auth API and renders either a
+    {/* <div>
+         WhoAmI takes a firebase auth API and renders either a
         greeting and a logout button, or sign in buttons, depending
-        on if anyone's logged in */}
-      <WhoAmI auth={auth} />
-    </div>
+        on if anyone's logged in
+      <WhoAmI auth={auth}/>
+    </div> */}
 
     <Routes />
   </div>

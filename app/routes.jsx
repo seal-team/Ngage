@@ -8,18 +8,19 @@ import Presentation from './components/Presentation/PresentationMain'
 import Viewer from './components/Viewer/Main'
 
 const Routes = () => (
-    <Switch>
+        <Switch>
 
-        <Route exact path="/" component={Home} />
+                <Route exact path="/" component={Home} />
 
-        <Route exact path="/editor/:presentationID" component={EditorMain} />
+                <Route exact path="/editor/:presentationID" component={EditorMain} />
 
-        <Route exact path="/present" component={Presentation} />
+                <Route exact path="/present" component={Presentation} />
 
-        <Route exact path='/view/:presentationID' component={Viewer} />
+                <Route exact path='/view/:presentationID' component={Viewer} />
 
-        <Route path='*' component={NotFound} />
-    </Switch>
+                <Route path='*' component={NotFound} />
+
+        </Switch>
 )
 
 export default Routes

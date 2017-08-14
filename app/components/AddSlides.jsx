@@ -7,75 +7,47 @@ export default class extends Component {
     this.state = {
       slides: [],
       slidesCount: 0,
-      presentationName: ""
+      uid: null
     }
   }
   componentDidMount(){
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-            let currSlides = firebase.database()
+            this.setState({uid: user.uid})
+            const activePresentation = firebase.database()
                 .ref('users')
                 .child(user.uid)
-                .child('presentations')
-                .child(this.state.presentationName)
-                .child('slides')
-            currSlides.on('value', (snapshot) => {
-              let items = snapshot.val()
-            })
-          }
+                .child('activePresentation')
+            // activePresentation.on('value', (snapshot) => {
+            //   let items = snapshot.val()
+            // })
+          } else {
+            this.setState({uid: null})
+      }
       })
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
       e.preventDefault()
-      const user = firebase.auth().currentUser.uid
-        //console.log('user', user)
-      const currPresentation = firebase.database()
-        .child('presentations')
-      const item = {
-          user: user,
-          id: this.state.presentationName,
+      const activePresentation = firebase.database()
+        .ref('users')
+        .child(this.state.uid)
+        .child('activePresentation')
+      const slides = firebase.database()
+        .ref('presentation')
+        .child(activePresentation)
+        .child('slides')
 
-        }
-      itemsRef.push(item)
-      this.setState({
-          newPresentation: '',
-        })
-    }
+      this.setState({ slidesCount: this.state.slidesCount++ })
+      
+      slides.child(this.state.slidesCount).set({})
+  }
 
   render(){
     return (
-      <div className='whoami'>
-        <header>
-          <div className='wrapper'>
-            <h1>Presentation</h1>
-          </div>
-        </header>
-        <div className='container'>
-          <section className='add-item'>
-              <button onClick={this.handleSubmit}>Add Item</button>
-          </section>
-          <section className='display-item'>
-            <div className='wrapper'>
-              <ul>
-              </ul>
-            </div>
-          </section>
-        </div>
-        <section className='display-item'>
-          <div className="wrapper">
-            <ul>
-              {this.state.slides.map((slide) => {
-                return (
-                  <li key={slide.id}>
-                    <h5>{slide}</h5>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </section>
+      <div>
+        <button onClick={this.handleSubmit}>+</button>
       </div>
-          )
+    )
   }
 }
