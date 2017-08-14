@@ -44,15 +44,15 @@ auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 // and whatever children the router gave us.
 const App = () => (
   <div className="app-container">
-    {/* 
-    <nav>
-        WhoAmI takes a firebase auth API and renders either a
-        greeting and a logout button, or sign in buttons, depending
-        on if anyone's logged in 
-      <WhoAmI auth={auth}/>
-    </nav>
-    */}
     <Nav />
+
+    <div>
+        {/* WhoAmI takes a firebase auth API and renders either a
+        greeting and a logout button, or sign in buttons, depending
+        on if anyone's logged in */}
+      <WhoAmI auth={auth}/>
+    </div>
+
     <Routes />
   </div>
 )

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 import firebase from 'APP/fire'
-
 // const users = firebase.database().ref('users')
 // , nickname = uid => users.child(uid).child('nickname')
 
@@ -10,14 +10,15 @@ export default class extends React.Component {
     this.state = {
       newPresentation: '',
       items: [],
-      uid: null
+      uid: null,
+      modal: ''
     }
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({uid: user.uid})
+        this.setState({ uid: user.uid })
         const usersRef = firebase.database()
           .ref('users')
           .child(user.uid)
@@ -36,15 +37,21 @@ export default class extends React.Component {
           })
         })
       } else {
-        this.setState({uid: null})
+        this.setState({ uid: null })
       }
     })
   }
 
+  handleOpenModal = (e) => {
+    this.setState({ modal: 'is-active' })
+  }
+
+  handleCloseModal = (e) => {
+    this.setState({ modal: '' })
+  }
+
   handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    this.setState({ [e.target.name]: e.target.value })
   }
 
   handleSubmit = (e) => {
@@ -68,47 +75,66 @@ export default class extends React.Component {
 
     this.setState({
       newPresentation: '',
+      modal: ''
     })
   }
 
   render() {
     return (
       <div className='whoami'>
-      {this.state.uid && <div>
-        <header>
-          <div className='wrapper'>
-              <h1>Create Presentation</h1>
-          </div>
-        </header>
-        <div className='container'>
-          <section className='add-item'>
-            <form onSubmit={this.handleSubmit}>
-              <input type="text" name="newPresentation" placeholder="Presentation Name" onChange={this.handleChange} value={this.state.newPresentation} />
-              <button>Add Item</button>
-            </form>
-          </section>
-          <section className='display-item'>
-            <div className='wrapper'>
-              <ul>
-              </ul>
+        {this.state.uid && <div>
+          <div className='container is-fluid'>
+            <div className='content has-text-centered'>
+              <div className={`modal ${this.state.modal}`}>
+
+                <div className="modal-background"></div>
+                <div className="modal-card">
+                  <section className="modal-card-body">
+
+                    <div className="field">
+                      <label className="label has-text-left">New Presentation</label>
+                      <div className="control">
+                        <input className="input" type="text" name="newPresentation" placeholder="Enter Name" onChange={this.handleChange} value={this.state.newPresentation}/>
+                      </div>
+                    </div>
+                    <div className="margin-top-sm">
+                      <button className="button is-primary"
+                        onClick={this.handleSubmit} >Create
+                      </button>
+                      <button className="button"
+                        onClick={this.handleCloseModal} >Close
+                      </button>
+                    </div>
+                  </section>
+                </div>
+                </div>
+
+                <a onClick={this.handleOpenModal} className="button is-primary is-large">Create Presentation</a>
+              </div>
+              <section className='display-item'>
+                <div className='wrapper'>
+                  <ul>
+                  </ul>
+                </div>
+              </section>
             </div>
-          </section>
-        </div>
-        <section className='display-item'>
-          <div className="wrapper">
-            <ul>
-              {this.state.items.map((item) => {
-                return (
-                  <li key={item.id}>
-                    <h5>{item.title}</h5>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </section>
-      </div>}
+            <section className='display-item'>
+              <div className="wrapper">
+                <ul>
+                  {this.state.items.map((item) => {
+                    return (
+                      <li key={item.id}>
+                        <Link to={`/editor/${item.id}`}>
+                          <h5>{item.title}</h5>
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            </section>
+          </div>}
       </div>
     )
-  }
+        }
 }
