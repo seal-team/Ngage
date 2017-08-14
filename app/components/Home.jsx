@@ -129,9 +129,26 @@ export default class extends React.Component {
                     {this.state.items.map((item) => {
                       return (
                         <li key={item.id}>
-                          <Link to={`/editor/${item.id}`}>
+                         {/* <Link to={`/editor/${item.id}`}>
                           {item.title}
-                          </Link>
+                      </Link> */}
+                          <span className='margin-right-sm'>
+                            <Link to={`/editor/${item.id}`}>
+                                <a className="button is-small">
+                                <span className="icon is-small">
+                                <i className="fa fa-edit"></i>
+                                </span>
+                                </a>
+                            </Link>
+                            <Link to={`/view/${item.id}`}>
+                            <a className="button is-small">
+                                <span className="icon is-small">
+                                <i className="fa fa-eye"></i>
+                                </span>
+                            </a>
+                            </Link>
+                          </span>
+                          {item.title}
                         </li>
                       )
                     })}
