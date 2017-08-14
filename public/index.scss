@@ -1,2 +1,9 @@
 @import './styles/home.scss';
 @import './styles/login.scss';
+@import './styles/nav.scss';
+@import './styles/editor.scss';
+@import './styles/slide.scss';
+
+.app-container {
+  min-width: 1000px;
+}

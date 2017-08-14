@@ -1,5 +1,4 @@
 'use strict'
-
 import React from 'react'
 import {
   BrowserRouter as Router,
@@ -9,7 +8,9 @@ import {
 import { render } from 'react-dom'
 import WhoAmI from './components/WhoAmI'
 import firebase from 'APP/fire'
+
 import Routes from './routes'
+import Nav from './components/Nav'
 
 import '../public/index.scss'
 // Get the auth API from Firebase.
@@ -42,14 +43,16 @@ auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 // Our root App component just renders a little frame with a nav
 // and whatever children the router gave us.
 const App = () => (
-  <div>
+  <div className="app-container">
+    {/* 
     <nav>
-      {/* WhoAmI takes a firebase auth API and renders either a
-          greeting and a logout button, or sign in buttons, depending
-          on if anyone's logged in */}
+        WhoAmI takes a firebase auth API and renders either a
+        greeting and a logout button, or sign in buttons, depending
+        on if anyone's logged in 
       <WhoAmI auth={auth}/>
     </nav>
-
+    */}
+    <Nav />
     <Routes />
   </div>
 )
@@ -60,4 +63,3 @@ render(
   </Router>,
   document.getElementById('main')
 )
-
