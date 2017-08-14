@@ -1,49 +1,63 @@
 import React, { Component } from 'react'
 import AddSlides from '../AddSlides'
+import firebase from 'firebase'
 
 class Timeline extends Component {
   constructor() {
     super()
     this.state = {
-      slides: [],
+      slides: null,
       slidesCount: 0,
       uid: null
     }
   }
-  componentDidMount(){
+  componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-            this.setState({uid: user.uid})
-            const activePresentation = firebase.database()
-                .ref('users')
-                .child(user.uid)
-                .child('activePresentation')
-            // activePresentation.on('value', (snapshot) => {
-            //   let items = snapshot.val()
-            // })
-          } else {
-            this.setState({uid: null})
+      if (user) {
+        this.setState({uid: user.uid})
+        console.log('user.uid', user.uid)
+        const activePresentation = firebase.database()
+          .ref('users')
+          .child(user.uid)
+          .child('activePresentation')
+        activePresentation.on('value', (snapshot) => {
+          const value = snapshot.val()
+          const slides = firebase.database()
+            .ref('presentations')
+            .child(value)
+            .child('slides')
+          slides.on('value', (snapshot) => {
+            const value = snapshot.val()
+            console.log('slides', value)
+            this.setState({slides: slides})
+          })
+        })
+      } else {
+        this.setState({uid: null})
       }
-      })
+    })
   }
 
   handleSubmit = (e) => {
-      e.preventDefault()
-      const activePresentation = firebase.database()
-        .ref('users')
-        .child(this.state.uid)
-        .child('activePresentation')
+    e.preventDefault()
+    const activePresentation = firebase.database()
+      .ref('users')
+      .child(this.state.uid)
+      .child('activePresentation')
+    activePresentation.on('value', (snapshot) => {
+      const value = snapshot.val()
       const slides = firebase.database()
-        .ref('presentation')
-        .child(activePresentation)
+        .ref('presentations')
+        .child(value)
         .child('slides')
+      slides.push({number: this.state.slidesCount})
+    })
+    this.setState({ slidesCount: this.state.slidesCount++ })
 
-      this.setState({ slidesCount: this.state.slidesCount++ })
-      
-      slides.child(this.state.slidesCount).set({})
   }
 
   render() {
+    let slides = this.state.slides
     return (
       <div>
         <div className="timeline-strip">
