@@ -55,7 +55,6 @@ class SideBar extends Component {
             }
           </div>
 
-
           {/* All Media Options */}
           <div>
             <div className="button is-primary sidebar-btn"
