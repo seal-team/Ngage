@@ -1,0 +1,6 @@
+/*
+
+Dummy Component
+is Modal for uploading different medias
+
+*/

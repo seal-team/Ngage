@@ -33,6 +33,39 @@
   color: black;
 }
 
+.options-container {
+  border-radius: 2%;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  padding-left: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 140px;
+  color: black;
+}
+
+.sidebar-text-options {
+  background-color: rgba(9, 78, 188, 0.5);
+  border: 1px solid rgba(9, 58, 138, 1);
+}
+
+.sidebar-shape-options {
+  background-color: rgba(215, 3, 46, 0.5);
+  border: 1px solid rgba(185, 3, 26, 0.1);
+}
+
+.sidebar-media-options {
+  background-color: rgba(40, 159, 128, 0.5);
+  border: 1px solid rgba(4, 109, 78, 0.1);
+}
+
+.sidebar-quiz-options {
+  background-color: rgba(40, 159, 128, 0.5);
+  border: 1px solid rgba(4, 109, 78, 0.1);
+}
+
+
+
 //-----------------------
 // ------ TIMELINE ------
 //-----------------------

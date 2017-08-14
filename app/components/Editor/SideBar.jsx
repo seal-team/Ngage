@@ -33,8 +33,9 @@ class SideBar extends Component {
             </div>
 
             {activeTab[0] &&
-              <div className="text-options result-link-container">
+              <div className="sidebar-text-options options-container">
                 <p>Text Box</p>
+                <p>Bullet Points</p>
               </div>
             }
           </div>
@@ -47,7 +48,7 @@ class SideBar extends Component {
             </div>
 
             {activeTab[1] &&
-              <div className="sof-results result-link-container">
+              <div className="sidebar-shape-options options-container">
                 <p>Rectangle</p>
                 <p>Circle</p>
               </div>
@@ -63,7 +64,7 @@ class SideBar extends Component {
             </div>
 
             {activeTab[2] &&
-              <div className="w3c-results result-link-container">
+              <div className="sidebar-media-options options-container">
                 <p>Audio</p>
                 <p>Video</p>
                 <p>VR</p>
@@ -80,7 +81,7 @@ class SideBar extends Component {
             </div>
 
             {activeTab[3] &&
-              <div className="w3c-results result-link-container">
+              <div className="sidebar-quiz-options options-container">
                 <p>Multiple Choice</p>
                 <p>Poll</p>
               </div>
