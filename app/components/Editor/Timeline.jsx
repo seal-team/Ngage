@@ -70,7 +70,6 @@ class Timeline extends Component {
             slides && Object.values(slides).map((slide) => {
               return (
                 <div className="timeline-slide">
-                  
                   <text>{slide.number}</text>
                 </div>
               )
