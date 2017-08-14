@@ -1,0 +1,134 @@
+.body {
+  background-color: rgb(226, 226, 226);
+}
+
+.editor-main-container {
+  background-color: rgb(226, 226, 226);
+  height: 900px;
+  display: flex;
+  flex-direction: column;
+}
+
+.everything-but-timeline {
+  flex: 1 0 auto;
+}
+
+//----------------------
+// ------ SIDEBAR ------
+//----------------------
+.sidebar-container {
+  margin-top: 10%;
+  margin-left: 1%;
+}
+
+.sidebar-btn {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 160px;
+}
+
+.sidebar-category {
+  font-size: 22px;
+  font-style: bold;
+  color: black;
+}
+
+//-----------------------
+// ------ TIMELINE ------
+//-----------------------
+.timeline-container {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  padding-left: 50%;
+}
+
+.timeline-condensed {
+  bottom: 20px;
+}
+
+.timeline-expanded {
+  bottom: 150px;
+}
+
+.timeline-strip {
+  display: flex;
+  position: fixed;
+  background-color: rgb(108, 108, 108);
+  border-top: 2px solid black;
+  height: 150px;
+  width: 100%;
+  padding-top: 1.5%;
+  bottom: 0px;
+}
+
+.timeline-pad {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 20px;
+  bottom: 0px;
+  background-color: rgb(88, 88, 88);
+  border-top: 2px solid black;
+}
+
+.timeline-slide {
+  background-color: white;
+  border: 1px solid black;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  height: 108px;
+  width: 192px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.arrow-div-container {
+  background-color: rgb(58, 58, 58);
+  width: 30px;
+  border-radius: 70% 70% 0% 0%;
+}
+
+.arrow {
+  margin-left: 30%;
+  font-size: 50px;
+  color: white;
+}
+
+.left-arrow-btn {
+  margin-left: 10px;
+  margin-right: 20px;
+  margin-top: 35px;
+}
+
+.right-arrow-btn {
+  margin-top: 35px;
+  right: 10px;
+}
+
+.plus-slide-btn {
+  margin-top: 35px;
+}
+
+//-----------------------------
+// ------ PROPERTIES BAR ------
+//-----------------------------
+.properties-bar-container {
+  height: 40px;
+  width: 900px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid black;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  background-color: rgb(158, 158, 158);
+}
+
+
+//--------------------
+//------ CANVAS ------
+//--------------------
+.slide-canvas-container {
+  height: 500px;
+  width: 900px;
+  border: 2px solid black;
+  background-color: white;
+}
