@@ -49,11 +49,9 @@ export default class extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const user = firebase.auth().currentUser.uid
-    // console.log('user', user)
     const usersRef = firebase.database()
       .ref('users')
-      .child(user)
+      .child(this.state.uid)
     const presentationsRef = firebase.database()
       .ref('presentations')
     const item = {
