@@ -7,7 +7,7 @@ import WhoAmI from './WhoAmI'
 const auth = firebase.auth()
 auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 
-export default class extends React.Component {
+export default class extends Component {
   constructor() {
     super()
     this.state = {
@@ -106,7 +106,7 @@ export default class extends React.Component {
                         <input className="input" type="text" name="newPresentation" placeholder="Enter Name" onChange={this.handleChange} value={this.state.newPresentation}/>
                       </div>
                     </div>
-                    
+
                     <div className="margin-top-sm">
                       <button className="button is-primary"
                         onClick={this.handleSubmit} >Create
