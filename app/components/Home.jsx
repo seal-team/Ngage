@@ -6,7 +6,7 @@ import WhoAmI from './WhoAmI'
 
 const auth = firebase.auth()
 auth.onAuthStateChanged(user => user || auth.signInAnonymously())
-
+//don't sign in anoymously 
 export default class extends React.Component {
   constructor() {
     super()
@@ -45,6 +45,8 @@ export default class extends React.Component {
     })
   }
 
+//componentwillunmount FOR ALL!
+
   handleOpenModal = (e) => {
     this.setState({ modal: 'is-active' })
   }
@@ -82,7 +84,9 @@ export default class extends React.Component {
     })
     this.props.history.push(`/editor/${newPresentKey}`)
   }
-
+  // make the modal its own component
+  // if statement for login/home
+  // split everything into multiple components
   render() {
     return (
       <div className='whoami'>
@@ -96,12 +100,17 @@ export default class extends React.Component {
                 <div className="modal-card">
                   <section className="modal-card-body">
 
+                    <div className="column text-center">
+                      <Link to="/view/prototype">Present Mode</Link>
+                    </div>
+
                     <div className="field">
                       <label className="label has-text-left">New Presentation</label>
                       <div className="control">
                         <input className="input" type="text" name="newPresentation" placeholder="Enter Name" onChange={this.handleChange} value={this.state.newPresentation}/>
                       </div>
                     </div>
+                    
                     <div className="margin-top-sm">
                       <button className="button is-primary"
                         onClick={this.handleSubmit} >Create
@@ -124,9 +133,26 @@ export default class extends React.Component {
                     {this.state.items.map((item) => {
                       return (
                         <li key={item.id}>
-                          <Link to={`/editor/${item.id}`}>
+                         {/* <Link to={`/editor/${item.id}`}>
                           {item.title}
-                          </Link>
+                      </Link> */}
+                          <span className='margin-right-sm'>
+                            <Link to={`/editor/${item.id}`}>
+                                <a className="button is-small">
+                                <span className="icon is-small">
+                                <i className="fa fa-edit"></i>
+                                </span>
+                                </a>
+                            </Link>
+                            <Link to={`/view/${item.id}`}>
+                            <a className="button is-small">
+                                <span className="icon is-small">
+                                <i className="fa fa-eye"></i>
+                                </span>
+                            </a>
+                            </Link>
+                          </span>
+                          {item.title}
                         </li>
                       )
                     })}

@@ -24,9 +24,9 @@ class Nav extends Component {
         <div className="navbar-menu">
           <div className="navbar-end navbar-item has-dropdown is-hoverable">
             <Link className="navbar-link is-active nav-profile" to="/profile">
-                Evan
+              Evan
             </Link>
-            
+
             <div className="navbar-dropdown ">
               <Link className="navbar-item " to="/signup">
                 Register
@@ -39,7 +39,7 @@ class Nav extends Component {
               </Link>
               <Link onClick={
                 this.props.logout
-              }className="navbar-item " to="/">
+              } className="navbar-item " to="/">
                 Logout
               </Link>
             </div>

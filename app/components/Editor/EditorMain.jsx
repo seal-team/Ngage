@@ -4,15 +4,29 @@ import SlideCanvas from './SlideCanvas'
 import PropertiesBar from './PropertiesBar'
 import SideBar from './SideBar'
 import Timeline from './Timeline'
+import firebase from 'firebase'
 
 class EditorMain extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      timelineIsHidden: false
+      timelineIsHidden: false,
+      activeSlide: ''
     }
     this.toggleTimeline = this.toggleTimeline.bind(this)
+  }
+
+  componentDidMount() {
+    console.log(this.props)
+    const db = firebase.database()
+    const activeSlide = db.ref('presentations')
+      .child(this.props)
+      .child('active')
+    activeSlide.on('value', (snap) => {
+      const value = snap.val()
+      this.setState({activeSlide: value})
+    })
   }
 
   toggleTimeline() {
@@ -32,7 +46,7 @@ class EditorMain extends Component {
 
           <div className="column">
             <PropertiesBar />
-            <SlideCanvas />
+            <SlideCanvas activeSlide={this.state.activeSlide}/>
           </div>
         </div>
 

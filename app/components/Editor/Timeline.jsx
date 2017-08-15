@@ -8,28 +8,37 @@ class Timeline extends Component {
     this.state = {
       slides: null,
       slidesCount: 0,
-      uid: null
+      uid: null,
+      activeSlide: null,
+      currentPres: null
     }
   }
+
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({uid: user.uid})
         console.log('user.uid', user.uid)
+
         const activePresentation = firebase.database()
           .ref('users')
           .child(user.uid)
           .child('activePresentation')
+
         activePresentation.on('value', (snapshot) => {
           const value = snapshot.val()
+
+          this.setState({currentPres: value})
+
           const slides = firebase.database()
             .ref('presentations')
             .child(value)
             .child('slides')
+          
           slides.on('value', (snapshot) => {
-            const value = snapshot.val()
-            console.log('slides', value)
-            this.setState({slides: value})
+            const values = snapshot.val()
+            console.log('slides', values)
+            this.setState({slides: values})
           })
         })
       } else {
@@ -44,20 +53,40 @@ class Timeline extends Component {
       .ref('users')
       .child(this.state.uid)
       .child('activePresentation')
+
     activePresentation.on('value', (snapshot) => {
       const value = snapshot.val()
       const slides = firebase.database()
         .ref('presentations')
         .child(value)
         .child('slides')
-      slides.push({number: this.state.slidesCount})
+      
+      slides.push({
+        number: this.state.slidesCount
+        // add content here...
+      })
     })
+
     this.setState({ slidesCount: this.state.slidesCount++ })
+  }
+
+  activateSlide = key => {
+    console.log('key is:  ', key)
+    this.setState({activeSlide: key})
+    
+    const currPres = firebase.database()
+      .ref('presentations')
+      .child(this.state.currentPres)
+      .child('active')
+    currPres.set({slide: this.state.activeSlide})
+    // console.log('slide', this.state.activeSlide)
+    console.log('currentpres', currPres)
+    // console.log('key', key.target)
   }
 
   render() {
     const slides = this.state.slides
-    console.log('what is this', slides)
+    const activeSlide = this.state.activeSlide
     return (
       <div>
         <div className="timeline-strip">
@@ -67,13 +96,12 @@ class Timeline extends Component {
             </span>
           </div>
           {
-            slides && Object.values(slides).map((slide) => {
-              return (
-                <div className="timeline-slide">
-                  <text>{slide.number}</text>
-                </div>
-              )
-            })
+            slides && Object.keys(slides).map(slide => (
+              <div className={`timeline-slide ${activeSlide === slide && 'active-slide'}`} key={slide}
+                onClick={() => this.activateSlide(slide)}>
+                  <text>{slides[slide].number}</text>
+              </div>
+            ))
           }
 
           <div className="plus-slide-btn"
