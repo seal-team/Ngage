@@ -1,21 +1,21 @@
 import React from 'react'
 import firebase from 'APP/fire'
-import ignite, {withAuth, FireInput} from './ignite'
+import ignite, { withAuth, FireInput } from './ignite'
 
 const users = firebase.database().ref('users')
-    , nickname = uid => users.child(uid).child('nickname')
+  , nickname = uid => users.child(uid).child('nickname')
 
 const Nickname = ignite(
-  ({value}) => <span className='chat-message-nick margin-right-sm'>{value}: </span>
+  ({ value }) => <span className='chat-message-nick column is-2 margin-right-sm'>{value}: </span>
 )
 
 const ChatMessage = ignite(
-  ({value}) => {
+  ({ value }) => {
     if (!value) return null
-    const {from, body} = value
-    return <div className='chat-message'>
+    const { from, body } = value
+    return <div className='chat-message columns'>
       <Nickname fireRef={nickname(from)} />
-      <span className='chat-message-body'>{body}</span>
+      <span className='chat-message-body auto column'>{body}</span>
     </div>
   }
 )
@@ -43,17 +43,17 @@ export default ignite(withAuth(class extends React.Component {
     }
     return <form onSubmit={this.sendMessage}>
       <FireInput fireRef={nickname(user.uid)} />
-      <input name='body'/>
-      <input type='submit'/>
+      <input className="column is-10" name='body' />
+      <input type='submit' />
     </form>
   }
 
   render() {
-    const {user, snapshot, asEntries, presentationID} = this.props
-        , messages = asEntries(snapshot)
+    const { user, snapshot, asEntries, presentationID } = this.props
+      , messages = asEntries(snapshot)
     return <div>
       <div className='chat-log'> {
-        messages.map(({key, fireRef}) => <ChatMessage key={key} fireRef={fireRef}/>)
+        messages.map(({ key, fireRef }) => <ChatMessage key={key} fireRef={fireRef} />)
       } </div>
       {this.renderSendMsg(user)}
     </div>
