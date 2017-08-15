@@ -133,7 +133,7 @@ export default class extends React.Component {
                           {item.title}
                       </Link> */}
                           <span className='margin-right-sm'>
-                            <Link to={`/editor/${item.id}`}>
+                            <Link to={`/edit/${item.id}`}>
                                 <a className="button is-small">
                                 <span className="icon is-small">
                                 <i className="fa fa-edit"></i>

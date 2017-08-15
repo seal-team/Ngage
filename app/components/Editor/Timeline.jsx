@@ -11,21 +11,25 @@ class Timeline extends Component {
       uid: null
     }
   }
+  
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({uid: user.uid})
         console.log('user.uid', user.uid)
+        
         const activePresentation = firebase.database()
           .ref('users')
           .child(user.uid)
           .child('activePresentation')
+
         activePresentation.on('value', (snapshot) => {
           const value = snapshot.val()
           const slides = firebase.database()
             .ref('presentations')
             .child(value)
             .child('slides')
+          
           slides.on('value', (snapshot) => {
             const value = snapshot.val()
             console.log('slides', value)
