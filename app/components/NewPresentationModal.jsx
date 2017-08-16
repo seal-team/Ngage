@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'APP/fire'
 
@@ -78,4 +78,4 @@ const mapState = state => ({
   user: state.user
 })
 
-export default connect(mapState)(NewPresentationModal)
+export default withRouter(connect(mapState)(NewPresentationModal))

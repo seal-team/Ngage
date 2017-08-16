@@ -47,7 +47,7 @@ class Profile extends Component {
     const user = this.props.user
     return (
       <div className='whoami'>
-        {auth && <div>
+        {user && <div>
           {this.state.showModal 
             && <NewPresentationModal handleModal={this.handleModal} />
           }
