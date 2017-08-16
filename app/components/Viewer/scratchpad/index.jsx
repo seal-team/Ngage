@@ -8,7 +8,7 @@ import Scratchpad from './Scratchpad'
 // This component is a little piece of glue between React router
 // and our Scratchpad component. It takes in props.params.title, and
 // shows the Scratchpad along with that title.
-export default () =>
+export default ({ presentationID }) =>
   <div>
     {/* <h1>{view}</h1> */}
     {/* Here, we're passing in a Firebase reference to
@@ -16,5 +16,5 @@ export default () =>
         stored in Firebase. Each scratchpad is just a string that the
         component will listen to, but it could be the root of a more complex
         data structure if we wanted. */}
-    <Scratchpad fireRef={db.ref('scratchpads').child('scratchboxname')} />
+    {presentationID && <Scratchpad fireRef={db.ref('scratchpads').child(presentationID)} />}
   </div>

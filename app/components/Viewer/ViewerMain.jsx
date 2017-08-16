@@ -9,20 +9,20 @@ import Scratchpad from './scratchpad'
 // }
 
 class ViewerMain extends Component {
-  constructor() {
-      super()
-      this.state = {
-          presentationID: '',
+    constructor() {
+        super()
+        this.state = {
+            presentationID: '',
         }
     }
 
-  componentDidMount(props) {
-      const presentationID = this.props.match.params.presentationID
-      this.setState({ presentationID })
+    componentDidMount(props) {
+        const presentationID = this.props.match.params.presentationID
+        this.setState({ presentationID })
     }
 
-  render() {
-      return (
+    render() {
+        return (
             <div className="viewer-main-container">
                 <div className="section columns slide-and-chat">
                     <div className="slide is-mobile column is-9">
@@ -37,7 +37,7 @@ class ViewerMain extends Component {
                 <div className="scratchpad-and-graph section columns">
                     <div className="slide is-mobile column is-9">
                         this is scratchpad
-                    <Scratchpad />
+                    <Scratchpad presentationID={this.state.presentationID} />
                     </div>
                     <div className="graph is-mobile column is-3">
                         this is graph

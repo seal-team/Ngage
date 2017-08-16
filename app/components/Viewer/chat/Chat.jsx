@@ -1,6 +1,7 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import ignite, { withAuth, FireInput } from './ignite'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 const users = firebase.database().ref('users')
   , nickname = uid => users.child(uid).child('nickname')
@@ -43,19 +44,23 @@ export default ignite(withAuth(class extends React.Component {
     }
     return <form onSubmit={this.sendMessage}>
       <FireInput fireRef={nickname(user.uid)} />
-      <input className="column is-10" name='body' />
-      <input type='submit' />
+      <input className="column is-12" name='body' />
+      <input type='submit' id='sDiv1' />
     </form>
   }
+  // We need to get this auto scroll to work.
+  // we need to attach jquery stuff.
 
   render() {
     const { user, snapshot, asEntries, presentationID } = this.props
       , messages = asEntries(snapshot)
     return <div>
-      <div className='chat-log'> {
-        messages.map(({ key, fireRef }) => <ChatMessage key={key} fireRef={fireRef} />)
-      } </div>
+      <Scrollbars autoHeight>
+        <div className='chat-log' > {
+          messages.map(({ key, fireRef }) => <ChatMessage key={key} fireRef={fireRef} />)
+        } </div>
+      </Scrollbars>
       {this.renderSendMsg(user)}
-    </div>
+    </div >
   }
 }))
