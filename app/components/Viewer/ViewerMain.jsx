@@ -1,37 +1,47 @@
-import React from 'react'
+import React, { Component } from 'react'
 // import SlideCanvas from './SlideCanvas'
-import Chat from '../../../demos/chat'
-import Scratchpad from '../../../demos/scratchpad'
+import Chat from './chat'
+import Scratchpad from './scratchpad'
+// const sectionStyle = {
+//   width: '100%',
+//   height: '100%',
+//   background-color: 'black'
+// }
 
-class ViewerMain extends React.Component {
-  constructor(props) {
-      super(props)
-      this.state = {
-
+class ViewerMain extends Component {
+    constructor() {
+        super()
+        this.state = {
+            presentationID: '',
         }
     }
 
-  render() {
-      return (
+    componentDidMount(props) {
+        const presentationID = this.props.match.params.presentationID
+        this.setState({ presentationID })
+    }
+
+    render() {
+        return (
             <div className="viewer-main-container">
                 <div className="section columns slide-and-chat">
                     <div className="slide is-mobile column is-9">
                         this is slide
-                        {/* <SlideCanvas /> */}
+                    {/* <SlideCanvas /> */}
                     </div>
                     <div className="chat is-mobile column is-3">
-                        this is chat
-                        <Chat />
+                        <strong>ChatBox</strong>
+                        <Chat presentationID={this.state.presentationID} />
                     </div>
                 </div>
                 <div className="scratchpad-and-graph section columns">
                     <div className="slide is-mobile column is-9">
                         this is scratchpad
-                        <Scratchpad />
+                    <Scratchpad presentationID={this.state.presentationID} />
                     </div>
                     <div className="graph is-mobile column is-3">
                         this is graph
-                        {/* <Graph /> */}
+                    {/* <Graph /> */}
                     </div>
                 </div>
             </div>

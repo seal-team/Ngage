@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import Home from './components/Home'
 import Profile from './components/Profile'
 import EditorMain from './components/Editor/EditorMain'
-import Viewer from './components/Viewer/Main'
+import Viewer from './components/Viewer/ViewerMain'
 import WhoAmI from './components/WhoAmI'
 
 import NotFound from './components/NotFound'
