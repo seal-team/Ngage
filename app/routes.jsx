@@ -6,6 +6,7 @@ import EditorMain from './components/Editor/EditorMain'
 import NotFound from './components/NotFound'
 import Presentation from './components/Presentation/PresentationMain'
 import Viewer from './components/Viewer/Main'
+import QuillComp from './components/QuillComp.jsx'
 
 const Routes = () => (
         <Switch>
@@ -17,6 +18,8 @@ const Routes = () => (
                 <Route exact path="/present" component={Presentation} />
 
                 <Route exact path='/view/:presentationID' component={Viewer} />
+
+                <Route exact path='/quill' component={QuillComp} /> //testing
 
                 <Route path='*' component={NotFound} />
 
