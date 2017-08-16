@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import firebase from 'APP/fire'
 
-export default class extends Component {
+class NewPresentationModal extends Component {
   constructor() {
     super()
     this.state = {
@@ -18,12 +19,15 @@ export default class extends Component {
     e.preventDefault()
     const usersRef = firebase.database()
       .ref('users')
-      .child(this.props.uid)
+      .child(this.props.user)
+
     const presentationsRef = firebase.database()
       .ref('presentations')
+
     const title = {
       title: this.state.newPresentation,
     }
+
     // add the new Presentation under the user
     const newPresent = usersRef.child('presentations').push(title)
     // get the key
@@ -36,10 +40,9 @@ export default class extends Component {
     const newSlide = presentationsRef.child(newPresentKey).child('slides').push({ number: 0 })
     const newSlideKey = newSlide.key
 
-    this.setState({
-      newPresentation: '',
-    })
-    this.props.history.push(`/editor/${newPresentKey}/slide/${newSlideKey}`)
+    this.setState({ newPresentation: '' })
+
+    this.props.history.push(`/edit/${newPresentKey}/slide/${newSlideKey}`)
   }
 
   render() {
@@ -69,3 +72,10 @@ export default class extends Component {
     )
   }
 }
+
+const mapState = state => ({
+  auth: state.auth,
+  user: state.user
+})
+
+export default connect(mapState)(NewPresentationModal)
