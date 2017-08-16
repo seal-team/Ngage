@@ -5,7 +5,7 @@ import Home from './components/Home'
 import EditorMain from './components/Editor/EditorMain'
 import NotFound from './components/NotFound'
 import Presentation from './components/Presentation/PresentationMain'
-import Viewer from './components/Viewer/Main'
+import Viewer from './components/Viewer/ViewerMain'
 
 const Routes = () => (
         <Switch>
