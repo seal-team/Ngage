@@ -1,14 +1,27 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import MediaModal from './Media/MediaModal'
+import Uploader from './Media/Uploader'
 
 class SideBar extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeTab: [false, false, false, false]
+      activeTab: [false, false, false, false],
+      uid: null,
+      mediaType: 'what the shit',
+      mediaModal: false,
+      updateModal: false,
     }
     this.toggleAcitveTab = this.toggleAcitveTab.bind(this)
+  }
+
+  handleMediaModal = (e) => {
+    this.setState({ mediaModal: !this.state.mediaModal })
+  }
+  handleUpdateModal = (e) => {
+    this.setState({ updateModal: !this.state.updateModal })
   }
 
   toggleAcitveTab(index) {
@@ -23,6 +36,8 @@ class SideBar extends Component {
 
     return (
       <div>
+        {this.state.mediaModal && <MediaModal handleModal={this.handleMediaModal} handleUpdateModal={this.handleUpdateModal} uid={this.state.uid} history={this.props.history} mediaType={this.state.mediaType} />}
+        {this.state.updateModal && <Uploader handleUpdateModal={this.handleUpdateModal} uid={this.state.uid} history={this.props.history} mediaType={this.state.mediaType} />}
         <div className="sidebar-whole">
 
           {/* All Text Options */}
@@ -64,13 +79,12 @@ class SideBar extends Component {
 
             {activeTab[2] &&
               <div className="sidebar-media-options options-container">
-                <p>Audio</p>
-                <p>Video</p>
-                <p>VR</p>
+                <p onClick={() => { this.handleMediaModal(); this.setState({ mediaType: 'Audio' }) }}>Audio</p>
+                <p onClick={() => { this.handleMediaModal(); this.setState({ mediaType: 'Video' }) }}>Video</p>
+                <p onClick={() => { this.handleMediaModal(); this.setState({ mediaType: 'VR' }) }}>VR</p>
               </div>
             }
           </div>
-
 
           {/* All Quiz Options */}
           <div>
