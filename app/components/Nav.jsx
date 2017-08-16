@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import WhoAmI from './WhoAmI'
 
@@ -18,7 +18,7 @@ class Nav extends Component {
         </div>
 
         <div className="navbar-start navbar-item">
-          <Link className="nav-text-item" to="/editor/new">
+          <Link className="nav-text-item" to="/edit/new">
             New Presentation
           </Link>
         </div>

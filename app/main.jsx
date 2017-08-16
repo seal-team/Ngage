@@ -9,8 +9,8 @@ import { render } from 'react-dom'
 import { Provider, connect } from 'react-redux'
 
 import firebase from 'APP/fire'
-import WhoAmI from './components/WhoAmI'
 import Routes from './routes'
+import WhoAmI from './components/WhoAmI'
 import Nav from './components/Nav'
 
 import store from './store'
@@ -61,7 +61,7 @@ class App extends Component {
 
   componentDidMount() {
     auth.onAuthStateChanged(user => {
-      this.props.fetchUser(user.uid)
+      user && this.props.fetchUser(user.uid)
     })
   }
 
@@ -69,6 +69,7 @@ class App extends Component {
     return (
       <div className="app-container">
         {console.log('MAIN APP PROPS', this.props)}
+        
         <Nav />
 
         <Routes />
@@ -77,7 +78,7 @@ class App extends Component {
   }
 }
 
-const mapState = (state, componentProps) => ({
+const mapState = state => ({
   auth: state.user
 })
 

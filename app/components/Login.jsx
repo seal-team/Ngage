@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import firebase from 'APP/fire'
 
 const google = new firebase.auth.GoogleAuthProvider()
@@ -52,4 +53,4 @@ class Login extends Component {
   }
 }
 
-export default withRouter(Login)
+export default Login
