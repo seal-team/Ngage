@@ -1,24 +1,33 @@
 'use strict'
-import React from 'react'
+import React, { Component } from 'react'
 import {
   BrowserRouter as Router,
   Route,
   Switch
 } from 'react-router-dom'
 import { render } from 'react-dom'
-import WhoAmI from './components/WhoAmI'
-import firebase from 'APP/fire'
+import { Provider, connect } from 'react-redux'
 
+import firebase from 'APP/fire'
+import WhoAmI from './components/WhoAmI'
 import Routes from './routes'
 import Nav from './components/Nav'
 
+import store from './store'
+import { fetchUser } from './reducer'
+
+
 import '../public/index.scss'
+
 // Get the auth API from Firebase.
 const auth = firebase.auth()
 
 // Ensure that we have (almost) always have a user ID, by creating
 // an anonymous user if nobody is signed in.
-auth.onAuthStateChanged(user => user || auth.signInAnonymously())
+
+
+// auth.onAuthStateChanged(user => user || auth.signInAnonymously())
+
 
 // Further explanation:
 //
@@ -42,24 +51,45 @@ auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 
 // Our root App component just renders a little frame with a nav
 // and whatever children the router gave us.
-const App = () => (
-  <div className="app-container">
-    <Nav />
 
-    {/* <div>
-         WhoAmI takes a firebase auth API and renders either a
-        greeting and a logout button, or sign in buttons, depending
-        on if anyone's logged in
-      <WhoAmI auth={auth}/>
-    </div> */}
+// make stateful -- firebase auth in didMount()
 
-    <Routes />
-  </div>
-)
+class App extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  componentDidMount() {
+    auth.onAuthStateChanged(user => {
+      this.props.fetchUser(user.uid)
+    })
+  }
+
+  render() {
+    return (
+      <div className="app-container">
+        {console.log('MAIN APP PROPS', this.props)}
+        <Nav />
+
+        <Routes />
+      </div>
+    )
+  }
+}
+
+const mapState = (state, componentProps) => ({
+  auth: state.user
+})
+
+const mapDispatch = { fetchUser }
+
+const ConnectedApp = connect(mapState, mapDispatch)(App)
 
 render(
-  <Router>
-    <App />
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <ConnectedApp />
+    </Router>
+  </Provider>,
   document.getElementById('main')
 )

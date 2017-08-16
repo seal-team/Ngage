@@ -68,8 +68,8 @@
     "react-router-dom": "^4.1.2",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.0",
-    "redux-logger": "^2.7.0",
-    "redux-thunk": "^2.1.0",
+    "redux-logger": "^2.10.2",
+    "redux-thunk": "^2.2.0",
     "sequelize": "^3.24.6",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0"

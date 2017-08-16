@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import firebase from 'APP/fire'
 const auth = firebase.auth()
 
@@ -21,7 +21,7 @@ export const WhoAmI = ({user, auth}) =>
       : <div><span className="whoami-user-name">Hello, {name(user)}</span> <button className='logout' onClick={() => auth.signOut()}>logout</button></div>}
   </div>
 
-export default class extends React.Component {
+export default class extends Component {
   componentDidMount() {
     const {auth} = this.props
     this.unsubscribe = auth.onAuthStateChanged(user => this.setState({user}))
