@@ -1,3 +1,4 @@
+import firebase from 'APP/fire'
 
 const GET_USER = 'GET_USER'
 export const getUser = user => ({
@@ -8,12 +9,17 @@ export const getUser = user => ({
 export const fetchUser = user =>
   dispatch => dispatch(getUser(user))
 
-const reducer = (state={}, action) => {
+
+const initialState = {
+  user: {},
+  auth: firebase.auth()
+}
+
+const reducer = (state=initialState, action) => {
   let newState = Object.assign({}, state)
 
   switch(action.type) {
     case GET_USER:
-      console.log('GET USER CALLED!')
       newState.user = action.user
       break
     default:

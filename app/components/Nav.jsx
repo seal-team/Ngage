@@ -33,12 +33,13 @@ class Nav extends Component {
               <Link className="navbar-item " to="/login">
                 Login
               </Link>
+              
               <Link className="navbar-item " to="/profile">
                 Profile
               </Link>
-              <Link onClick={
-                this.props.logout
-              } className="navbar-item " to="/">
+
+              <Link onClick={this.props.logout} 
+                className="navbar-item " to="/">
                 Logout
               </Link>
             </div>

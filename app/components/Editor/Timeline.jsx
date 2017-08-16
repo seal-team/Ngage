@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import AddSlides from '../AddSlides'
 import firebase from 'firebase'
 
@@ -7,61 +8,52 @@ class Timeline extends Component {
     super()
     this.state = {
       slides: null,
-      slidesCount: 0,
-      uid: null
+      slidesCount: 0
     }
   }
   
   componentDidMount() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({uid: user.uid})
-        console.log('user.uid', user.uid)
-        
-        const activePresentation = firebase.database()
-          .ref('users')
-          .child(user.uid)
-          .child('activePresentation')
+    const activePresentation = firebase.database()
+      .ref('users')
+      .child(this.props.user)
+      .child('activePresentation')
 
-        activePresentation.on('value', (snapshot) => {
+      activePresentation.on('value', (snapshot) => {
+        const value = snapshot.val()
+        const slides = firebase.database()
+          .ref('presentations')
+          .child(value)
+          .child('slides')
+        
+        slides.on('value', (snapshot) => {
           const value = snapshot.val()
-          const slides = firebase.database()
-            .ref('presentations')
-            .child(value)
-            .child('slides')
-          
-          slides.on('value', (snapshot) => {
-            const value = snapshot.val()
-            console.log('slides', value)
-            this.setState({slides: value})
-          })
+          console.log('slides', value)
+          this.setState({slides: value})
         })
-      } else {
-        this.setState({uid: null})
-      }
-    })
+      })
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
     const activePresentation = firebase.database()
       .ref('users')
-      .child(this.state.uid)
+      .child(this.props.user)
       .child('activePresentation')
+
     activePresentation.on('value', (snapshot) => {
       const value = snapshot.val()
       const slides = firebase.database()
         .ref('presentations')
         .child(value)
         .child('slides')
-      slides.push({number: this.state.slidesCount})
+      
+        slides.push({number: this.state.slidesCount})
     })
     this.setState({ slidesCount: this.state.slidesCount++ })
   }
 
   render() {
     const slides = this.state.slides
-    console.log('what is this', slides)
     return (
       <div>
         <div className="timeline-strip">
@@ -99,4 +91,9 @@ class Timeline extends Component {
   }
 }
 
-export default Timeline
+const mapState = state => ({
+  user: state.user,
+  auth: state.auth
+})
+
+export default connect(mapState)(Timeline)
