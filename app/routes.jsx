@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import Home from './components/Home'
+import Home from './components/Profile'
 import EditorMain from './components/Editor/EditorMain'
 import NotFound from './components/NotFound'
 import Presentation from './components/Presentation/PresentationMain'
