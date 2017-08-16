@@ -21,11 +21,12 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    const user = this.props.user
+    const auth = this.props.auth
+    console.log('logged in user:  ', auth)
 
     const usersRef = firebase.database()
       .ref('users')
-      .child(user)
+      .child(auth)
       .child('presentations')
 
     usersRef.on('value', (snapshot) => {
@@ -44,12 +45,12 @@ class Profile extends Component {
   }
 
   render() {
-    const user = this.props.user
+    const auth = this.props.auth
     return (
       <div className='whoami'>
         {auth && <div>
           {this.state.showModal 
-            && <NewPresentationModal handleModal={this.handleModal} />
+            && <NewPresentationModal handleModal={this.handleModal} uid={auth} history={this.props.history} />
           }
           <section className='display-item'>
             <div className="columns">
@@ -92,7 +93,7 @@ class Profile extends Component {
 }
 
 const mapState = (state, componentProps) => ({
-  user: state.user
+  auth: state.user
 })
 
 export default withRouter(connect(mapState)(Profile))
