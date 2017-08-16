@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import firebase from 'APP/fire'
 
 export default class extends Component {
@@ -33,7 +33,7 @@ export default class extends Component {
     // set it as the active one
     usersRef.child('activePresentation').set(newPresentKey)
     // add a slide
-    const newSlide= presentationsRef.child(newPresentKey).child('slides').push({number: 0})
+    const newSlide = presentationsRef.child(newPresentKey).child('slides').push({ number: 0 })
     const newSlideKey = newSlide.key
 
     this.setState({
@@ -51,7 +51,7 @@ export default class extends Component {
             <div className="field">
               <label className="label has-text-left">New Presentation</label>
               <div className="control">
-                <input className="input" type="text" name="newPresentation" placeholder="Enter Name" onChange={this.handleChange} value={this.state.newPresentation}/>
+                <input className="input" type="text" name="newPresentation" placeholder="Enter Name" onChange={this.handleChange} value={this.state.newPresentation} />
               </div>
             </div>
 

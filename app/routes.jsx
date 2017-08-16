@@ -1,26 +1,30 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import Home from './components/Profile'
+import Home from './components/Home'
+import Profile from './components/Profile'
 import EditorMain from './components/Editor/EditorMain'
-import NotFound from './components/NotFound'
-import Presentation from './components/Presentation/PresentationMain'
 import Viewer from './components/Viewer/ViewerMain'
+import WhoAmI from './components/WhoAmI'
+
+import NotFound from './components/NotFound'
 
 const Routes = () => (
-        <Switch>
+    <Switch>
+        <Route exact path="/" component={Home} />
 
-                <Route exact path="/" component={Home} />
+        <Route exact path="/profile" component={Profile} />
 
-                <Route exact path="/editor/:presentationID" component={EditorMain} />
+        <Route exact path="/login" component={WhoAmI} />
 
-                <Route exact path="/present" component={Presentation} />
+        <Route exact path="/edit/:presentationID" component={EditorMain} />
+        <Route exact path="/edit/:presentationID/slide/:slideID" component={EditorMain} />
 
-                <Route exact path='/view/:presentationID' component={Viewer} />
+        <Route exact path='/view/:presentationID' component={Viewer} />
+        <Route exact path='/view/:presentationID/slide/:slideID' component={Viewer} />
 
-                <Route path='*' component={NotFound} />
-
-        </Switch>
+        <Route path='*' component={NotFound} />
+    </Switch>
 )
 
 export default Routes
