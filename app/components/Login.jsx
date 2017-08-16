@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import firebase from 'APP/fire'
 
 const google = new firebase.auth.GoogleAuthProvider()
@@ -24,13 +26,31 @@ const google = new firebase.auth.GoogleAuthProvider()
 //
 // google.addScope('https://mail.google.com/')
 
-export default ({ auth }) =>
-  // signInWithPopup will try to open a login popup, and if it's blocked, it'll
-  // redirect. If you prefer, you can signInWithRedirect, which always
-  // redirects.
-  <div className="columns">
-    <div className="column text-center">
-      <button className='loginBtn loginBtn--google'
-        onClick={() => auth.signInWithPopup(google)}>Login with Google</button>
-    </div>
-  </div>
+// signInWithPopup will try to open a login popup, and if it's blocked, it'll
+// redirect. If you prefer, you can signInWithRedirect, which always
+// redirects.
+
+class Login extends Component {
+  constructor(props) {
+    super(props)
+    this.signInAndRedirect = this.signInAndRedirect.bind(this)
+  }
+
+  signInAndRedirect() {
+    this.props.auth.signInWithPopup(google)
+      .then(() => this.props.history.push('/profile'))
+  }
+
+  render() {
+    return (   
+      <div className="columns">
+        <div className="column text-center">
+          <button className='loginBtn loginBtn--google'
+            onClick={() => this.signInAndRedirect()}>Login with Google</button>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default withRouter(Login)

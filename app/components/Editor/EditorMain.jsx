@@ -23,6 +23,8 @@ class EditorMain extends Component {
 
   render() {
     const timelineIsHidden = this.state.timelineIsHidden
+    console.log('EditorMain Props...', this.props)
+    
     return (
       <div className="editor-main-container">
         <div className="columns everything-but-timeline">
