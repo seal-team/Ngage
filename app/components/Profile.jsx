@@ -62,7 +62,7 @@ class Profile extends Component {
                     return (
                       <li key={item.id}>
                         <span className='margin-right-sm'>
-                          <Link to={`/editor/${item.id}`}>
+                          <Link to={`/edit/${item.id}`}>
                             <a className="button is-small">
                               <span className="icon is-small">
                                 <i className="fa fa-edit"></i>
