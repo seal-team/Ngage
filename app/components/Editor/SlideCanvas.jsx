@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import firebase from 'firebase'
 
-import QuillComp from '../QuillComp'
+import QuillComp from './QuillComp'
 
 class SlideCanvas extends Component {
   constructor(props) {
@@ -21,16 +21,12 @@ class SlideCanvas extends Component {
 
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
-      console.log('this is the value', value)
       this.setState({info: value})
     })
   }
 
   submitSlideText(evt) {
     evt.preventDefault()
-    console.log(
-
-    )
   }
 
   render() {

@@ -28,8 +28,8 @@ export default class CustomToolbar extends React.Component {
         <button className="ql-image"></button>
         <button className="ql-video"></button>
         <button className="ql-link"></button>
-        <button className="ql-save" value='foo'>
-          <span className="button is-small is-success">
+        <button className="ql-save" value='test'>
+          <span className={`button is-small is-success ${this.props.saving}`}>
             <span className="icon is-small">
               <i className="fa fa-check"></i>
             </span>

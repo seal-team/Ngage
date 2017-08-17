@@ -11,16 +11,15 @@ class Timeline extends Component {
       slidesCount: 0
     }
   }
-  
+
   componentDidMount() {
     const slides = firebase.database()
       .ref('presentations')
       .child(this.props.presID)
       .child('slides')
-    
+
     slides.on('value', (snapshot) => {
       const value = snapshot.val()
-      console.log('slides', value)
       this.setState({slides: value})
     })
   }
@@ -38,7 +37,7 @@ class Timeline extends Component {
         .ref('presentations')
         .child(value)
         .child('slides')
-      
+
       slides.push({number: this.state.slidesCount})
     })
 
@@ -46,7 +45,6 @@ class Timeline extends Component {
   }
 
   handleClick = (slide) => {
-    console.log('presId and slide', this.props.presID, slide)
     this.props.history.push(`/edit/${this.props.presID}/slide/${slide}`)
   }
 
@@ -61,10 +59,9 @@ class Timeline extends Component {
             </span>
           </div>
           {
-            slides && Object.keys(slides).map((slide) => {
-              console.log('what is slide', slide)
+            slides && Object.keys(slides).map((slide, i) => {
               return (
-                <div className="timeline-slide" onClick={() => this.handleClick(slide)}>
+                <div className="timeline-slide" key={i} onClick={() => this.handleClick(slide)}>
                   <text>{slide}</text>
                 </div>
               )

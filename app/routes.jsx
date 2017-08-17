@@ -8,25 +8,17 @@ import Viewer from './components/Viewer/ViewerMain'
 import WhoAmI from './components/WhoAmI'
 
 import NotFound from './components/NotFound'
-import QuillComp from './components/QuillComp.jsx'
 
 const Routes = () => (
-    <Switch>
-        <Route exact path="/" component={Home} />
-
-        <Route exact path="/profile" component={Profile} />
-
-        <Route exact path="/login" component={WhoAmI} />
-
-        <Route exact path="/edit/:presentationID" component={EditorMain} />
-        <Route exact path="/edit/:presentationID/slide/:slideID" component={EditorMain} />
-
-                <Route exact path='/quill' component={QuillComp} /> //testing
-
-                <Route path='*' component={NotFound} />
-
-        <Route path='*' component={NotFound} />
-    </Switch>
+  <Switch>
+    <Route exact path="/" component={Home} />
+    <Route exact path="/profile" component={Profile} />
+    <Route exact path="/login" component={WhoAmI} />
+    <Route exact path="/edit/:presentationID" component={EditorMain} />
+    <Route exact path="/edit/:presentationID/slide/:slideID" component={EditorMain} />
+    <Route path='*' component={NotFound} />
+    <Route path='*' component={NotFound} />
+  </Switch>
 )
 
 export default Routes

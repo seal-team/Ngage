@@ -10,12 +10,15 @@ import CustomToolbar from './CustomToolbar'
 export default class QuillComp extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { editorHtml: '' }
+    this.state = {
+      editorHtml: '',
+      saving: ''
+    }
   }
 
   componentDidMount() {
     this.attachQuillRefs()
-    this.insertText()
+    this.insertQuill()
   }
 
   componentDidUpdate() {
@@ -27,7 +30,8 @@ export default class QuillComp extends React.Component {
     this.quillRef = this.reactQuillRef.getEditor()
   }
 
-  saveQuill = () =>{
+  saveQuill = () => {
+    this.setState({saving: 'is-loading'})
     const quillContents = this.quillRef.getContents()
     const slideRef = firebase.database()
       .ref('presentations')
@@ -35,9 +39,10 @@ export default class QuillComp extends React.Component {
       .child('slides')
       .child(this.props.slideID)
     slideRef.child('quillContents').set(JSON.stringify(quillContents))
+    setTimeout(() => { this.setState({saving: ''}) }, 1000)
   }
 
-  insertText = () => {
+  insertQuill = () => {
     const slideRef = firebase.database()
       .ref('presentations')
       .child(this.props.presID)
@@ -65,7 +70,7 @@ export default class QuillComp extends React.Component {
   render() {
     return (
       <div className="text-editor">
-        <CustomToolbar />
+        <CustomToolbar saving = {this.state.saving} />
         <ReactQuill
           ref={(el) => { this.reactQuillRef = el }}
           onChange={this.handleChange}
@@ -95,10 +100,3 @@ QuillComp.formats = [
 QuillComp.propTypes = {
   placeholder: React.PropTypes.string,
 }
-
-/*
-ReactDOM.render(
-  <QuillComp placeholder={'Write something or insert a star ★'}/>,
-  document.querySelector('.app')
-)
-*/
