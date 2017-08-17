@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import firebase from 'firebase'
 
+import QuillComp from '../Editor/QuillComp'
+
 class SlideCanvas extends Component {
   constructor(props) {
     super(props)
@@ -70,24 +72,7 @@ class SlideCanvas extends Component {
     <div>
      {this.state.slides &&
       <div className="slide-canvas-container">
-        <form onSubmit={this.submitSlideText}>
-          <div className="control">
-            <input
-              className="input"
-              name="slideTitle"
-              type="text"
-              placeholder="Your Title"
-            />
-          </div>
-          <div className="control">
-            <input
-              className="input"
-              name="slideContent"
-              type="text"
-              placeholder="Your Text"
-            />
-          </div>
-        </form>
+        <QuillComp presID = {this.props.presID} slideID = {this.props.slideID} />
         <button disabled={!this.state.counter} onClick={this.toggleBack}>
             Back
         </button>
