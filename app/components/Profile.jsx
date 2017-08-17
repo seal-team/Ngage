@@ -43,7 +43,7 @@ class Profile extends Component {
         usersRef.on('value', (snapshot) => {
           const presentations = snapshot.val()
           const newState = []
-          for (let presentation in presentations) {
+          for (const presentation in presentations) {
             newState.push({
               id: presentation,
               title: presentations[presentation].title,
@@ -73,25 +73,23 @@ class Profile extends Component {
               <div className="column">
                 <a onClick={this.handleModal} className="button is-primary is-large">Create Presentation</a>
                 <div className='margin-top-xlg margin-left-sm'><ul>
-                  {this.state.presentations.map((item) => {
-                    return (
-                      <li key={item.id}>
-                        <span className='margin-right-sm'>
-                          <a onClick={() => this.handleLink('edit', `${item.id}`)} className="button is-small">
-                            <span className="icon is-small">
-                              <i className="fa fa-edit"></i>
-                            </span>
-                          </a>
-                          <a onClick={() => this.handleLink('view', `${item.id}`)} className="button is-small">
-                            <span className="icon is-small">
-                              <i className="fa fa-eye"></i>
-                            </span>
-                          </a>
-                        </span>
-                        {item.title}
-                      </li>
-                    )
-                  })}
+                  {this.state.presentations.map((item) => (
+                    <li key={item.id}>
+                      <span className='margin-right-sm'>
+                        <a onClick={() => this.handleLink('edit', `${item.id}`)} className="button is-small">
+                          <span className="icon is-small">
+                            <i className="fa fa-edit"></i>
+                          </span>
+                        </a>
+                        <a onClick={() => this.handleLink('view', `${item.id}`)} className="button is-small">
+                          <span className="icon is-small">
+                            <i className="fa fa-eye"></i>
+                          </span>
+                        </a>
+                      </span>
+                      {item.title}
+                    </li>
+                  ))}
                 </ul></div>
               </div>
               <div className="column"></div>
