@@ -5,15 +5,44 @@ is Modal for uploading different medias
 
 */
 import React, { Component } from 'react'
-export default class MediaModal extends Component {
-  constructor() {
-      super()
-      this.state = {
+import { withRouter } from 'react-router-dom'
+import firebase from 'APP/fire'
+
+class MediaModal extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            allMediaObject: {}
         }
     }
-
-  render() {
-      return (
+    componentDidMount() {
+        this.createTable()
+    }
+    createTable = () => {
+        firebase.database().ref('/Media/' + `${this.props.mediaType}/`).once('value')
+            .then((snapshot) => {
+                this.setState({ allMediaObject: snapshot.val() })
+            })
+    }
+    // for(let i = 0; i < keys.length; i++) {
+    // const url = snapshotObject[keys[i]].url
+    //     console.log('object', snapshotObject)
+    //     console.log('key, Object.keys(snapshot.val()))
+    //     console.log('url', url)
+    //     console.log('slideID', this.props.match.params.slideID)
+    //     console.log('presentationID', this.props.match.params.presentationID)
+    // }
+    render() {
+        const allMediaObject = this.state.allMediaObject
+        const keys = Object.keys(allMediaObject)
+        const slideID = this.props.match.params.slideID
+        const presentationID = this.props.match.params.presentationID
+        const displayArray = []
+        for (let i = 0; i < keys.length; i++) {
+            displayArray.push(allMediaObject[keys[i]])
+        }
+        console.log(displayArray)
+        return (
             <div className='modal is-active'>
                 <div className="modal-background"></div>
                 <div className="modal-card">
@@ -22,22 +51,26 @@ export default class MediaModal extends Component {
                             <label className="label has-text-left">{this.props.mediaType}</label>
                             <div className="control">
                                 {this.props.mediaType} STUFF map stuff in data base use Media Object from bulma
-                                {/* <input className="input" type="text" name="newPresentation" placeholder="Enter Name" onChange={this.handleChange} value={this.state.newPresentation} /> */}
+                                <div className="columns is-multiline is-mobile">
+                                    {
+                                        displayArray.map((media) => <div className='column is-one-third'>{media.description}<hr></hr> <a href={`${media.url}`}>{media.name}</a> </div>)
+                                    }
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="margin-top-sm">
-                            <button className="button is-primary"
-                                onClick={this.handleSubmit} >Create
+                            <div className="margin-top-sm">
+                                <button className="button is-primary"
+                                    onClick={this.createTable} >Create
                             </button>
-                            <span> </span>
-                            <button className="button is-primary"
-                                onClick={() => { { this.props.handleModal() }; { this.props.handleUpdateModal() } }}>Upload
+                                <span> </span>
+                                <button className="button is-primary"
+                                    onClick={() => { { this.props.handleModal() }; { this.props.handleUpdateModal() } }}>Upload
                             </button>
-                            <span> </span>
-                            <button className="button"
-                                onClick={() => { this.props.handleModal() }}> Close
+                                <span> </span>
+                                <button className="button"
+                                    onClick={() => { this.props.handleModal() }}> Close
                             </button>
+                            </div>
                         </div>
                     </section>
                 </div>
@@ -45,3 +78,5 @@ export default class MediaModal extends Component {
         )
     }
 }
+
+export default withRouter(MediaModal)
