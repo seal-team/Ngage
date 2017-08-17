@@ -45,6 +45,8 @@ class Timeline extends Component {
   }
 
   handleClick = (slide) => {
+    console.log('slide in handleClick', slide)
+    this.props.selectSlide(slide)
     this.props.history.push(`/edit/${this.props.presID}/slide/${slide}`)
   }
 

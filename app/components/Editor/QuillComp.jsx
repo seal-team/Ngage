@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import firebase from 'APP/fire'
 
 import ReactQuill, { Quill, Mixin, Toolbar } from 'react-quill'
@@ -7,16 +7,17 @@ import theme from 'react-quill/dist/quill.snow.css'
 
 import CustomToolbar from './CustomToolbar'
 
-export default class QuillComp extends React.Component {
+class QuillComp extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       editorHtml: '',
-      saving: ''
+      saving: '',
     }
   }
 
   componentDidMount() {
+    console.log('didMount')
     this.attachQuillRefs()
     this.insertQuill()
   }
@@ -50,7 +51,9 @@ export default class QuillComp extends React.Component {
       .child(this.props.slideID)
     slideRef.once('value', (snapshot) => {
       const slide = snapshot.val()
-      this.quillRef.setContents(JSON.parse(slide.quillContents))
+      let setSlide=''
+      if (slide && slide.quillContents) setSlide = JSON.parse(slide.quillContents)
+      this.quillRef.setContents(setSlide)
     })
   }
 
@@ -68,6 +71,7 @@ export default class QuillComp extends React.Component {
   }
 
   render() {
+    this.insertQuill()
     return (
       <div className="text-editor">
         <CustomToolbar saving = {this.state.saving} />
@@ -100,3 +104,5 @@ QuillComp.formats = [
 QuillComp.propTypes = {
   placeholder: React.PropTypes.string,
 }
+
+export default withRouter(QuillComp)

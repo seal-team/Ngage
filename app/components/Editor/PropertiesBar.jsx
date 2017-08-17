@@ -25,7 +25,7 @@ class PropertiesBar extends Component {
   render() {
     return (
       <div className="">
-        <div className="button is-primary sidebar-btn">
+        <div className="button is-primary">
           <span className="sidebar-category"> {this.state.title} </span>
         </div>
       </div>
