@@ -6,16 +6,12 @@ const Home = () => (
   <div className="columns">
     <div className="column"></div>
     
-    <div className="colum">
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
-      <Link to="/login">LOGIN</Link>
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
+    <div className="column">
+      <h1 className="title is-two-quarters welcome">Welcome to nGage.</h1>
+      <p className="subtitle">A platform for creating<br />
+        interactive presentations
+      </p>
+      <Link to="/login" className="goto-login">Login Here</Link>
     </div>
     
     <div className="column"></div>
