@@ -11,8 +11,11 @@ class EditorMain extends Component {
     super(props)
 
     this.state = {
-      timelineIsHidden: false
+      timelineIsHidden: false,
+      presentationID: 'default',
+      slideID: 'default'
     }
+
     this.toggleTimeline = this.toggleTimeline.bind(this)
   }
 
@@ -26,8 +29,13 @@ class EditorMain extends Component {
     this.props.history.push(`/view/${this.props.match.params.presentationID}`)
   }
 
+  selectSlide = slideID => {
+    this.setState({ slideID })
+  }
+
   render() {
     const timelineIsHidden = this.state.timelineIsHidden
+    console.log('slideID is now ', this.state.slideID)
     return (
       <div className="editor-main-container">
         <div className="columns everything-but-timeline">
@@ -39,9 +47,9 @@ class EditorMain extends Component {
             <PropertiesBar />
 
             <button onClick={this.toggleToPresentMode}>
-              +++++
+              View Presentation
             </button>
-            <SlideCanvas presID={this.props.match.params.presentationID} slideID={this.props.match.params.slideID}/>
+            <SlideCanvas presID={this.props.match.params.presentationID} slideID={this.state.slideID}/>
           </div>
         </div>
 
@@ -55,7 +63,10 @@ class EditorMain extends Component {
         </div>
         {timelineIsHidden
           ? <div className="timeline-pad"></div>
-          : <Timeline presID={this.props.match.params.presentationID}/>
+          : <Timeline
+              selectSlide={this.selectSlide}
+              presID={this.props.match.params.presentationID}
+            />
         }
 
       </div>
