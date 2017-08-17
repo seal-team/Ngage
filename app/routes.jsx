@@ -16,8 +16,7 @@ const Routes = () => (
     <Route exact path="/login" component={WhoAmI} />
     <Route exact path="/edit/:presentationID" component={EditorMain} />
     <Route exact path="/edit/:presentationID/slide/:slideID" component={EditorMain} />
-    <Route exact path='/view/:presentationID' component={Viewer} />
-    <Route exact path='/view/:presentationID/slide/:slideID' component={Viewer} />
+    <Route exact path="/view/:presentationID" component={Viewer} />
     <Route path='*' component={NotFound} />
   </Switch>
 )
