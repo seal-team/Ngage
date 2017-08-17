@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 
 import SlideCanvas from './SlideCanvas'
 import PropertiesBar from './PropertiesBar'
@@ -21,10 +22,12 @@ class EditorMain extends Component {
     })
   }
 
+  toggleToPresentMode = () => {
+    this.props.history.push(`/view/${this.props.match.params.presentationID}`)
+  }
+
   render() {
     const timelineIsHidden = this.state.timelineIsHidden
-    console.log('EditorMain Props...', this.props)
-    
     return (
       <div className="editor-main-container">
         <div className="columns everything-but-timeline">
@@ -34,7 +37,11 @@ class EditorMain extends Component {
 
           <div className="column">
             <PropertiesBar />
-            <SlideCanvas />
+
+            <button onClick={this.toggleToPresentMode}>
+              +++++
+            </button>
+            <SlideCanvas presID={this.props.match.params.presentationID} slideID={this.props.match.params.slideID}/>
           </div>
         </div>
 
@@ -48,7 +55,7 @@ class EditorMain extends Component {
         </div>
         {timelineIsHidden
           ? <div className="timeline-pad"></div>
-          : <Timeline />
+          : <Timeline presID={this.props.match.params.presentationID}/>
         }
 
       </div>
@@ -56,4 +63,4 @@ class EditorMain extends Component {
   }
 }
 
-export default EditorMain
+export default withRouter(EditorMain)

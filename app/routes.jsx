@@ -10,21 +10,16 @@ import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 
 const Routes = () => (
-    <Switch>
-        <Route exact path="/" component={Home} />
-
-        <Route exact path="/profile" component={Profile} />
-
-        <Route exact path="/login" component={WhoAmI} />
-
-        <Route exact path="/edit/:presentationID" component={EditorMain} />
-        <Route exact path="/edit/:presentationID/slide/:slideID" component={EditorMain} />
-
-        <Route exact path='/view/:presentationID' component={Viewer} />
-        <Route exact path='/view/:presentationID/slide/:slideID' component={Viewer} />
-
-        <Route path='*' component={NotFound} />
-    </Switch>
+  <Switch>
+    <Route exact path="/" component={Home} />
+    <Route exact path="/profile" component={Profile} />
+    <Route exact path="/login" component={WhoAmI} />
+    <Route exact path="/edit/:presentationID" component={EditorMain} />
+    <Route exact path="/edit/:presentationID/slide/:slideID" component={EditorMain} />
+    <Route exact path='/view/:presentationID' component={Viewer} />
+    <Route exact path='/view/:presentationID/slide/:slideID' component={Viewer} />
+    <Route path='*' component={NotFound} />
+  </Switch>
 )
 
 export default Routes

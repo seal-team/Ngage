@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import AddSlides from '../AddSlides'
 import firebase from 'firebase'
 
 class Timeline extends Component {
@@ -11,26 +11,17 @@ class Timeline extends Component {
       slidesCount: 0
     }
   }
-  
-  componentDidMount() {
-    const activePresentation = firebase.database()
-      .ref('users')
-      .child(this.props.user)
-      .child('activePresentation')
 
-      activePresentation.on('value', (snapshot) => {
-        const value = snapshot.val()
-        const slides = firebase.database()
-          .ref('presentations')
-          .child(value)
-          .child('slides')
-        
-        slides.on('value', (snapshot) => {
-          const value = snapshot.val()
-          console.log('slides', value)
-          this.setState({slides: value})
-        })
-      })
+  componentDidMount() {
+    const slides = firebase.database()
+      .ref('presentations')
+      .child(this.props.presID)
+      .child('slides')
+
+    slides.on('value', (snapshot) => {
+      const value = snapshot.val()
+      this.setState({slides: value})
+    })
   }
 
   handleSubmit = (e) => {
@@ -40,16 +31,21 @@ class Timeline extends Component {
       .child(this.props.user)
       .child('activePresentation')
 
-    activePresentation.on('value', (snapshot) => {
+    activePresentation.on('value', snapshot => {
       const value = snapshot.val()
       const slides = firebase.database()
         .ref('presentations')
         .child(value)
         .child('slides')
-      
-        slides.push({number: this.state.slidesCount})
+
+      slides.push({number: this.state.slidesCount})
     })
+
     this.setState({ slidesCount: this.state.slidesCount++ })
+  }
+
+  handleClick = (slide) => {
+    this.props.history.push(`/edit/${this.props.presID}/slide/${slide}`)
   }
 
   render() {
@@ -63,11 +59,10 @@ class Timeline extends Component {
             </span>
           </div>
           {
-            slides && Object.values(slides).map((slide) => {
+            slides && Object.keys(slides).map((slide, i) => {
               return (
-                <div className="timeline-slide">
-                  
-                  <text>{slide.number}</text>
+                <div className="timeline-slide" key={i} onClick={() => this.handleClick(slide)}>
+                  <text>{slide}</text>
                 </div>
               )
             })
@@ -96,4 +91,4 @@ const mapState = state => ({
   auth: state.auth
 })
 
-export default connect(mapState)(Timeline)
+export default withRouter(connect(mapState)(Timeline))
