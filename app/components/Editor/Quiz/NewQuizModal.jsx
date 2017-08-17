@@ -3,6 +3,10 @@ import React, { Component } from 'react'
 class NewQuizModal extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      question: '',
+      answers: []
+    }
   }
 
   render() {

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+
 import MediaModal from './Media/MediaModal'
 import Uploader from './Media/Uploader'
+import NewQuizModal from './Quiz/NewQuizModal'
 
 class SideBar extends Component {
   constructor(props) {
@@ -10,20 +12,27 @@ class SideBar extends Component {
     this.state = {
       activeTab: [false, false, false, false],
       uid: null,
-      mediaType: 'what the shit',
+      mediaType: '',
       mediaModal: false,
       updateModal: false,
+      quizModal: false
     }
+
+    this.handleMediaModal = this.handleMediaModal.bind(this)
+    this.handleUpdateModal = this.handleUpdateModal.bind(this)
+    this.toggleAcitveTab = this.toggleAcitveTab.bind(this)
   }
 
-  handleMediaModal = (e) => {
+  handleMediaModal(mediaType) {
+    this.setState({ mediaType })
     this.setState({ mediaModal: !this.state.mediaModal })
   }
-  handleUpdateModal = (e) => {
+
+  handleUpdateModal() {
     this.setState({ updateModal: !this.state.updateModal })
   }
 
-  toggleAcitveTab = index => {
+  toggleAcitveTab(index) {
     const activeState = [...this.state.activeTab]
       .map((item, i) => i === index || false)
 
@@ -32,11 +41,29 @@ class SideBar extends Component {
 
   render() {
     const activeTab = this.state.activeTab
+    const mediaType = this.state.mediaType
 
     return (
       <div>
-        {this.state.mediaModal && <MediaModal handleModal={this.handleMediaModal} handleUpdateModal={this.handleUpdateModal} uid={this.state.uid} history={this.props.history} mediaType={this.state.mediaType} />}
-        {this.state.updateModal && <Uploader handleUpdateModal={this.handleUpdateModal} uid={this.state.uid} history={this.props.history} mediaType={this.state.mediaType} />}
+        {this.state.mediaModal &&
+          <MediaModal
+            handleModal={this.handleMediaModal}
+            handleUpdateModal={this.handleUpdateModal}
+            mediaType={mediaType}
+          />
+        }
+
+        {this.state.updateModal &&
+          <Uploader
+            handleUpdateModal={this.handleUpdateModal}
+            mediaType={mediaType} 
+          />
+        }
+
+        {this.state.quizModal &&
+          <NewQuizModal />
+        }
+
         <div className="sidebar-whole">
 
           {/* All Text Options */}
@@ -78,9 +105,9 @@ class SideBar extends Component {
 
             {activeTab[2] &&
               <div className="sidebar-media-options options-container">
-                <p onClick={() => { this.handleMediaModal(); this.setState({ mediaType: 'Audio' }) }}>Audio</p>
-                <p onClick={() => { this.handleMediaModal(); this.setState({ mediaType: 'Video' }) }}>Video</p>
-                <p onClick={() => { this.handleMediaModal(); this.setState({ mediaType: 'VR' }) }}>VR</p>
+                <p onClick={() => this.handleMediaModal('Audio')}>Audio</p>
+                <p onClick={() => this.handleMediaModal('Video')}>Video</p>
+                <p onClick={() => this.handleMediaModal('VR')}>VR</p>
               </div>
             }
           </div>
