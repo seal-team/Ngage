@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import AddSlides from '../AddSlides'
 import firebase from 'firebase'
 
 class Timeline extends Component {
@@ -14,16 +13,16 @@ class Timeline extends Component {
   }
   
   componentDidMount() {
-        const slides = firebase.database()
-          .ref('presentations')
-          .child(this.props.presID)
-          .child('slides')
-        
-        slides.on('value', (snapshot) => {
-          const value = snapshot.val()
-          console.log('slides', value)
-          this.setState({slides: value})
-        })
+    const slides = firebase.database()
+      .ref('presentations')
+      .child(this.props.presID)
+      .child('slides')
+    
+    slides.on('value', (snapshot) => {
+      const value = snapshot.val()
+      console.log('slides', value)
+      this.setState({slides: value})
+    })
   }
 
   handleSubmit = (e) => {
@@ -33,7 +32,7 @@ class Timeline extends Component {
       .child(this.props.user)
       .child('activePresentation')
 
-    activePresentation.on('value', (snapshot) => {
+    activePresentation.on('value', snapshot => {
       const value = snapshot.val()
       const slides = firebase.database()
         .ref('presentations')
@@ -42,6 +41,7 @@ class Timeline extends Component {
       
       slides.push({number: this.state.slidesCount})
     })
+
     this.setState({ slidesCount: this.state.slidesCount++ })
   }
 
