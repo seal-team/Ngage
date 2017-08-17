@@ -8,8 +8,6 @@ import Viewer from './components/Viewer/ViewerMain'
 import WhoAmI from './components/WhoAmI'
 
 import NotFound from './components/NotFound'
-import Presentation from './components/Presentation/PresentationMain'
-import Viewer from './components/Viewer/Main'
 import QuillComp from './components/QuillComp.jsx'
 
 const Routes = () => (
