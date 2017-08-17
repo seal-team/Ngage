@@ -6,14 +6,14 @@ is Modal for uploading different medias
 */
 import React, { Component } from 'react'
 export default class MediaModal extends Component {
-  constructor() {
-      super()
-      this.state = {
+    constructor() {
+        super()
+        this.state = {
         }
     }
 
-  render() {
-      return (
+    render() {
+        return (
             <div className='modal is-active'>
                 <div className="modal-background"></div>
                 <div className="modal-card">

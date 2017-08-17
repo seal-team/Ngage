@@ -2,20 +2,18 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import WhoAmI from './WhoAmI'
+
 const Home = () => (
   <div className="columns">
     <div className="column"></div>
 
-    <div className="colum">
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
-      <Link to="/login">LOGIN</Link>
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
-      <h1>Welcome to nGage</h1>
+    <div className="column">
+      <h1 className="title is-two-quarters welcome">Welcome to nGage.</h1>
+      <p className="subtitle description">A platform for creating<br />
+        interactive presentations
+      </p>
+      <WhoAmI />
     </div>
 
     <div className="column"></div>
