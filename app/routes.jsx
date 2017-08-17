@@ -17,7 +17,6 @@ const Routes = () => (
     <Route exact path="/edit/:presentationID" component={EditorMain} />
     <Route exact path="/edit/:presentationID/slide/:slideID" component={EditorMain} />
     <Route path='*' component={NotFound} />
-    <Route path='*' component={NotFound} />
   </Switch>
 )
 
