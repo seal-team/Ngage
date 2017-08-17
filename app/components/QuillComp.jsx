@@ -5,70 +5,59 @@ import firebase from 'APP/fire'
 import ReactQuill, { Quill, Mixin, Toolbar } from 'react-quill'
 import theme from 'react-quill/dist/quill.snow.css'
 
-// const CustomButton = () => <span className="fa fa-edit" />
-const CustomButton = () => <span className="button is-small is-success">
-  <span className="icon is-small">
-    <i className="fa fa-check"></i>
-  </span>
-  <span>Save</span>
-</span>
-
-// function insertStar(foo) {
-//   console.log('foo', this)
-//   const cursorPosition = this.quill.getSelection().index
-//   this.quill.insertText(cursorPosition, '★')
-//   this.quill.setSelection(cursorPosition + 1)
-// }
-
-function saveCanvas() {
-  const quillContents = this.quill.getContents()
-}
-
-const CustomToolbar = () => (
-  <div id="toolbar">
-    <select className="ql-header">
-      <option value="1"></option>
-      <option value="2"></option>
-      <option selected></option>
-    </select>
-    <button className="ql-bold"></button>
-    <button className="ql-italic"></button>
-    <button className="ql-strike"></button>
-    <button className="ql-blockquote"></button>
-    <select className="ql-color"></select>
-    <select className="ql-background"></select>
-    <select className="ql-align"></select>
-    <button className="ql-list" value="ordered"></button>
-    <button className="ql-list" value="bullet"></button>
-    <button className="ql-indent" value="+1"></button>
-    <button className="ql-indent" value="-1"></button>
-    <button className="ql-image"></button>
-    <button className="ql-video"></button>
-    <button className="ql-link"></button>
-    <button className="ql-insertStar">
-      <CustomButton />
-    </button>
-  </div>
-)
+import CustomToolbar from './CustomToolbar'
 
 export default class QuillComp extends React.Component {
   constructor(props) {
     super(props)
     this.state = { editorHtml: '' }
-    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange(html) {
-    this.setState({ editorHtml: html });
+  componentDidMount() {
+    this.attachQuillRefs()
+    this.insertText()
+  }
+
+  componentDidUpdate() {
+    this.attachQuillRefs()
+  }
+
+  attachQuillRefs = () => {
+    if (typeof this.reactQuillRef.getEditor !== 'function') return
+    this.quillRef = this.reactQuillRef.getEditor()
+  }
+
+  saveQuill = () =>{
+    const quillContents = this.quillRef.getContents()
+    const slideRef = firebase.database()
+      .ref('presentations')
+      .child(this.props.presID)
+      .child('slides')
+      .child(this.props.slideID)
+    slideRef.child('quillContents').set(JSON.stringify(quillContents))
+  }
+
+  insertText = () => {
+    const slideRef = firebase.database()
+      .ref('presentations')
+      .child(this.props.presID)
+      .child('slides')
+      .child(this.props.slideID)
+    slideRef.once('value', (snapshot) => {
+      const slide = snapshot.val()
+      this.quillRef.setContents(JSON.parse(slide.quillContents))
+    })
+  }
+
+  handleChange= (html) => {
+    this.setState({ editorHtml: html })
   }
 
   modules = {
     toolbar: {
       container: '#toolbar',
       handlers: {
-        'insertStar': function() {
-          console.log('func', this.state)
-        },
+        'save': this.saveQuill
       }
     }
   }
@@ -78,11 +67,12 @@ export default class QuillComp extends React.Component {
       <div className="text-editor">
         <CustomToolbar />
         <ReactQuill
+          ref={(el) => { this.reactQuillRef = el }}
           onChange={this.handleChange}
           placeholder={this.props.placeholder}
           modules={this.modules}
           formats={QuillComp.formats}
-          theme={'snow'} // pass false to use minimal theme
+          theme={'snow'}
         >
           <div
             key="editor"
@@ -94,18 +84,6 @@ export default class QuillComp extends React.Component {
     )
   }
 }
-
-// const foobar = 'foobar'
-// QuillComp.modules = {
-//   toolbar: {
-//     container: '#toolbar',
-//     handlers: {
-//       'insertStar': function(foo) {
-//         console.log('func', foobar)
-//       },
-//     }
-//   }
-// }
 
 QuillComp.formats = [
   'header', 'font', 'size',
