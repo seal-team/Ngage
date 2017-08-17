@@ -14,7 +14,6 @@ class SideBar extends Component {
       mediaModal: false,
       updateModal: false,
     }
-    this.toggleAcitveTab = this.toggleAcitveTab.bind(this)
   }
 
   handleMediaModal = (e) => {
@@ -24,7 +23,7 @@ class SideBar extends Component {
     this.setState({ updateModal: !this.state.updateModal })
   }
 
-  toggleAcitveTab(index) {
+  toggleAcitveTab = index => {
     const activeState = [...this.state.activeTab]
       .map((item, i) => i === index || false)
 
