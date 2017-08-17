@@ -26,9 +26,6 @@ class SlideCanvas extends Component {
 
   submitSlideText(evt) {
     evt.preventDefault()
-    console.log(
-      
-    )
   }
 
   render() {

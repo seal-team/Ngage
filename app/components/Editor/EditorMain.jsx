@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 
 import SlideCanvas from './SlideCanvas'
 import PropertiesBar from './PropertiesBar'
@@ -21,10 +22,10 @@ class EditorMain extends Component {
     })
   }
 
-//slideCanvas needs slideID
-//have to make sure slideCanvas updates, url, canvas on page
-//slides must have a spot to store text and object
-// this.props.match.params.presentationID
+  toggleToPresentMode = () => {
+    this.props.history.push(`/view/${this.props.match.params.presentationID}`)
+  }
+
   render() {
     const timelineIsHidden = this.state.timelineIsHidden
     return (
@@ -36,6 +37,10 @@ class EditorMain extends Component {
 
           <div className="column">
             <PropertiesBar />
+
+            <button onClick={this.toggleToPresentMode}>
+              +++++
+            </button>
             <SlideCanvas presID={this.props.match.params.presentationID} slideID={this.props.match.params.slideID}/>
           </div>
         </div>
@@ -58,4 +63,4 @@ class EditorMain extends Component {
   }
 }
 
-export default EditorMain
+export default withRouter(EditorMain)
