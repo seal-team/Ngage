@@ -10,7 +10,7 @@ class Timeline extends Component {
       slidesCount: 0
     }
   }
-  
+
   componentDidMount() {
     const activePresentation = firebase.database()
       .ref('users')

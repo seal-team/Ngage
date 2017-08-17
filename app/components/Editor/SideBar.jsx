@@ -18,9 +18,10 @@ class SideBar extends Component {
       quizModal: false
     }
 
+    this.toggleAcitveTab = this.toggleAcitveTab.bind(this)
     this.handleMediaModal = this.handleMediaModal.bind(this)
     this.handleUpdateModal = this.handleUpdateModal.bind(this)
-    this.toggleAcitveTab = this.toggleAcitveTab.bind(this)
+    this.toggleQuizModal = this.toggleQuizModal.bind(this)
   }
 
   handleMediaModal(mediaType) {
@@ -30,6 +31,10 @@ class SideBar extends Component {
 
   handleUpdateModal() {
     this.setState({ updateModal: !this.state.updateModal })
+  }
+
+  toggleQuizModal() {
+    this.setState({ quizModal: !this.state.quizModal })
   }
 
   toggleAcitveTab(index) {
@@ -56,12 +61,12 @@ class SideBar extends Component {
         {this.state.updateModal &&
           <Uploader
             handleUpdateModal={this.handleUpdateModal}
-            mediaType={mediaType} 
+            mediaType={mediaType}
           />
         }
 
         {this.state.quizModal &&
-          <NewQuizModal />
+          <NewQuizModal toggleQuizModal={this.toggleQuizModal} />
         }
 
         <div className="sidebar-whole">
@@ -105,9 +110,18 @@ class SideBar extends Component {
 
             {activeTab[2] &&
               <div className="sidebar-media-options options-container">
-                <p onClick={() => this.handleMediaModal('Audio')}>Audio</p>
-                <p onClick={() => this.handleMediaModal('Video')}>Video</p>
-                <p onClick={() => this.handleMediaModal('VR')}>VR</p>
+                <button className="button is-primary"
+                  onClick={() => this.handleMediaModal('Audio')}>
+                    Audio
+                </button>
+                <button className="button is-primary"
+                  onClick={() => this.handleMediaModal('Video')}>
+                    Video
+                </button>
+                <button className="button is-primary"
+                  onClick={() => this.handleMediaModal('VR')}>
+                    VR
+                </button>
               </div>
             }
           </div>
@@ -121,8 +135,11 @@ class SideBar extends Component {
 
             {activeTab[3] &&
               <div className="sidebar-quiz-options options-container">
-                <p>Multiple Choice</p>
-                <p>Poll</p>
+                <button className="button is-warning multiple-choice-btn"
+                  onClick={() => this.toggleQuizModal()}>
+                    Multiple<br />Choice
+                </button>
+                <button className="button is-warning">Poll</button>
               </div>
             }
           </div>

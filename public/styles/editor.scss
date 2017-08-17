@@ -64,8 +64,6 @@
   border: 1px solid rgba(215, 169, 38, 0.1);
 }
 
-
-
 //-----------------------
 // ------ TIMELINE ------
 //-----------------------
@@ -164,4 +162,58 @@
   width: 900px;
   border: 2px solid black;
   background-color: white;
+}
+
+//-----------------------
+// ----- QUIZ MODAL -----
+//-----------------------
+.add-new-quiz {
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: rgb(215, 169, 38);
+  color: white;
+  border-radius: 2%;
+}
+
+.quiz-modal {
+  width: 80%;
+}
+
+.answers-super-container {
+  margin-bottom: 1px !important;
+}
+
+.multiple-choice-btn {
+  height: 75px;
+}
+
+.question-container {
+  margin-bottom: 45px !important;
+}
+
+.correct-answer-title {
+  text-align: right;
+  font-style: italic;
+  font-size: 13px;
+  margin-bottom: 0px !important;
+}
+
+.num-of-answers-container {
+  margin-right: 25%;
+}
+
+.num-of-answers-title {
+ margin-bottom: 0px !important;
+ padding-top: 4px;
+ padding-right: 15px;
+}
+
+.answer-input {
+  width: 565px;
+  margin-bottom: 10px;
+}
+
+.quiz-btns {
+  margin-top: 20px;
 }
