@@ -6,20 +6,17 @@ import { connect } from 'react-redux'
 import firebase from 'APP/fire'
 
 class Uploader extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             file: {},
             mediaDescription: ''
         }
-        this.listenForFile = this.listenForFile.bind(this)
-        this.submitFile = this.submitFile.bind(this)
-        this.mediaNameHandleChange = this.mediaNameHandleChange.bind(this)
     }
     componentDidMount() {
         this.listenForFile()
     }
-    listenForFile(e) {
+    listenForFile = (e) => {
         const uploader = document.getElementById('upload')
         const fileButton = document.getElementById('fileButton')
         // listen for file selection
@@ -29,11 +26,11 @@ class Uploader extends Component {
             this.setState({ file })
         })
     }
-    mediaNameHandleChange(e) {
+    mediaNameHandleChange = (e) => {
         this.setState({ mediaDescription: e.target.value })
     }
 
-    submitFile() {
+    submitFile = () => {
         const uploader = document.getElementById('upload')
         const file = this.state.file
         const description = this.state.mediaDescription
@@ -48,10 +45,10 @@ class Uploader extends Component {
             },
             function error(err) {
             },
-            function complete() {
+            () => {
                 const downloadUrl = task.snapshot.downloadURL
                 const newMediaKey = firebase.database().ref().child(file.name.split('.')[0] + '/').push().key
-                console.log('THIS IS THE USER ID', this.props.user)
+                console.log('THIS IS THE USER ID', newMediaKey, this.props)
                 const update = {}
                 const newMediaData = {
                     name: file.name,
@@ -59,15 +56,16 @@ class Uploader extends Component {
                     uid: this.props.user,
                     description,
                 }
-                firebase.database().ref(this.props.mediaType + '/' + newMediakey)
-                console.log('STUPID SAID WHAT!', downloadUrl)
+                const updatepath = ('Media/' + `${this.props.mediaType}/` + newMediaKey)
+                console.log(updatepath)
+                update[updatepath] = newMediaData
+                firebase.database().ref().update(update)
             }
         )
-        // })
     }
 
     render() {
-        console.log('props in render ', this.props)
+        console.log('this is in render', this.props)
         return (
             <div className='modal is-active' >
                 <div className="modal-background"></div>
@@ -102,4 +100,5 @@ class Uploader extends Component {
 const mapState = state => ({
     user: state.user
 })
+
 export default connect(mapState)(Uploader)
