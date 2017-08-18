@@ -5,13 +5,9 @@ import firebase from 'APP/fire'
 import ReactQuill, { Quill, Mixin, Toolbar } from 'react-quill'
 import theme from 'react-quill/dist/quill.snow.css'
 
-class QuillComp extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-    }
-  }
+import CustomToolbar from '../Editor/CustomToolbar'
 
+class QuillComp extends React.Component {
   componentDidMount() {
     this.attachQuillRefs()
     this.insertQuill()
@@ -19,6 +15,13 @@ class QuillComp extends React.Component {
 
   componentDidUpdate(prevProps) {
     this.attachQuillRefs()
+    if (this.props.slideID !== prevProps.slideID) {
+      this.onRouteChanged()
+    }
+  }
+
+  static propTypes = {
+    location: React.PropTypes.object.isRequired
   }
 
   attachQuillRefs = () => {
@@ -26,13 +29,19 @@ class QuillComp extends React.Component {
     this.quillRef = this.reactQuillRef.getEditor()
   }
 
+  onRouteChanged() {
+    this.insertQuill()
+  }
+
+
   insertQuill = () => {
+    console.log("myID", this.props.slideID)
     const slideRef = firebase.database()
       .ref('presentations')
       .child(this.props.match.params.presentationID)
       .child('slides')
       .child(this.props.slideID)
-    slideRef.once('value', (snapshot) => {
+    slideRef.on('value', (snapshot) => {
       const slide = snapshot.val()
       let setSlide=''
       if (slide && slide.quillContents) setSlide = JSON.parse(slide.quillContents)
@@ -40,46 +49,17 @@ class QuillComp extends React.Component {
     })
   }
 
-  modules = {
-    toolbar: {
-      container: '#toolbar',
-      handlers: {
-        'save': this.saveQuill
-      }
-    }
-  }
-
   render() {
     return (
-      <div className="text-editor">
         <ReactQuill
           ref={(el) => { this.reactQuillRef = el }}
-          onChange={this.handleChange}
-          placeholder={this.props.placeholder}
-          readOnly='true'
-          formats={QuillComp.formats}
-          theme={'snow'}
         >
-          <div
-            key="editor"
-            ref="editor"
-            className="quill-contents"
-          />
         </ReactQuill>
-      </div>
     )
   }
 }
 
-QuillComp.formats = [
-  'header', 'font', 'size',
-  'bold', 'italic', 'underline', 'strike', 'blockquote',
-  'list', 'bullet', 'indent', 'align',
-  'link', 'image', 'video', 'background', 'color'
-]
 
-QuillComp.propTypes = {
-  placeholder: React.PropTypes.string,
-}
+
 
 export default withRouter(QuillComp)

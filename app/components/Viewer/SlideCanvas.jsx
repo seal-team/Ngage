@@ -10,7 +10,8 @@ class SlideCanvas extends Component {
       info: null,
       slides: null,
       type: null,
-      counter: 0
+      counter: 0,
+      slideID: null
     }
     this.submitSlideText = this.submitSlideText.bind(this)
   }
@@ -27,8 +28,7 @@ class SlideCanvas extends Component {
     const slide = slides.child(this.props.slideID)
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
-      console.log('this is the value', value)
-      this.setState({info: value, type: value.type})
+      this.setState({info: value, type: value.type, slideID: this.props.slideID})
     })
   }
 
@@ -46,7 +46,7 @@ class SlideCanvas extends Component {
 
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
-      this.setState({info: value, counter: --this.state.counter})
+      this.setState({info: value, counter: --this.state.counter, slideID: currSlide})
     })
   }
 
@@ -60,17 +60,20 @@ class SlideCanvas extends Component {
 
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
-      this.setState({info: value, counter: ++this.state.counter})
-      console.log('slide', value, this.state.counter)
+      this.setState({
+        info: value,
+        counter: ++this.state.counter,
+        slideID: currSlide
+     })
     })
   }
 
   render() {
-    console.log('counter', this.state.type)
+    console.log('slideid', this.state.slideID, this.state.type)
     const type = this.state.type
     let typeComp = null
     if (type === 'quill') {
-        typeComp = <QuillViewer presID={this.props.presID} slideID={this.props.slideID} />
+        typeComp = <QuillViewer presID={this.props.presID} slideID={this.state.slideID} />
     } else if (type === 'vr') {
         typeComp = 'vr'
     } else {
@@ -82,10 +85,16 @@ class SlideCanvas extends Component {
      {this.state.slides &&
       <div className="slide-canvas-container">
         {typeComp}
-        <button disabled={!this.state.counter} onClick={this.toggleBack}>
+        <button
+            disabled={!this.state.counter}
+            onClick={this.toggleBack} >
             Back
         </button>
-        <button disabled={(this.state.counter === (Object.keys(this.state.slides).length -1))} onClick={this.toggleFoward}>
+        <button
+            disabled={
+                (this.state.counter === (Object.keys(this.state.slides).length -1))
+            }
+            onClick={this.toggleFoward}>
             Next
         </button >
       </div>}
