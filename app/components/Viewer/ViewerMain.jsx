@@ -21,7 +21,9 @@ class ViewerMain extends Component {
       slideID: '',
       owner: "",
       user: "",
-      disabled: true
+      disabledSlides: true,
+      disable: false
+      
     }
   }
   
@@ -48,12 +50,16 @@ class ViewerMain extends Component {
     })
 
     if (this.state.owner === this.state.user) {
-      this.setState({ disabled: false })
+      this.setState({ disabledSlides: false })
     }
   }
 
+  disableUsers = () => {
+    this.state.disable ? this.setState({disable: false}) : this.setState({disable: true})
+  }
+
   render() {
-    const disabled = this.state.disabled
+    const disabledSlides = this.state.disabledSlides
 
     return (
       <div className="viewer-main-container">
@@ -64,7 +70,7 @@ class ViewerMain extends Component {
                 <SlideCanvas 
                   presID={this.props.match.params.presentationID}
                   slideID={this.state.slideID}
-                  disabled={disabled}
+                  disabled={disabledSlides}
                 />
               </div>
               <div className="chat-super-container column">
@@ -87,6 +93,9 @@ class ViewerMain extends Component {
             </div>
           </div>
         }
+        <button onClick={this.disableUsers}>
+            disable User chatbox and notes
+        </button>
       </div>
     )
   }

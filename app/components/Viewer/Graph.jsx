@@ -19,7 +19,7 @@ const Graph = () => (
           <YAxis/>
           <CartesianGrid strokeDasharray="3 3"/>
           <Tooltip/>
-          <Line type='monotone' dataKey='uv' stroke='#8884d8' fill='#8884d8' />
+          <Line connectNulls={true} type='monotone' dataKey='uv' stroke='#8884d8' fill='#8884d8' />
         </LineChart>
       </div>
 )

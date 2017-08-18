@@ -2,10 +2,18 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 
 import WhoAmI from './WhoAmI'
+import NewPresentationModal from './NewPresentationModal'
 
 class Nav extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      showModal: false
+    }
+  }
+
+  handleModal = (e) => {
+    this.setState({ showModal: !this.state.showModal })
   }
 
   render() {
@@ -16,11 +24,13 @@ class Nav extends Component {
             <h1 className="logo-text">nGage</h1>
           </Link>
         </div>
-
+          {this.state.showModal
+            && <NewPresentationModal handleModal={this.handleModal} />
+          }
         <div className="navbar-start navbar-item">
-          <Link className="nav-text-item" to="/edit/new">
+          <button className="nav-text-item" onClick={this.handleModal}>
             New Presentation
-          </Link>
+          </button>
         </div>
 
         <div className="navbar-menu">

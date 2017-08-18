@@ -33,11 +33,12 @@ class NewQuizModal extends Component {
     }
     if (!correctAnswers.length) return alert('Must select at least one correct answer!')
 
+    const { presentationID, slideID } = this.props.match.params
     const slideRef = firebase.database()
       .ref('presentations')
-      .child(this.props.match.params.presentationID)
+      .child(presentationID)
       .child('slides')
-      .child(this.props.match.params.slideID)
+      .child(slideID)
 
     slideRef.child('type').set('quiz')
 
