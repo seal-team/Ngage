@@ -16,9 +16,14 @@
 //----------------------
 // ------ SIDEBAR ------
 //----------------------
-.sidebar-container {
-  margin-top: 10%;
+.presentation-title {
   margin-left: 1%;
+  margin-bottom: 40px;
+}
+
+.sidebar-container {
+  margin-top: 2%;
+  margin-left: 2%;
 }
 
 .sidebar-btn {
@@ -220,4 +225,9 @@
 
 .quiz-btns {
   margin-top: 20px;
+}
+
+
+.view-pres-btn {
+  margin-top: 10%;
 }
