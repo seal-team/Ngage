@@ -47,7 +47,7 @@ class NewPresentationModal extends Component {
     const newSlideKey = newSlide.key
 
     this.setState({ newPresentation: '' })
-
+    this.props.handleModal()
     this.props.history.push(`/edit/${newPresentKey}/slide/${newSlideKey}`)
   }
 

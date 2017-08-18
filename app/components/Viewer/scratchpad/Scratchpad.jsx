@@ -42,8 +42,13 @@ export default class extends React.Component {
 
   render() {
     const {value} = this.state || {}
+    let hidden = false
+    if (this.props.disabled) {
+      hidden = true
+    }
     return (
       <textarea
+        hidden={hidden}
         rows={10}
         cols={120}
         value={value}

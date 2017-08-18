@@ -20,7 +20,9 @@ class ViewerMain extends Component {
       slideID: '',
       owner: "",
       user: "",
-      disabled: true
+      disabledSlides: true,
+      disable: false
+      
     }
   }
   
@@ -47,12 +49,16 @@ class ViewerMain extends Component {
     })
 
     if (this.state.owner === this.state.user) {
-      this.setState({ disabled: false })
+      this.setState({ disabledSlides: false })
     }
   }
 
+  disableUsers = () => {
+    this.state.disable ? this.setState({disable: false}) : this.setState({disable: true})
+  }
+
   render() {
-    const disabled = this.state.disabled
+    const disabledSlides = this.state.disabledSlides
 
     return (
       <div className="viewer-main-container">
@@ -60,30 +66,33 @@ class ViewerMain extends Component {
           <div>
             <div className="section columns slide-and-chat">
               <div className="slide is-mobile column is-9">
-                <SlideCanvas 
+                <SlideCanvas
                   presID={this.props.match.params.presentationID}
                   slideID={this.state.slideID}
-                  disabled={disabled}
+                  disabled={disabledSlides}
                 />
               </div>
               <div className="chat is-mobile column is-3">
                 <strong>ChatBox</strong>
-                <Chat presentationID={this.state.presentationID} />
+                <Chat presentationID={this.state.presentationID} disabled={this.state.disable}/>
               </div>
             </div>
 
             <div className="scratchpad-and-graph section columns">
               <div className="slide is-mobile column is-9">
                 this is scratchpad
-                <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
+                <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} disabled={this.state.disable}/>
               </div>
               <div className="graph is-mobile column is-3">
                 this is graph
-                <Graph /> 
+                <Graph />
               </div>
             </div>
           </div>
         }
+        <button onClick={this.disableUsers}>
+            disable User chatbox and notes
+        </button>
       </div>
     )
   }
