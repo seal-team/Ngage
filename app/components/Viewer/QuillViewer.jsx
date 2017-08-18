@@ -33,9 +33,7 @@ class QuillComp extends React.Component {
     this.insertQuill()
   }
 
-
   insertQuill = () => {
-    console.log("myID", this.props.slideID)
     const slideRef = firebase.database()
       .ref('presentations')
       .child(this.props.match.params.presentationID)
@@ -49,11 +47,17 @@ class QuillComp extends React.Component {
     })
   }
 
+  modules = {
+    toolbar: false
+  }
+
   render() {
     return (
         <ReactQuill
           ref={(el) => { this.reactQuillRef = el }}
-        >
+          modules={this.modules}
+          readOnly='true'
+          >
         </ReactQuill>
     )
   }
