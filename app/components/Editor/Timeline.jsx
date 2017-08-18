@@ -67,9 +67,9 @@ class Timeline extends Component {
               <i className="fa fa-chevron-circle-left"></i>
             </span>
           </div>
-          
+
           {slides && Object.keys(slides).map((slide, i) => (
-            <div key={i} className={`timeline-slide`}
+            <div key={i} className={ slide === this.props.match.params.slideID ? 'timeline-slide timeline-slide-selected' : 'timeline-slide' }
               onClick={() => this.selectSlide(slide)}>
                 <text>Slide #{i + 1}</text>
             </div>
