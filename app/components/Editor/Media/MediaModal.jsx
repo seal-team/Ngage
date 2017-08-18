@@ -52,7 +52,7 @@ class MediaModal extends Component {
                   }
                 </div>
               </div>
-
+            <hr></hr>
               <div className="margin-top-sm">
                 <button className="button is-primary"
                   onClick={this.createTable} >Create

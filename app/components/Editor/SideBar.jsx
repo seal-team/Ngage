@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import MediaModal from './Media/MediaModal'
+import VRUploader from './Media/VRUploader'
 import Uploader from './Media/Uploader'
+
 
 class SideBar extends Component {
   constructor(props) {
@@ -36,7 +38,9 @@ class SideBar extends Component {
     return (
       <div>
         {this.state.mediaModal && <MediaModal handleModal={this.handleMediaModal} handleUpdateModal={this.handleUpdateModal} uid={this.state.uid} history={this.props.history} mediaType={this.state.mediaType} />}
-        {this.state.updateModal && <Uploader handleUpdateModal={this.handleUpdateModal} uid={this.state.uid} history={this.props.history} mediaType={this.state.mediaType} />}
+        {(this.state.mediaType === 'VR')?
+        (this.state.updateModal && <VRUploader handleUpdateModal={this.handleUpdateModal} uid={this.state.uid} history={this.props.history} mediaType={this.state.mediaType} />):
+        (this.state.updateModal && <Uploader handleUpdateModal={this.handleUpdateModal} uid={this.state.uid} history={this.props.history} mediaType={this.state.mediaType} />)}
         <div className="sidebar-whole">
 
           {/* All Text Options */}

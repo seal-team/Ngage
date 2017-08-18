@@ -81,7 +81,6 @@ class Uploader extends Component {
                                 <input type="text" id="mediatitle" placeholder="title and description" onChange={this.mediaNameHandleChange} />
                             </div>
                         </div>
-
                         <div className="margin-top-sm">
                             <button className="button is-primary"
                                 onClick={this.submitFile} >Submit
