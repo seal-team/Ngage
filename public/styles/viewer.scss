@@ -1,8 +1,35 @@
+.viewer-main-container {
+  background-color: rgb(108, 108, 108);
+  height: 100%;
+}
+
 //----------------------
-// ------ Slide Canvas ------
+// ---- Slide Canvas ---
 //----------------------
+.slide-canvas-container {
+  position: relative;
+}
+
 .slide-and-chat {
   padding: 0px;
+}
+
+.circle-btn {
+  border-radius: 25%;
+}
+
+.prev-btn-container {
+  position: absolute;
+  top: 45%;
+  left: 5%;
+  width: 100%;
+}
+
+.next-btn-container {
+ position: absolute;
+ top: 45%;
+ left: 90%;
+ width: 100%;
 }
 
 //----------------------
@@ -19,4 +46,73 @@
 
 .quiz-view-submit {
   margin-top: 30px;
+}
+
+//----------------------
+// ------- Chat -------
+//----------------------
+.chat-super-container {
+  width: 100%;
+  margin-left: 0px;
+  padding-right: 10px;
+  background-color: rgb(174, 171, 171);
+  border: 2px solid black;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-form {
+  flex: 1 0 auto;
+}
+
+.chat-title {
+  width: 60%;
+  margin-left: 15%;
+  margin-bottom: 15px;
+  text-align: center;
+  color: white;
+  background-color: rgb(97, 93, 93);
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.chat-log {
+  width: 90%;
+  background-color: white;
+  border: 1px solid black;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  padding-left: 25px;
+}
+
+.chat-message {
+  color: black;
+}
+
+//----------------------
+//-------- Notes -------
+//----------------------
+.notes-title {
+  width: 700px;
+  margin-left: 65px;
+  margin-bottom: 15px;
+  text-align: center;
+  background-color: rgb(174, 171, 171);
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+//----------------------
+//- Scratchpad & Graph -
+//----------------------
+.scratchpad-and-graph {
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+.graph-container {
+  background-color: white;
+  margin-right: 65px;
+  width: 100%;
 }

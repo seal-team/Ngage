@@ -18,21 +18,21 @@ class SideBar extends Component {
       updateModal: false,
       quizModal: false
     }
-
-    this.toggleQuizModal = this.toggleQuizModal.bind(this)
   }
 
   handleMediaModal = (e) => {
     this.setState({ mediaModal: !this.state.mediaModal })
   }
+
   handleUpdateModal = (e) => {
     this.setState({ updateModal: !this.state.updateModal })
   }
-  toggleQuizModal() {
+
+  toggleQuizModal = () => {
     this.setState({ quizModal: !this.state.quizModal })
   }
 
-  toggleAcitveTab(index) {
+  toggleAcitveTab = index => {
     const activeState = [...this.state.activeTab]
       .map((item, i) => i === index || false)
 

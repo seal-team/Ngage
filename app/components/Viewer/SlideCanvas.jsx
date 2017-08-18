@@ -94,27 +94,36 @@ class SlideCanvas extends Component {
 
     const info = this.state.info
     return (
-    <div>
-     {this.state.slides &&
-      <div className="slide-canvas-container">
-        
-        {typeComp}
-        
-        <button
-            disabled={!this.state.counter || this.props.disabled}
-            onClick={this.toggleBack} >
-            Back
-        </button>
-        <button
-            disabled={
-                (this.state.counter === (Object.keys(this.state.slides).length -1)) ||
-                this.props.disabled
-            }
-            onClick={this.toggleFoward}>
-            Next
-        </button >
-      </div>}
-    </div>
+      <div>
+      {this.state.slides &&
+        <div className="slide-canvas-container">
+          
+          {typeComp}
+
+          <div className="prev-btn-container">
+            <button className="prev-slide-btn circle-btn"
+                disabled={!this.state.counter || this.props.disabled}
+                onClick={this.toggleBack} >
+                <span className="icon">
+                  <i className="fa fa-chevron-circle-left"></i>
+                </span>
+            </button>
+          </div>
+
+          <div className="next-btn-container">
+            <button className="next-slide-btn circle-btn"
+                disabled={
+                    (this.state.counter === (Object.keys(this.state.slides).length -1)) ||
+                    this.props.disabled
+                }
+                onClick={this.toggleFoward}>
+                <span className="icon">
+                  <i className="fa fa-chevron-circle-right"></i>
+                </span>
+            </button>
+          </div>
+        </div>}
+      </div>
     )
   }
 }

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import firebase from 'firebase'
+
 import SlideCanvas from './SlideCanvas'
 import Chat from './chat'
 import Scratchpad from './scratchpad'
-import firebase from 'firebase'
-import { connect } from 'react-redux'
 import Graph from './Graph'
 // const sectionStyle = {
 //   width: '100%',
@@ -65,26 +66,28 @@ class ViewerMain extends Component {
         {this.state.slideID &&
           <div>
             <div className="section columns slide-and-chat">
-              <div className="slide is-mobile column is-9">
-                <SlideCanvas
+              <div className="slide column">
+                <SlideCanvas 
                   presID={this.props.match.params.presentationID}
                   slideID={this.state.slideID}
                   disabled={disabledSlides}
                 />
               </div>
-              <div className="chat is-mobile column is-3">
-                <strong>ChatBox</strong>
-                <Chat presentationID={this.state.presentationID} disabled={this.state.disable}/>
+              <div className="chat-super-container column">
+                <h3 className="chat-title">Chat</h3>
+                <div className="chat-container">
+                    <Chat presentationID={this.state.presentationID} />
+                </div>
               </div>
             </div>
 
             <div className="scratchpad-and-graph section columns">
-              <div className="slide is-mobile column is-9">
-                this is scratchpad
-                <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} disabled={this.state.disable}/>
+              <div className="slide column">
+                <h3 className="notes-title">Your Notes</h3>
+                <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
               </div>
-              <div className="graph is-mobile column is-3">
-                this is graph
+              <div className="graph-container column is-3">
+                <h3 className="graph-title">Quiz results</h3>
                 <Graph />
               </div>
             </div>

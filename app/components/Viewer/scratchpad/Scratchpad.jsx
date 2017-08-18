@@ -50,7 +50,7 @@ export default class extends React.Component {
       <textarea
         hidden={hidden}
         rows={10}
-        cols={120}
+        cols={140}
         value={value}
         onChange={this.write}/>
     )
