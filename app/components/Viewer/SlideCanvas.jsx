@@ -101,13 +101,14 @@ class SlideCanvas extends Component {
         {typeComp}
         
         <button
-            disabled={!this.state.counter}
+            disabled={!this.state.counter || this.props.disabled}
             onClick={this.toggleBack} >
             Back
         </button>
         <button
             disabled={
-                (this.state.counter === (Object.keys(this.state.slides).length -1))
+                (this.state.counter === (Object.keys(this.state.slides).length -1)) ||
+                this.props.disabled
             }
             onClick={this.toggleFoward}>
             Next

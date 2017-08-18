@@ -34,6 +34,7 @@ class NewPresentationModal extends Component {
     const newPresentKey = newPresent.key
     // add to the presentations
     presentationsRef.child(newPresentKey).set(title)
+    presentationsRef.child(newPresentKey).child('userID').set(this.props.user)
     // set it as the active one
     usersRef.child('activePresentation').set(newPresentKey)
     // add a slide
@@ -41,6 +42,7 @@ class NewPresentationModal extends Component {
       .child(newPresentKey)
       .child('slides')
       .push({ number: 0, type: 'quill' })
+
     
     const newSlideKey = newSlide.key
 
