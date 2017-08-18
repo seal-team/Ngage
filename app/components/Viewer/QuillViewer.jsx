@@ -56,6 +56,7 @@ class QuillComp extends React.Component {
           ref={(el) => { this.reactQuillRef = el }}
           onChange={this.handleChange}
           placeholder={this.props.placeholder}
+          readOnly='true'
           formats={QuillComp.formats}
           theme={'snow'}
         >
