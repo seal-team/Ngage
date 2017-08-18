@@ -39,7 +39,11 @@ class Timeline extends Component {
         .child(value)
         .child('slides')
 
-      const newSlide = slides.push({number: this.state.slidesCount})
+      const newSlide = slides.push({
+        number: this.state.slidesCount,
+        type: 'quill'
+      })
+
       this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)
     })
 

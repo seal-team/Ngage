@@ -50,31 +50,32 @@ class SideBar extends Component {
     const activeTab = this.state.activeTab
     const mediaType = this.state.mediaType
 
+    console.log('sidebar props', this.props)
     return (
       <div>
         {this.state.mediaModal && 
-          <MediaModal handleModal={this.handleMediaModal} 
-            handleUpdateModal={this.handleUpdateModal} 
-            uid={this.state.uid} 
-            history={this.props.history} 
-            mediaType={this.state.mediaType} 
+          <MediaModal handleModal={this.handleMediaModal}
+            handleUpdateModal={this.handleUpdateModal}
+            uid={this.state.uid}
+            history={this.props.history}
+            mediaType={this.state.mediaType}
           />
         }
 
         {(this.state.mediaType === 'VR')
-          ? (this.state.updateModal && 
+          ? (this.state.updateModal &&
               <VRUploader
-                handleUpdateModal={this.handleUpdateModal} 
-                uid={this.state.uid} 
+                handleUpdateModal={this.handleUpdateModal}
+                uid={this.state.uid}
                 history={this.props.history} 
-                mediaType={this.state.mediaType} 
+                mediaType={this.state.mediaType}
               />)
           : (this.state.updateModal && 
               <Uploader
-                handleUpdateModal={this.handleUpdateModal} 
-                uid={this.state.uid} 
+                handleUpdateModal={this.handleUpdateModal}
+                uid={this.state.uid}
                 history={this.props.history} 
-                mediaType={this.state.mediaType} 
+                mediaType={this.state.mediaType}
               />)
         }
 
@@ -88,6 +89,7 @@ class SideBar extends Component {
         {this.state.quizModal &&
           <NewQuizModal
             toggleQuizModal={this.toggleQuizModal}
+            forceRerender={this.props.forceRerender}
           />
         }
 

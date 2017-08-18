@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import firebase from 'APP/fire'
 
 import SlideCanvas from './SlideCanvas'
 import PropertiesBar from './PropertiesBar'
@@ -17,6 +18,7 @@ class EditorMain extends Component {
     }
 
     this.toggleTimeline = this.toggleTimeline.bind(this)
+    this.forceRerender = this.forceRerender.bind(this)
   }
 
   toggleTimeline() {
@@ -32,14 +34,28 @@ class EditorMain extends Component {
   selectSlide = slideID => {
     this.setState({ slideID })
   }
+  
+  forceRerender() {
+    this.forceUpdate()
+  }
 
   render() {
     const timelineIsHidden = this.state.timelineIsHidden
+    const { presentationID, slideID } = this.props.match.params
+
+    let slideType = 'quill'
+    firebase.database()
+      .ref(`presentations/${presentationID}/slides/${slideID}/type`)
+      .once('value', snapshot => {
+        slideType = snapshot.val()
+      })
+    console.log('slideType in render ', slideType)
+
     return (
       <div className="editor-main-container">
         <div className="columns everything-but-timeline">
           <div className="column is-2 sidebar-container">
-            <SideBar />
+            <SideBar forceRerender={this.forceRerender} />
           </div>
 
           <div className="column">
@@ -48,7 +64,11 @@ class EditorMain extends Component {
             <button onClick={this.toggleToPresentMode}>
               View Presentation
             </button>
-            <SlideCanvas presID={this.props.match.params.presentationID} slideID={this.state.slideID}/>
+            <SlideCanvas
+              presID={this.props.match.params.presentationID} 
+              slideID={this.state.slideID}
+              slideType={slideType}
+            />
           </div>
         </div>
 

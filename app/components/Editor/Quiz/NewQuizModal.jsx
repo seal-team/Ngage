@@ -6,10 +6,7 @@ class NewQuizModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      question: '',
-      answers: [],
-      numberOfAnswers: [null, null],
-      correctAnswer: 0
+      numberOfAnswers: [null, null]
     }
 
     this.submitNewQuiz = this.submitNewQuiz.bind(this)
@@ -28,7 +25,8 @@ class NewQuizModal extends Component {
     for (let i = 0; i < this.state.numberOfAnswers.length; i++) {
       const answerName = `correct-answer-${i}`, answer = `answer-${i}`
       
-      if (formData[answerName].checked) correctAnswers.push(formData[answer].value)
+      // if (formData[answerName].checked) correctAnswers.push(formData[answer].value)
+      if (formData[answerName].checked) correctAnswers.push(i)
       
       if (!formData[answer].value.length) return alert('Cannot leave answer blank!')
       else answers.push(formData[answer].value)
@@ -49,6 +47,7 @@ class NewQuizModal extends Component {
       correctAnswers
     })
 
+    this.props.forceRerender()
     this.props.toggleQuizModal()
   }
 
