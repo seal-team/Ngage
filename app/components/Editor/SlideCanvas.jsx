@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import firebase from 'firebase'
+import firebase from 'APP/fire'
 
 import QuillComp from './QuillComp'
+import QuizCanvas from './Quiz/QuizCanvas'
 
 class SlideCanvas extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      info: null,
-      slideType: 'quill'
+      info: null
     }
     this.submitSlideText = this.submitSlideText.bind(this)
   }
@@ -25,14 +25,13 @@ class SlideCanvas extends Component {
       this.setState({info: value})
     })
 
-    let slideType = 'quill'
-    firebase.database()
-      .ref(`presentations/${this.props.presID}/slides/${this.props.slideID}/type`)
-      .once('value', snapshot => {
-        slideType = snapshot.val()
-      })
-    console.log('slideType in didMount ', slideType)
-    this.setState({ slideType })
+    // let slideType = 'quill'
+    // firebase.database()
+    //   .ref(`presentations/${this.props.presID}/slides/${this.props.slideID}/type`)
+    //   .once('value', snapshot => {
+    //     slideType = snapshot.val()
+    //   })
+    // console.log('slideType in didMount ', slideType)
   }
 
   submitSlideText(evt) {
@@ -41,11 +40,18 @@ class SlideCanvas extends Component {
 
   render() {
     const info = this.state.info
-    const slideType = this.state.slideType
-    console.log('slideType in render ', slideType)
+    const slideType = this.props.slideType
+    slideType && console.log('slideType in canvas', slideType)
+
     return (
       <div className="slide-canvas-container">
-        <QuillComp presID={this.props.presID} slideID={this.props.slideID} />
+        {slideType === 'quill' &&
+          <QuillComp presID={this.props.presID} slideID={this.props.slideID} />
+        }
+
+        {slideType === 'quiz' &&
+          <QuizCanvas />
+        }
       </div>
     )
   }

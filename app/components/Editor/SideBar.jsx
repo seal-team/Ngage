@@ -50,6 +50,7 @@ class SideBar extends Component {
     const activeTab = this.state.activeTab
     const mediaType = this.state.mediaType
 
+    console.log('sidebar props', this.props)
     return (
       <div>
         {this.state.mediaModal && 
@@ -88,6 +89,7 @@ class SideBar extends Component {
         {this.state.quizModal &&
           <NewQuizModal
             toggleQuizModal={this.toggleQuizModal}
+            forceRerender={this.props.forceRerender}
           />
         }
 
