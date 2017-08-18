@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import firebase from 'firebase'
 
-import QuillComp from '../Editor/QuillComp'
+import QuillViewer from './QuillViewer'
 
 class SlideCanvas extends Component {
   constructor(props) {
@@ -63,7 +63,6 @@ class SlideCanvas extends Component {
       console.log('slide', value, this.state.counter)
     })
   }
- 
 
   render() {
     console.log('counter', this.state.counter)
@@ -72,7 +71,7 @@ class SlideCanvas extends Component {
     <div>
      {this.state.slides &&
       <div className="slide-canvas-container">
-        <QuillComp presID = {this.props.presID} slideID = {this.props.slideID} />
+        <QuillViewer presID = {this.props.presID} slideID = {this.props.slideID} />
         <button disabled={!this.state.counter} onClick={this.toggleBack}>
             Back
         </button>
