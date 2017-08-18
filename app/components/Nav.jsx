@@ -28,9 +28,9 @@ class Nav extends Component {
             && <NewPresentationModal handleModal={this.handleModal} />
           }
         <div className="navbar-start navbar-item">
-          <button className="nav-text-item" onClick={this.handleModal}>
+          <a className="nav-text-item" onClick={this.handleModal}>
             New Presentation
-          </button>
+          </a>
         </div>
 
         <div className="navbar-menu">
