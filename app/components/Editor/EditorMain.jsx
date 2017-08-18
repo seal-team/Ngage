@@ -14,11 +14,23 @@ class EditorMain extends Component {
     this.state = {
       timelineIsHidden: false,
       presentationID: 'default',
-      slideID: 'default'
+      slideID: 'default',
+      presTitle: ''
     }
 
     this.toggleTimeline = this.toggleTimeline.bind(this)
     this.forceRerender = this.forceRerender.bind(this)
+  }
+
+  componentDidMount() {
+    const presentRef = firebase.database()
+      .ref('presentations')
+      .child(this.props.match.params.presentationID)
+      .child('title')
+    presentRef.on('value', (snapshot) => {
+      const presTitle = snapshot.val()
+      this.setState({ presTitle })
+    })
   }
 
   toggleTimeline() {
@@ -48,27 +60,32 @@ class EditorMain extends Component {
       .ref(`presentations/${presentationID}/slides/${slideID}/type`)
       .once('value', snapshot => {
         slideType = snapshot.val()
-      })
-    console.log('slideType in render ', slideType)
+    })
 
     return (
       <div className="editor-main-container">
         <div className="columns everything-but-timeline">
           <div className="column is-2 sidebar-container">
+            <h1 className="subtitle pres-label-title">Presentation:</h1>
+            <h1 className="title presentation-title">{this.state.presTitle}</h1>
             <SideBar forceRerender={this.forceRerender} />
           </div>
 
           <div className="column">
-            <PropertiesBar />
-
-            <button onClick={this.toggleToPresentMode}>
+            <div className="slide-canvas-container">
+              <SlideCanvas
+                presID={this.props.match.params.presentationID} 
+                slideID={this.state.slideID}
+                slideType={slideType}
+              />
+            </div>
+          </div>
+          
+          <div className="column">
+            <button className="button is-info view-pres-btn"
+              onClick={this.toggleToPresentMode}>
               View Presentation
             </button>
-            <SlideCanvas
-              presID={this.props.match.params.presentationID} 
-              slideID={this.state.slideID}
-              slideType={slideType}
-            />
           </div>
         </div>
 
