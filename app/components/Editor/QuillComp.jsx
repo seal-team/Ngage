@@ -39,6 +39,7 @@ export default class QuillComp extends React.Component {
       .child('slides')
       .child(this.props.slideID)
     slideRef.child('quillContents').set(JSON.stringify(quillContents))
+    slideRef.child('type').set('quill')
     setTimeout(() => { this.setState({saving: ''}) }, 1000)
   }
 

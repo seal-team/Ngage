@@ -9,6 +9,7 @@ class SlideCanvas extends Component {
     this.state = {
       info: null,
       slides: null,
+      type: null,
       counter: 0
     }
     this.submitSlideText = this.submitSlideText.bind(this)
@@ -27,7 +28,7 @@ class SlideCanvas extends Component {
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
       console.log('this is the value', value)
-      this.setState({info: value})
+      this.setState({info: value, type: value.type})
     })
   }
 
@@ -66,13 +67,22 @@ class SlideCanvas extends Component {
  
 
   render() {
-    console.log('counter', this.state.counter)
+    console.log('counter', this.state.type)
+    const type = this.state.type
+    let typeComp = null
+    if (type === 'quill') {
+        typeComp = <QuillComp presID = {this.props.presID} slideID = {this.props.slideID} />
+    } else if (type === 'vr') {
+        typeComp = 'vr'
+    }else {
+        typeComp = 'quiz'
+    }
     const info = this.state.info
     return (
     <div>
      {this.state.slides &&
       <div className="slide-canvas-container">
-        <QuillComp presID = {this.props.presID} slideID = {this.props.slideID} />
+          {typeComp}
         <button disabled={!this.state.counter} onClick={this.toggleBack}>
             Back
         </button>
