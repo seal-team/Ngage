@@ -39,8 +39,7 @@ class ViewerMain extends Component {
         console.log('my slide', this.state.slideID)
         return (
             <div className="viewer-main-container">
-               {
-                   this.state.slideID &&
+               {this.state.slideID &&
                    <div>
                     <div className="section columns slide-and-chat">
                         <div className="slide is-mobile column is-9">
@@ -62,7 +61,7 @@ class ViewerMain extends Component {
                         </div>
                     </div>
                 </div>
-               }
+            }
             </div>
         )
     }
