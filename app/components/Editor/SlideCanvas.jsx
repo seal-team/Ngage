@@ -7,7 +7,8 @@ class SlideCanvas extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      info: null
+      info: null,
+      slideType: ''
     }
     this.submitSlideText = this.submitSlideText.bind(this)
   }
@@ -31,9 +32,18 @@ class SlideCanvas extends Component {
 
   render() {
     const info = this.state.info
+    
+    let slideType = ''
+    firebase.database()
+      .ref(`presentations/${this.props.presID}/slides/${this.props.slideID}/type`)
+      .once('value', snapshot => {
+        slideType = snapshot.val()
+      })
+
+    console.log('slide is type', this.state.slideType)
     return (
       <div className="slide-canvas-container">
-        <QuillComp presID = {this.props.presID} slideID = {this.props.slideID} />
+        <QuillComp presID={this.props.presID} slideID={this.props.slideID} />
       </div>
     )
   }

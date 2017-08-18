@@ -8,7 +8,8 @@ class Timeline extends Component {
     super()
     this.state = {
       slides: null,
-      slidesCount: 0
+      slidesCount: 0,
+      selectedSlide: 0
     }
   }
 
@@ -39,7 +40,6 @@ class Timeline extends Component {
         .child('slides')
 
       const newSlide = slides.push({number: this.state.slidesCount})
-      console.log('newSlide id: ', newSlide.key)
       this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)
     })
 
@@ -53,6 +53,8 @@ class Timeline extends Component {
 
   render() {
     const slides = this.state.slides
+    const currentSlide = this.props.match.params.slideID
+
     return (
       <div>
         <div className="timeline-strip">
@@ -63,9 +65,9 @@ class Timeline extends Component {
           </div>
           
           {slides && Object.keys(slides).map((slide, i) => (
-            <div key={i} className="timeline-slide"
+            <div key={i} className={`timeline-slide`}
               onClick={() => this.selectSlide(slide)}>
-                <text>{slide}</text>
+                <text>Slide #{i + 1}</text>
             </div>
           ))}
 

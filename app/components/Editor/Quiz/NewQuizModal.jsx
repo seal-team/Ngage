@@ -28,7 +28,7 @@ class NewQuizModal extends Component {
     for (let i = 0; i < this.state.numberOfAnswers.length; i++) {
       const answerName = `correct-answer-${i}`, answer = `answer-${i}`
       
-      if (formData[answerName].checked) correctAnswers.push(i)
+      if (formData[answerName].checked) correctAnswers.push(formData[answer].value)
       
       if (!formData[answer].value.length) return alert('Cannot leave answer blank!')
       else answers.push(formData[answer].value)
@@ -48,6 +48,8 @@ class NewQuizModal extends Component {
       answers,
       correctAnswers
     })
+
+    this.props.toggleQuizModal()
   }
 
   setCorrectAnswer(correctAnswer) {
