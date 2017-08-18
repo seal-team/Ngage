@@ -35,7 +35,6 @@ class EditorMain extends Component {
 
   render() {
     const timelineIsHidden = this.state.timelineIsHidden
-    console.log('slideID is now ', this.state.slideID)
     return (
       <div className="editor-main-container">
         <div className="columns everything-but-timeline">

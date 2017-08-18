@@ -11,7 +11,6 @@ class PropertiesBar extends Component {
   }
 
   componentDidMount() {
-    console.log('bar', this.props.match.params.presentationID)
     const presentRef = firebase.database()
       .ref('presentations')
       .child(this.props.match.params.presentationID)

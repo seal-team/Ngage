@@ -17,13 +17,19 @@ class QuillComp extends React.Component {
   }
 
   componentDidMount() {
-    console.log('didMount')
     this.attachQuillRefs()
     this.insertQuill()
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     this.attachQuillRefs()
+    if (this.props.location !== prevProps.location) {
+      this.onRouteChanged()
+    }
+  }
+
+  static propTypes = {
+    location: React.PropTypes.object.isRequired
   }
 
   attachQuillRefs = () => {
@@ -31,14 +37,18 @@ class QuillComp extends React.Component {
     this.quillRef = this.reactQuillRef.getEditor()
   }
 
+  onRouteChanged() {
+    this.insertQuill()
+  }
+
   saveQuill = () => {
     this.setState({saving: 'is-loading'})
     const quillContents = this.quillRef.getContents()
     const slideRef = firebase.database()
       .ref('presentations')
-      .child(this.props.presID)
+      .child(this.props.match.params.presentationID)
       .child('slides')
-      .child(this.props.slideID)
+      .child(this.props.match.params.slideID)
     slideRef.child('quillContents').set(JSON.stringify(quillContents))
     setTimeout(() => { this.setState({saving: ''}) }, 1000)
   }
@@ -46,9 +56,9 @@ class QuillComp extends React.Component {
   insertQuill = () => {
     const slideRef = firebase.database()
       .ref('presentations')
-      .child(this.props.presID)
+      .child(this.props.match.params.presentationID)
       .child('slides')
-      .child(this.props.slideID)
+      .child(this.props.match.params.slideID)
     slideRef.once('value', (snapshot) => {
       const slide = snapshot.val()
       let setSlide=''
@@ -71,7 +81,6 @@ class QuillComp extends React.Component {
   }
 
   render() {
-    this.insertQuill()
     return (
       <div className="text-editor">
         <CustomToolbar saving = {this.state.saving} />
