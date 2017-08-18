@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import firebase from 'firebase'
 
 import QuillViewer from './QuillViewer'
+import QuizViewer from './QuizViewer'
 
 class SlideCanvas extends Component {
   constructor(props) {
@@ -28,7 +29,11 @@ class SlideCanvas extends Component {
     const slide = slides.child(this.props.slideID)
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
-      this.setState({info: value, type: value.type, slideID: this.props.slideID})
+      this.setState({
+        info: value,
+        type: value.type,
+        slideID: this.props.slideID
+      })
     })
   }
 
@@ -46,7 +51,12 @@ class SlideCanvas extends Component {
 
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
-      this.setState({info: value, counter: --this.state.counter, slideID: currSlide})
+      this.setState({
+        info: value,
+        type: value.type,
+        counter: --this.state.counter, 
+        slideID: currSlide
+      })
     })
   }
 
@@ -62,6 +72,7 @@ class SlideCanvas extends Component {
       const value = snapshot.val()
       this.setState({
         info: value,
+        type: value.type,
         counter: ++this.state.counter,
         slideID: currSlide
      })
@@ -71,20 +82,24 @@ class SlideCanvas extends Component {
   render() {
     console.log('slideid', this.state.slideID, this.state.type)
     const type = this.state.type
+
     let typeComp = null
     if (type === 'quill') {
         typeComp = <QuillViewer presID={this.props.presID} slideID={this.state.slideID} />
     } else if (type === 'vr') {
         typeComp = 'vr'
-    } else {
-        typeComp = 'quiz'
+    } else if (type === 'quiz') {
+        typeComp = <QuizViewer presID={this.props.presID} slideID={this.state.slideID} />
     }
+
     const info = this.state.info
     return (
     <div>
      {this.state.slides &&
       <div className="slide-canvas-container">
+        
         {typeComp}
+        
         <button
             disabled={!this.state.counter}
             onClick={this.toggleBack} >
