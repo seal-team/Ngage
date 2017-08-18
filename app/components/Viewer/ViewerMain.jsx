@@ -4,6 +4,7 @@ import SlideCanvas from './SlideCanvas'
 import Chat from './chat'
 import Scratchpad from './scratchpad'
 import firebase from 'firebase'
+import { connect } from 'react-redux'
 // const sectionStyle = {
 //   width: '100%',
 //   height: '100%',
@@ -52,7 +53,7 @@ class ViewerMain extends Component {
                     <div className="scratchpad-and-graph section columns">
                         <div className="slide is-mobile column is-9">
                             this is scratchpad
-                        <Scratchpad presentationID={this.state.presentationID} />
+                        <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
                         </div>
                         <div className="graph is-mobile column is-3">
                             this is graph
@@ -65,4 +66,10 @@ class ViewerMain extends Component {
         )
     }
 }
-export default withRouter(ViewerMain)
+
+const mapState = (state) => ({
+    user: state.user
+})
+
+
+export default withRouter(connect(mapState)(ViewerMain))
