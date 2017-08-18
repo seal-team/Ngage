@@ -53,28 +53,28 @@ class SideBar extends Component {
     return (
       <div>
         {this.state.mediaModal && 
-          <MediaModal handleModal={this.handleMediaModal} 
-            handleUpdateModal={this.handleUpdateModal} 
-            uid={this.state.uid} 
-            history={this.props.history} 
-            mediaType={this.state.mediaType} 
+          <MediaModal handleModal={this.handleMediaModal}
+            handleUpdateModal={this.handleUpdateModal}
+            uid={this.state.uid}
+            history={this.props.history}
+            mediaType={this.state.mediaType}
           />
         }
 
         {(this.state.mediaType === 'VR')
-          ? (this.state.updateModal && 
+          ? (this.state.updateModal &&
               <VRUploader
-                handleUpdateModal={this.handleUpdateModal} 
-                uid={this.state.uid} 
+                handleUpdateModal={this.handleUpdateModal}
+                uid={this.state.uid}
                 history={this.props.history} 
-                mediaType={this.state.mediaType} 
+                mediaType={this.state.mediaType}
               />)
           : (this.state.updateModal && 
               <Uploader
-                handleUpdateModal={this.handleUpdateModal} 
-                uid={this.state.uid} 
+                handleUpdateModal={this.handleUpdateModal}
+                uid={this.state.uid}
                 history={this.props.history} 
-                mediaType={this.state.mediaType} 
+                mediaType={this.state.mediaType}
               />)
         }
 
