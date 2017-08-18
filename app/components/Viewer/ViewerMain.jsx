@@ -13,83 +13,84 @@ import Graph from './Graph'
 // }
 
 class ViewerMain extends Component {
-    constructor() {
-        super()
-        this.state = {
-            presentationID: '',
-            slideID: '',
-            owner: "",
-            user: "",
-            disabled: true
-        }
+  constructor() {
+    super()
+    this.state = {
+      presentationID: '',
+      slideID: '',
+      owner: "",
+      user: "",
+      disabled: true
     }
+  }
+  
+  componentDidMount(props) {
+    const presentationID = this.props.match.params.presentationID
 
-    componentDidMount(props) {
-        const presentationID = this.props.match.params.presentationID
+    const owner = firebase.database()
+      .ref('presentations')
+      .child('userID')
+    owner.on('value', snapshot => {
+      const creator = snapshot.val()
+      this.setState({ owner: creator, user: this.props.user })
+    })
 
-        const owner = firebase.database()
-            .ref('presentations')
-            .child('userID')
-        owner.on('value', snapshot => {
-            const creator = snapshot.val()
-            this.setState({owner: creator, user: this.props.user})
-        })
+    const slides = firebase.database()
+      .ref('presentations')
+      .child(presentationID)
+      .child('slides')
 
-        const slides = firebase.database()
-            .ref('presentations')
-            .child(presentationID)
-            .child('slides')
+    slides.on('value', snapshot => {
+      const value = snapshot.val()
+      const firstSlide = Object.keys(value)[0]
+      this.setState({ presentationID, slideID: firstSlide })
+    })
 
-        slides.on('value', snapshot => {
-            const value = snapshot.val()
-            const firstSlide = Object.keys(value)[0]
-            this.setState({ presentationID, slideID: firstSlide })
-        })
-        if (this.state.owner === this.state.user) {
-            this.setState({ disabled: false })
-        }
+    if (this.state.owner === this.state.user) {
+      this.setState({ disabled: false })
     }
+  }
 
-    render() {
-        const disabled = this.state.disabled
-        console.log('my slide', this.state.slideID)
-        return (
-            <div className="viewer-main-container">
-               {this.state.slideID &&
-                   <div>
-                    <div className="section columns slide-and-chat">
-                        <div className="slide is-mobile column is-9">
-                            <SlideCanvas
-                                presID={this.props.match.params.presentationID}
-                                slideID={this.state.slideID}
-                                disabled={disabled}
-                            />
-                        </div>
-                        <div className="chat is-mobile column is-3">
-                            <strong>ChatBox</strong>
-                            <Chat presentationID={this.state.presentationID} />
-                        </div>
-                    </div>
-                    <div className="scratchpad-and-graph section columns">
-                        <div className="slide is-mobile column is-9">
-                            this is scratchpad
-                        <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
-                        </div>
-                        <div className="graph is-mobile column is-3">
-                            this is graph
-                         <Graph />
-                        </div>
-                    </div>
-                </div>
-            }
+  render() {
+    const disabled = this.state.disabled
+
+    return (
+      <div className="viewer-main-container">
+        {this.state.slideID &&
+          <div>
+            <div className="section columns slide-and-chat">
+              <div className="slide is-mobile column is-9">
+                <SlideCanvas 
+                  presID={this.props.match.params.presentationID}
+                  slideID={this.state.slideID}
+                  disabled={disabled}
+                />
+              </div>
+              <div className="chat is-mobile column is-3">
+                <strong>ChatBox</strong>
+                <Chat presentationID={this.state.presentationID} />
+              </div>
             </div>
-        )
-    }
+
+            <div className="scratchpad-and-graph section columns">
+              <div className="slide is-mobile column is-9">
+                this is scratchpad
+                <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
+              </div>
+              <div className="graph is-mobile column is-3">
+                this is graph
+                <Graph /> 
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    )
+  }
 }
 
 const mapState = (state) => ({
-    user: state.user
+  user: state.user
 })
-
 
 export default withRouter(connect(mapState)(ViewerMain))
