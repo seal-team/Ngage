@@ -7,7 +7,7 @@ import WhoAmI from './WhoAmI'
 const Home = () => (
   <div className="columns">
     <div className="column"></div>
-    
+
     <div className="column">
       <h1 className="title is-two-quarters welcome">Welcome to nGage.</h1>
       <p className="subtitle description">A platform for creating<br />
@@ -15,7 +15,7 @@ const Home = () => (
       </p>
       <WhoAmI />
     </div>
-    
+
     <div className="column"></div>
   </div>
 )

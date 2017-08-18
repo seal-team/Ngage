@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 
 import SlideCanvas from './SlideCanvas'
 import PropertiesBar from './PropertiesBar'
@@ -10,8 +11,11 @@ class EditorMain extends Component {
     super(props)
 
     this.state = {
-      timelineIsHidden: false
+      timelineIsHidden: false,
+      presentationID: 'default',
+      slideID: 'default'
     }
+
     this.toggleTimeline = this.toggleTimeline.bind(this)
   }
 
@@ -21,9 +25,16 @@ class EditorMain extends Component {
     })
   }
 
+  toggleToPresentMode = () => {
+    this.props.history.push(`/view/${this.props.match.params.presentationID}`)
+  }
+
+  selectSlide = slideID => {
+    this.setState({ slideID })
+  }
+
   render() {
     const timelineIsHidden = this.state.timelineIsHidden
-    
     return (
       <div className="editor-main-container">
         <div className="columns everything-but-timeline">
@@ -33,7 +44,11 @@ class EditorMain extends Component {
 
           <div className="column">
             <PropertiesBar />
-            <SlideCanvas />
+
+            <button onClick={this.toggleToPresentMode}>
+              View Presentation
+            </button>
+            <SlideCanvas presID={this.props.match.params.presentationID} slideID={this.state.slideID}/>
           </div>
         </div>
 
@@ -48,7 +63,10 @@ class EditorMain extends Component {
 
         {timelineIsHidden
           ? <div className="timeline-pad"></div>
-          : <Timeline />
+          : <Timeline
+              selectSlide={this.selectSlide}
+              presID={this.props.match.params.presentationID}
+            />
         }
 
       </div>
@@ -56,4 +74,4 @@ class EditorMain extends Component {
   }
 }
 
-export default EditorMain
+export default withRouter(EditorMain)

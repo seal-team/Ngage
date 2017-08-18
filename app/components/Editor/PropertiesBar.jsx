@@ -1,17 +1,35 @@
 import React, { Component } from 'react'
+import {withRouter} from 'react-router-dom'
+import firebase from 'APP/fire'
 
 class PropertiesBar extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      title: ''
+    }
+  }
+
+  componentDidMount() {
+    const presentRef = firebase.database()
+      .ref('presentations')
+      .child(this.props.match.params.presentationID)
+      .child('title')
+    presentRef.on('value', (snapshot) => {
+      const title = snapshot.val()
+      this.setState({title})
+    })
   }
 
   render() {
     return (
-      <div className="properties-bar-container">
-
+      <div className="">
+        <div className="button is-primary">
+          <span className="sidebar-category"> {this.state.title} </span>
+        </div>
       </div>
     )
   }
 }
 
-export default PropertiesBar
+export default withRouter(PropertiesBar)
