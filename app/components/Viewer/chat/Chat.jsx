@@ -52,6 +52,7 @@ export default ignite(withAuth(class extends React.Component {
   // we need to attach jquery stuff.
 
   render() {
+    console.log('disabled?', this.props.disabled)
     const { user, snapshot, asEntries, presentationID } = this.props
       , messages = asEntries(snapshot)
     return <div>
