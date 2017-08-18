@@ -66,7 +66,9 @@ class SideBar extends Component {
         }
 
         {this.state.quizModal &&
-          <NewQuizModal toggleQuizModal={this.toggleQuizModal} />
+          <NewQuizModal
+            toggleQuizModal={this.toggleQuizModal}
+          />
         }
 
         <div className="sidebar-whole">

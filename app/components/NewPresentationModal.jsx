@@ -37,7 +37,11 @@ class NewPresentationModal extends Component {
     // set it as the active one
     usersRef.child('activePresentation').set(newPresentKey)
     // add a slide
-    const newSlide = presentationsRef.child(newPresentKey).child('slides').push({ number: 0 })
+    const newSlide = presentationsRef
+      .child(newPresentKey)
+      .child('slides')
+      .push({ number: 0, type: 'quill' })
+    
     const newSlideKey = newSlide.key
 
     this.setState({ newPresentation: '' })

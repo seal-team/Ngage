@@ -63,6 +63,7 @@ class NewQuizModal extends Component {
 
   render() {
     const exampleAnswers = ['New York', 'Mexico City', 'Los Angeles', 'Quebec', 'Chicago', 'Boston']
+
     return (
       <div className="modal is-active">
         <div className="modal-background"></div>
