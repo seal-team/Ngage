@@ -59,27 +59,27 @@ class ViewerMain extends Component {
         {this.state.slideID &&
           <div>
             <div className="section columns slide-and-chat">
-              <div className="slide is-mobile column is-9">
+              <div className="slide column">
                 <SlideCanvas 
                   presID={this.props.match.params.presentationID}
                   slideID={this.state.slideID}
                   disabled={disabled}
                 />
               </div>
-              <div className="chat is-mobile column is-3">
-                <strong>ChatBox</strong>
+              <div className="chat column is-3">
+                <h3 className="chat-title">Chat</h3>
                 <Chat presentationID={this.state.presentationID} />
               </div>
             </div>
 
             <div className="scratchpad-and-graph section columns">
-              <div className="slide is-mobile column is-9">
-                this is scratchpad
+              <div className="slide column">
+                <h3 className="notes-title">Your Notes</h3>
                 <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
               </div>
-              <div className="graph is-mobile column is-3">
-                this is graph
-                <Graph /> 
+              <div className="graph column is-3">
+                <h3 className="graph-title">Quiz results</h3>
+                {/* <Graph /> */}
               </div>
             </div>
           </div>

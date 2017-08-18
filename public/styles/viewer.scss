@@ -1,11 +1,35 @@
+.viewer-main-container {
+  background-color: rgb(108, 108, 108);
+}
+
 //----------------------
-// ------ Slide Canvas ------
+// ---- Slide Canvas ---
 //----------------------
+.slide-canvas-container {
+  position: relative;
+}
+
 .slide-and-chat {
   padding: 0px;
 }
 
-.prev-slide-btn 
+.circle-btn {
+  border-radius: 25%;
+}
+
+.prev-btn-container {
+  position: absolute;
+  top: 45%;
+  left: 5%;
+  width: 100%;
+}
+
+.next-btn-container {
+ position: absolute;
+ top: 45%;
+ left: 90%;
+ width: 100%;
+}
 
 //----------------------
 // ------ Quizes ------
