@@ -7,7 +7,6 @@ import VRUploader from './Media/VRUploader'
 import Uploader from './Media/Uploader'
 import NewQuizModal from './Quiz/NewQuizModal'
 
-
 class SideBar extends Component {
   constructor(props) {
     super(props)
@@ -20,21 +19,15 @@ class SideBar extends Component {
       quizModal: false
     }
 
-    this.toggleAcitveTab = this.toggleAcitveTab.bind(this)
-    this.handleMediaModal = this.handleMediaModal.bind(this)
-    this.handleUpdateModal = this.handleUpdateModal.bind(this)
     this.toggleQuizModal = this.toggleQuizModal.bind(this)
   }
 
-  handleMediaModal(mediaType) {
-    this.setState({ mediaType })
+  handleMediaModal = (e) => {
     this.setState({ mediaModal: !this.state.mediaModal })
   }
-
-  handleUpdateModal() {
+  handleUpdateModal = (e) => {
     this.setState({ updateModal: !this.state.updateModal })
   }
-
   toggleQuizModal() {
     this.setState({ quizModal: !this.state.quizModal })
   }
@@ -77,13 +70,6 @@ class SideBar extends Component {
                 history={this.props.history} 
                 mediaType={this.state.mediaType}
               />)
-        }
-
-        {this.state.updateModal &&
-          <Uploader
-            handleUpdateModal={this.handleUpdateModal}
-            mediaType={mediaType}
-          />
         }
 
         {this.state.quizModal &&
@@ -135,15 +121,15 @@ class SideBar extends Component {
             {activeTab[2] &&
               <div className="sidebar-media-options options-container">
                 <button className="button is-primary"
-                  onClick={() => this.handleMediaModal('Audio')}>
+                onClick={() => { this.handleMediaModal(); this.setState({ mediaType: 'Audio' }) }}>
                     Audio
                 </button>
                 <button className="button is-primary"
-                  onClick={() => this.handleMediaModal('Video')}>
+                onClick={() => { this.handleMediaModal(); this.setState({ mediaType: 'Video' }) }}>
                     Video
                 </button>
                 <button className="button is-primary"
-                  onClick={() => this.handleMediaModal('VR')}>
+                onClick={() => { this.handleMediaModal(); this.setState({ mediaType: 'VR' }) }}>
                     VR
                 </button>
               </div>
