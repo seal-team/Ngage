@@ -17,16 +17,22 @@ class NewQuizModal extends Component {
 
   submitNewQuiz(evt) {
     evt.preventDefault()
-    console.log('Submitting new quiz...', evt.target)
 
     const formData = evt.target
-    console.log('\n\nquestion is  ', formData.question.value)
+    const question = formData.question.value
+    if (!question.length) return alert('Cannot leave question blank!')
 
-    // let correctAnswer = 0
-    // for (let i = 0; i < this.state.numberOfAnswers.length; i++) {
-    //   const answerName = `correct-answer-${i + 1}`
-    //   if (formData.answerName.checked) correctAnswer = i
-    // }
+    let answers = [], correctAnswers = []
+    for (let i = 0; i < this.state.numberOfAnswers.length; i++) {
+      const answerName = `correct-answer-${i}`, answer = `answer-${i}`
+      
+      if (formData[answerName].checked) correctAnswers.push(i)
+      
+      if (!formData[answer].value.length) return alert('Cannot leave answer blank!')
+      else answers.push(formData[answer].value)
+    }
+    if (!correctAnswers.length) return alert('Must select at least one correct answer!')
+
   }
 
   setCorrectAnswer(correctAnswer) {
@@ -80,7 +86,7 @@ class NewQuizModal extends Component {
                   <h1 className="subtitle correct-answer-title">
                     Select<br />
                     Correct<br />
-                    Answer
+                    Answer(s)
                   </h1>
                 </div>
 
@@ -91,14 +97,14 @@ class NewQuizModal extends Component {
                       <div className="control">
                         <input className="input answer-input"
                           type="text"
-                          name={`answer-${i + 1}`}
+                          name={`answer-${i}`}
                           placeholder={`ex. ${exampleAnswers[i]}`}
                         />
                       </div>
 
                       <div className="control"
                         onClick={() => this.setCorrectAnswer(i + 1)}>
-                        <input type="radio" name={`correct-answer-${i + 1}`} />
+                        <input type="checkbox" name={`correct-answer-${i}`} />
                       </div>
                     </div>
                   </div>
