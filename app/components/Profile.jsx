@@ -81,11 +81,11 @@ class Profile extends Component {
                             <i className="fa fa-edit"></i>
                           </span>
                         </a>
-                        <a onClick={() => this.handleLink('view', `${item.id}`)} className="button is-small">
+                        <Link to={`/view/${item.id}`} className="button is-small">
                           <span className="icon is-small">
                             <i className="fa fa-eye"></i>
                           </span>
-                        </a>
+                        </Link>
                       </span>
                       {item.title}
                     </li>
