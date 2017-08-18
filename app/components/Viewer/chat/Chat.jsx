@@ -42,11 +42,14 @@ export default ignite(withAuth(class extends React.Component {
     if (!user) {
       return <span>You must be logged in to send messages.</span>
     }
-    return <form onSubmit={this.sendMessage}>
-      <FireInput fireRef={nickname(user.uid)} />
-      <input className="column is-12" name='body' />
-      <input type='submit' id='sDiv1' />
-    </form>
+    return (
+      <form className="chat-form"
+        onSubmit={this.sendMessage}>
+          <FireInput fireRef={nickname(user.uid)} />
+          <input className="column is-12" name='body' />
+          <input type='submit' id='sDiv1' />
+      </form>
+    )
   }
   // We need to get this auto scroll to work.
   // we need to attach jquery stuff.
@@ -60,6 +63,7 @@ export default ignite(withAuth(class extends React.Component {
           messages.map(({ key, fireRef }) => <ChatMessage key={key} fireRef={fireRef} />)
         } </div>
       </Scrollbars>
+
       {this.renderSendMsg(user)}
     </div >
   }

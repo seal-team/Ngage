@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import firebase from 'firebase'
+
 import SlideCanvas from './SlideCanvas'
 import Chat from './chat'
 import Scratchpad from './scratchpad'
-import firebase from 'firebase'
-import { connect } from 'react-redux'
 import Graph from './Graph'
 // const sectionStyle = {
 //   width: '100%',
@@ -66,9 +67,11 @@ class ViewerMain extends Component {
                   disabled={disabled}
                 />
               </div>
-              <div className="chat column is-3">
+              <div className="chat-super-container column">
                 <h3 className="chat-title">Chat</h3>
-                <Chat presentationID={this.state.presentationID} />
+                <div className="chat-container">
+                    <Chat presentationID={this.state.presentationID} />
+                </div>
               </div>
             </div>
 
@@ -77,9 +80,9 @@ class ViewerMain extends Component {
                 <h3 className="notes-title">Your Notes</h3>
                 <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
               </div>
-              <div className="graph column is-3">
+              <div className="graph-container column is-3">
                 <h3 className="graph-title">Quiz results</h3>
-                {/* <Graph /> */}
+                <Graph />
               </div>
             </div>
           </div>
