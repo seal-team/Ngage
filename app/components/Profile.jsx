@@ -93,7 +93,7 @@ class Profile extends Component {
                                   Edit<i className="fa fa-edit profile-icon"></i>
                                 </span>
                             </a>
-                            <Link to={`/view/${item.id}`} className="button is-small">
+                            <Link to={`/view/${item.id}`}
                               className="button is-small profile-btn">
                                 <span className="icon">
                                   View<i className="fa fa-eye profile-icon"></i>
