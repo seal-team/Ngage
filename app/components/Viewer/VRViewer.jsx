@@ -4,7 +4,7 @@ import firebase from 'APP/fire'
 import {Entity, Scene} from 'aframe-react'
 import ReactDOM from 'react-dom'
 
-class VRCanvas extends Component {
+class VRViewer extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -159,4 +159,4 @@ class VRCanvas extends Component {
     )
   }
 }
-export default withRouter(VRCanvas)
+export default withRouter(VRViewer)

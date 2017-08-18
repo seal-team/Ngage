@@ -7,15 +7,15 @@ is Modal for uploading different medias
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import firebase from 'APP/fire'
-import VRCanvas from './VRCanvas'
 
 class MediaModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
       allMediaObject: {},
-      testingarray: ['https://firebasestorage.googleapis.com/v0/b/ngage-fae7f.appspot.com/o/VR%2Faudioptimised02.obj?alt=media&token=aed2511d-4244-4f37-8a70-0363a6212521',
-        'https://firebasestorage.googleapis.com/v0/b/ngage-fae7f.appspot.com/o/VR%2Fstandard-male-figure.mtl?alt=media&token=4d08b407-a866-4edc-97e6-150d2262872e']
+      urlArray: ['https://firebasestorage.googleapis.com/v0/b/ngage-fae7f.appspot.com/o/VR%2Faudioptimised02.obj?alt=media&token=aed2511d-4244-4f37-8a70-0363a6212521',
+        'https://firebasestorage.googleapis.com/v0/b/ngage-fae7f.appspot.com/o/VR%2Fstandard-male-figure.mtl?alt=media&token=4d08b407-a866-4edc-97e6-150d2262872e'],
+      mediaUrl: ''
     }
   }
 
@@ -29,22 +29,45 @@ class MediaModal extends Component {
         this.setState({ allMediaObject: snapshot.val() })
       })
   }
+  setSelectedItemToState = (media) => {
+    media.url2 ? (this.setState({urlArray: [media.url, media.url2]})) : (this.setState({mediaUrl: media.url}))
+  }
+
   createVRSlide=() => {
-    const VRurl = testingarray;
-    const { presentationID, slideID } = this.props.match.params;
+    const VRurl = this.state.urlArray
+    const { presentationID, slideID } = this.props.match.params
     const slideRef = firebase.database()
       .ref('presentations')
       .child(presentationID)
       .child('slides')
       .child(slideID)
-
     slideRef.child('type').set(`${this.props.mediaType}`)
-
     slideRef.child(`${this.props.mediaType}-contents`).set({
       VRurl
     })
   }
-
+  createMedia = () => {
+    const mediaUrl = this.state.mediaUrl
+    const { presentationID, slideID } = this.props.match.params
+    const slideRef = firebase.database()
+      .ref('presentations')
+      .child(presentationID)
+      .child('slides')
+      .child(slideID)
+    slideRef.child('type')
+      .set(`${this.props.mediaType}`)
+    slideRef.child(`${this.props.mediaType}-contents`)
+      .set({mediaUrl})
+  }
+  renderTypeOfMedia = () => {
+    if (this.props.mediaType ==='VR') {
+      this.props.handleModal()
+      this.createVRSlide()
+    } else {
+      this.props.handleModal()
+      this.createMedia()
+    }
+  }
   render() {
     const allMediaObject = this.state.allMediaObject
     const keys = Object.keys(allMediaObject)
@@ -54,7 +77,6 @@ class MediaModal extends Component {
     for (let i = 0; i < keys.length; i++) {
       displayArray.push(allMediaObject[keys[i]])
     }
-    console.log(displayArray)
     return (
       <div className='modal is-active'>
         <div className="modal-background"></div>
@@ -68,7 +90,8 @@ class MediaModal extends Component {
                   {
                     displayArray.map((media) =>
                     <div key = {media.url} className='column is-one-third'>
-                      <a href={`${media.url}`}>{media.description}<br />{media.name} <hr></hr> </a>
+                      <a onClick={() => this.setSelectedItemToState(media)} >
+                        {media.description}<br />{media.name} <hr></hr> </a>
                     </div>
                     )
                   }
@@ -77,16 +100,16 @@ class MediaModal extends Component {
             <hr></hr>
               <div className="margin-top-sm">
                 <button className="button is-primary"
-                  onClick={this.createTable} >Create
-                          </button>
+                  onClick={() => this.renderTypeOfMedia()} >Create
+                </button>
                 <span> </span>
                 <button className="button is-primary"
                   onClick={() => { { this.props.handleModal() }; { this.props.handleUpdateModal() } }}>Upload
-                          </button>
+                </button>
                 <span> </span>
                 <button className="button"
                   onClick={() => { this.props.handleModal() }}> Close
-                          </button>
+                </button>
               </div>
             </div>
           </section>

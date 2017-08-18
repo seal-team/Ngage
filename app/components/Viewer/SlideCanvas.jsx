@@ -87,7 +87,7 @@ class SlideCanvas extends Component {
     if (type === 'quill') {
         typeComp = <QuillViewer presID={this.props.presID} slideID={this.state.slideID} />
     } else if (type === 'vr') {
-        typeComp = 'vr'
+        // typeComp = <VRViewer presID={this.props.presID} slideID={this.state.slideID} />
     } else if (type === 'quiz') {
         typeComp = <QuizViewer presID={this.props.presID} slideID={this.state.slideID} />
     }
