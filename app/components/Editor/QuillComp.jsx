@@ -44,12 +44,16 @@ class QuillComp extends React.Component {
   saveQuill = () => {
     this.setState({saving: 'is-loading'})
     const quillContents = this.quillRef.getContents()
+
     const slideRef = firebase.database()
       .ref('presentations')
       .child(this.props.match.params.presentationID)
       .child('slides')
       .child(this.props.match.params.slideID)
+    
+    slideRef.child('type').set('quill')
     slideRef.child('quillContents').set(JSON.stringify(quillContents))
+    
     setTimeout(() => { this.setState({saving: ''}) }, 1000)
   }
 

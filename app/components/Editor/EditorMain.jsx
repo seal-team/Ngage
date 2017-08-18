@@ -60,6 +60,7 @@ class EditorMain extends Component {
             </span>
           </div>
         </div>
+
         {timelineIsHidden
           ? <div className="timeline-pad"></div>
           : <Timeline
