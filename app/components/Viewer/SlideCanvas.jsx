@@ -70,7 +70,7 @@ class SlideCanvas extends Component {
     const type = this.state.type
     let typeComp = null
     if (type === 'quill') {
-        typeComp = <QuillComp presID = {this.props.presID} slideID = {this.props.slideID} />
+        typeComp = <QuillViewer presID={this.props.presID} slideID={this.props.slideID} />
     } else if (type === 'vr') {
         typeComp = 'vr'
     }else {
@@ -81,7 +81,7 @@ class SlideCanvas extends Component {
     <div>
      {this.state.slides &&
       <div className="slide-canvas-container">
-        <QuillViewer presID = {this.props.presID} slideID = {this.props.slideID} />
+        {typeComp}
         <button disabled={!this.state.counter} onClick={this.toggleBack}>
             Back
         </button>
