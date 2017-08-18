@@ -11,7 +11,6 @@ class PropertiesBar extends Component {
   }
 
   componentDidMount() {
-    console.log('bar', this.props.match.params.presentationID)
     const presentRef = firebase.database()
       .ref('presentations')
       .child(this.props.match.params.presentationID)
@@ -25,7 +24,7 @@ class PropertiesBar extends Component {
   render() {
     return (
       <div className="">
-        <div className="button is-primary sidebar-btn">
+        <div className="button is-primary">
           <span className="sidebar-category"> {this.state.title} </span>
         </div>
       </div>

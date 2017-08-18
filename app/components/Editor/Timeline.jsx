@@ -8,7 +8,8 @@ class Timeline extends Component {
     super()
     this.state = {
       slides: null,
-      slidesCount: 0
+      slidesCount: 0,
+      selectedSlide: 0
     }
   }
 
@@ -24,7 +25,7 @@ class Timeline extends Component {
     })
   }
 
-  handleSubmit = (e) => {
+  makeNewSlide = (e) => {
     e.preventDefault()
     const activePresentation = firebase.database()
       .ref('users')
@@ -38,18 +39,22 @@ class Timeline extends Component {
         .child(value)
         .child('slides')
 
-      slides.push({number: this.state.slidesCount})
+      const newSlide = slides.push({number: this.state.slidesCount})
+      this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)
     })
 
     this.setState({ slidesCount: this.state.slidesCount++ })
   }
 
-  handleClick = (slide) => {
+  selectSlide = (slide) => {
+    this.props.selectSlide(slide)
     this.props.history.push(`/edit/${this.props.presID}/slide/${slide}`)
   }
 
   render() {
     const slides = this.state.slides
+    const currentSlide = this.props.match.params.slideID
+
     return (
       <div>
         <div className="timeline-strip">
@@ -58,18 +63,16 @@ class Timeline extends Component {
               <i className="fa fa-chevron-circle-left"></i>
             </span>
           </div>
-          {
-            slides && Object.keys(slides).map((slide, i) => {
-              return (
-                <div className="timeline-slide" key={i} onClick={() => this.handleClick(slide)}>
-                  <text>{slide}</text>
-                </div>
-              )
-            })
-          }
+          
+          {slides && Object.keys(slides).map((slide, i) => (
+            <div key={i} className={`timeline-slide`}
+              onClick={() => this.selectSlide(slide)}>
+                <text>Slide #{i + 1}</text>
+            </div>
+          ))}
 
           <div className="plus-slide-btn"
-            onClick={this.handleSubmit}>
+            onClick={this.makeNewSlide}>
             <span className="icon">
               <i className="fa fa-plus-square-o"></i>
             </span>

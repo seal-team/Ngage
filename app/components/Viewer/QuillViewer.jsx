@@ -5,14 +5,10 @@ import firebase from 'APP/fire'
 import ReactQuill, { Quill, Mixin, Toolbar } from 'react-quill'
 import theme from 'react-quill/dist/quill.snow.css'
 
-import CustomToolbar from './CustomToolbar'
-
 class QuillComp extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      editorHtml: '',
-      saving: '',
     }
   }
 
@@ -23,13 +19,6 @@ class QuillComp extends React.Component {
 
   componentDidUpdate(prevProps) {
     this.attachQuillRefs()
-    if (this.props.location !== prevProps.location) {
-      this.onRouteChanged()
-    }
-  }
-
-  static propTypes = {
-    location: React.PropTypes.object.isRequired
   }
 
   attachQuillRefs = () => {
@@ -37,42 +26,18 @@ class QuillComp extends React.Component {
     this.quillRef = this.reactQuillRef.getEditor()
   }
 
-  onRouteChanged() {
-    this.insertQuill()
-  }
-
-  saveQuill = () => {
-    this.setState({saving: 'is-loading'})
-    const quillContents = this.quillRef.getContents()
-
-    const slideRef = firebase.database()
-      .ref('presentations')
-      .child(this.props.match.params.presentationID)
-      .child('slides')
-      .child(this.props.match.params.slideID)
-    
-    slideRef.child('type').set('quill')
-    slideRef.child('quillContents').set(JSON.stringify(quillContents))
-    
-    setTimeout(() => { this.setState({saving: ''}) }, 1000)
-  }
-
   insertQuill = () => {
     const slideRef = firebase.database()
       .ref('presentations')
       .child(this.props.match.params.presentationID)
       .child('slides')
-      .child(this.props.match.params.slideID)
+      .child(this.props.slideID)
     slideRef.once('value', (snapshot) => {
       const slide = snapshot.val()
       let setSlide=''
       if (slide && slide.quillContents) setSlide = JSON.parse(slide.quillContents)
       this.quillRef.setContents(setSlide)
     })
-  }
-
-  handleChange= (html) => {
-    this.setState({ editorHtml: html })
   }
 
   modules = {
@@ -87,12 +52,11 @@ class QuillComp extends React.Component {
   render() {
     return (
       <div className="text-editor">
-        <CustomToolbar saving = {this.state.saving} />
         <ReactQuill
           ref={(el) => { this.reactQuillRef = el }}
           onChange={this.handleChange}
           placeholder={this.props.placeholder}
-          modules={this.modules}
+          readOnly='true'
           formats={QuillComp.formats}
           theme={'snow'}
         >

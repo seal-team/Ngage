@@ -11,8 +11,11 @@ class EditorMain extends Component {
     super(props)
 
     this.state = {
-      timelineIsHidden: false
+      timelineIsHidden: false,
+      presentationID: 'default',
+      slideID: 'default'
     }
+
     this.toggleTimeline = this.toggleTimeline.bind(this)
   }
 
@@ -24,6 +27,10 @@ class EditorMain extends Component {
 
   toggleToPresentMode = () => {
     this.props.history.push(`/view/${this.props.match.params.presentationID}`)
+  }
+
+  selectSlide = slideID => {
+    this.setState({ slideID })
   }
 
   render() {
@@ -39,9 +46,9 @@ class EditorMain extends Component {
             <PropertiesBar />
 
             <button onClick={this.toggleToPresentMode}>
-              +++++
+              View Presentation
             </button>
-            <SlideCanvas presID={this.props.match.params.presentationID} slideID={this.props.match.params.slideID}/>
+            <SlideCanvas presID={this.props.match.params.presentationID} slideID={this.state.slideID}/>
           </div>
         </div>
 
@@ -53,9 +60,13 @@ class EditorMain extends Component {
             </span>
           </div>
         </div>
+
         {timelineIsHidden
           ? <div className="timeline-pad"></div>
-          : <Timeline presID={this.props.match.params.presentationID}/>
+          : <Timeline
+              selectSlide={this.selectSlide}
+              presID={this.props.match.params.presentationID}
+            />
         }
 
       </div>
