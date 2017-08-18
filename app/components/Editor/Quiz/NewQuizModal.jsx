@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import firebase from 'APP/fire'
 
 class NewQuizModal extends Component {
   constructor(props) {
@@ -33,6 +35,19 @@ class NewQuizModal extends Component {
     }
     if (!correctAnswers.length) return alert('Must select at least one correct answer!')
 
+    const slideRef = firebase.database()
+      .ref('presentations')
+      .child(this.props.match.params.presentationID)
+      .child('slides')
+      .child(this.props.match.params.slideID)
+
+    slideRef.child('type').set('quiz')
+
+    slideRef.child('quiz-contents').set({
+      question,
+      answers,
+      correctAnswers
+    })
   }
 
   setCorrectAnswer(correctAnswer) {
@@ -135,4 +150,4 @@ class NewQuizModal extends Component {
   }
 }
 
-export default NewQuizModal
+export default withRouter(NewQuizModal)
