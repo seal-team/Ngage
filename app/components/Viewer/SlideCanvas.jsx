@@ -100,18 +100,22 @@ class SlideCanvas extends Component {
         
         {typeComp}
         
-        <button
+        <button className="prev-slide-btn"
             disabled={!this.state.counter || this.props.disabled}
             onClick={this.toggleBack} >
-            Back
+            <span className="icon">
+              <i className="fa fa-chevron-circle-left"></i>
+            </span>
         </button>
-        <button
+        <button className="next-slide-btn"
             disabled={
                 (this.state.counter === (Object.keys(this.state.slides).length -1)) ||
                 this.props.disabled
             }
             onClick={this.toggleFoward}>
-            Next
+            <span className="icon">
+              <i className="fa fa-chevron-circle-right"></i>
+            </span>
         </button >
       </div>}
     </div>
