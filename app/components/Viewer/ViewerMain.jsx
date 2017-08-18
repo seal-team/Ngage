@@ -5,6 +5,7 @@ import Chat from './chat'
 import Scratchpad from './scratchpad'
 import firebase from 'firebase'
 import { connect } from 'react-redux'
+import Graph from './Graph'
 // const sectionStyle = {
 //   width: '100%',
 //   height: '100%',
@@ -57,7 +58,7 @@ class ViewerMain extends Component {
                         </div>
                         <div className="graph is-mobile column is-3">
                             this is graph
-                        {/* <Graph /> */}
+                         <Graph /> 
                         </div>
                     </div>
                 </div>
