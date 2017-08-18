@@ -76,7 +76,6 @@ class VRUploader extends Component {
             uid: this.props.user,
             description,
           }
-          console.log('firstfile newMediaKey', newMediaKey)
           firebase.database().ref('Media')
             .child('VR')
             .child(newMediaKey)
@@ -95,7 +94,6 @@ class VRUploader extends Component {
             const downloadUrl2 = task2.snapshot.downloadURL
             const updatepath = ('Media/VR/' + newMediaKey)
             const newMediaData2 = { url2: downloadUrl2 }
-            console.log('its hitting this', newMediaKey)
             firebase.database().ref('Media')
             .child('VR')
             .child(newMediaKey)
@@ -103,43 +101,8 @@ class VRUploader extends Component {
         }
     )
   }
-//   submitSecondFile = () => {
-//     const uploader = document.getElementById('upload2')
-//     const file = this.state.file2
-//     const file1 = this.state.file
-//     const description = this.state.mediaDescription
-//     console.log('this is the description', this.state.mediaDescription)
-//     console.log('lets see what the file is', file)
-//     const storageRef = firebase.storage().ref('/' + this.props.mediaType + '/' + file.name)
-//     const task = storageRef.put(file)
-//     task.on('state_changed',
-//         function progress(snapshot) {
-//           const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-//           uploader.value = percentage
-//         },
-//         function error(err) {
-//         },
-//         () => {
-//           const downloadUrl = task.snapshot.downloadURL
-//           const newMediaKey = firebase.database().ref().child(file1.name.split('.')[0] + '/').push().key
-//           console.log('THIS IS THE USER ID', newMediaKey, this.props)
-//           const update = {}
-//           const newMediaData = {
-//             // name: file.name,
-//             url2: downloadUrl,
-//             // uid: this.props.user,
-//             // description,
-//           }
-//           const updatepath = ('Media/' + `${this.props.mediaType}/` + newMediaKey)
-//           console.log(updatepath)
-//           update[updatepath] = newMediaData
-//           firebase.database().ref().update(update)
-//         }
-//     )
-//   }
 
   render() {
-    console.log('this is in render', this.props)
     return (
             <div className='modal is-active' >
                 <div className="modal-background"></div>
