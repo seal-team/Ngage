@@ -70,28 +70,46 @@ class Profile extends Component {
           <section className='display-item'>
             <div className="columns">
               <div className="column"></div>
-              <div className="column">
-                <a onClick={this.handleModal} className="button is-primary is-large">Create Presentation</a>
-                <div className='margin-top-xlg margin-left-sm'><ul>
-                  {this.state.presentations.map((item) => (
-                    <li key={item.id}>
-                      <span className='margin-right-sm'>
-                        <a onClick={() => this.handleLink('edit', `${item.id}`)} className="button is-small">
-                          <span className="icon is-small">
-                            <i className="fa fa-edit"></i>
+              
+              <div className="column is-two-thirds">
+                <div className="top-content center-text">
+                  <a onClick={this.handleModal} className="button is-primary is-large create-btn">
+                    Create Presentation
+                  </a>
+
+                  <h1 className="subtitle past-pres-title">Past Presentations</h1>
+                  <div className="seperator"></div>
+                </div>
+
+                <div className='margin-top-xlg margin-left-sm'>
+                  <ul>
+                    {this.state.presentations.map((item) => (
+                      <div key={item.id} className="list-item-container">
+                        <li className="pres-list-item is-grouped">
+                          <span className='margin-right-sm'>
+                            <a onClick={() => this.handleLink('edit', `${item.id}`)}       
+                              className="button is-small profile-btn">
+                                <span className="icon">
+                                  Edit<i className="fa fa-edit profile-icon"></i>
+                                </span>
+                            </a>
+                            <a onClick={() => this.handleLink('view', `${item.id}`)} 
+                              className="button is-small profile-btn">
+                                <span className="icon">
+                                  View<i className="fa fa-eye profile-icon"></i>
+                                </span>
+                            </a>
                           </span>
-                        </a>
-                        <a onClick={() => this.handleLink('view', `${item.id}`)} className="button is-small">
-                          <span className="icon is-small">
-                            <i className="fa fa-eye"></i>
+                          <span className="pres-name">
+                            {item.title}
                           </span>
-                        </a>
-                      </span>
-                      {item.title}
-                    </li>
-                  ))}
-                </ul></div>
+                        </li>
+                      </div>
+                    ))}
+                  </ul>
+                </div>
               </div>
+              
               <div className="column"></div>
             </div>
           </section>
