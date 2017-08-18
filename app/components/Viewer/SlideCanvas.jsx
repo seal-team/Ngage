@@ -48,16 +48,19 @@ class SlideCanvas extends Component {
       .child(this.props.presID)
       .child('slides')
       .child(currSlide)
-
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
       this.setState({
         info: value,
         type: value.type,
-        counter: --this.state.counter, 
+        counter: --this.state.counter,
         slideID: currSlide
       })
     })
+    const presentation = firebase.database()
+      .ref('presentations')
+      .child(this.props.presID)
+    presentation.child('active').set(currSlide)
   }
 
   toggleFoward = () => {
@@ -75,8 +78,12 @@ class SlideCanvas extends Component {
         type: value.type,
         counter: ++this.state.counter,
         slideID: currSlide
-     })
+      })
     })
+    const presentation = firebase.database()
+      .ref('presentations')
+      .child(this.props.presID)
+    presentation.child('active').set(currSlide)
   }
 
   render() {
