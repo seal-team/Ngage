@@ -8,6 +8,7 @@
 //----------------------
 .slide-canvas-container {
   position: relative;
+  border: 1px solid black;
 }
 
 .slide-and-chat {
@@ -67,59 +68,71 @@
 .nickname {
   padding: 2px;
   width: 50%;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 .chat-form {
-  width: 100%;
   flex: 1 0 auto;
 }
 
-.chat-title, .notes-title {
-  width: 100%;
+.chat-title, .notes-title, .graph-title {
   margin-bottom: 0px;
-  margin-top: 4px;
+  margin-top: 6px;
   text-align: center;
   color: white;
   background-color: #3273dc;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
 #chat-log {
-  width: 100%;
   height: 350px;
   max-height: 350px;
   overflow: auto;
   background-color: white;
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   margin-bottom: 6px;
   padding: 12px;
 }
 
-.chat-message,  .chat-message-nick, .chat-message-body{
+.chat-message, .chat-message-nick, .chat-message-body {
   color: black;
   padding-top: 0px;
   padding-bottom: 0px;
 }
 
+.chat-input {
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
 //----------------------
 //-------- Notes -------
 //----------------------
-.notes-title {
-  margin-top: -14px;
-  width: 100%
+.notes {
+  position: relative;
+  padding: 12px 12px 0px 0px;
 }
 .notes-area {
-  width: 100%;
+  width: 888px;
+  border: none;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+.notes-title {
+  max-width: 888px;
 }
 
 //----------------------
 //- Scratchpad & Graph -
 //----------------------
 .scratchpad-and-graph {
-  margin-top: 0px;
+  margin-top: -30px;
   padding-top: 0px;
+}
+
+.graph {
+  padding: 12px 0px;
+  max-width: 800px;
 }
 
 .graph-container {
   background-color: white;
-  margin-right: 65px;
   width: 100%;
 }

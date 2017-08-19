@@ -52,7 +52,7 @@ export default ignite(withAuth(class extends React.Component {
     return (
       <form className="chat-form"
         onSubmit={this.sendMessage}>
-          <input className="column is-12 margin-tobbottom-sm" name='body' onChange={this.handleChange} value={this.state.body} />
+          <input className="chat-input column is-12 margin-tobbottom-sm" name='body' onChange={this.handleChange} value={this.state.body} />
           <span><strong>Nickname: </strong></span>
           <span>
             <FireInput fireRef={nickname(user.uid)} />
@@ -76,7 +76,7 @@ export default ignite(withAuth(class extends React.Component {
   render() {
     const { user, snapshot, asEntries, presentationID } = this.props
       , messages = asEntries(snapshot)
-    return <div className='chatting'>
+    return <div>
       <div id='chat-log' ref={`chatscroll`}> {
           messages.map(({ key, fireRef }) => <ChatMessage key={key} fireRef={fireRef} />)
         }
