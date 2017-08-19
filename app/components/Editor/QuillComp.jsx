@@ -51,7 +51,7 @@ class QuillComp extends React.Component {
       .child('slides')
       .child(this.props.match.params.slideID)
 
-    slideRef.child('type').set('quill')
+    slideRef.child('type').set('quillsave')
     slideRef.child('quillContents').set(JSON.stringify(quillContents))
 
     setTimeout(() => { this.setState({saving: ''}) }, 1000)

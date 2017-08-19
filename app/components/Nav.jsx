@@ -28,7 +28,7 @@ class Nav extends Component {
             && <NewPresentationModal handleModal={this.handleModal} />
           }
         <div className="navbar-start navbar-item">
-          <button className="nav-text-item" onClick={this.handleModal}>
+          <button className="nav-text-item button is-primary" onClick={this.handleModal}>
             New Presentation
           </button>
         </div>
@@ -43,12 +43,12 @@ class Nav extends Component {
               <Link className="navbar-item " to="/login">
                 Login
               </Link>
-              
+
               <Link className="navbar-item " to="/profile">
                 Profile
               </Link>
 
-              <Link onClick={this.props.logout} 
+              <Link onClick={this.props.logout}
                 className="navbar-item " to="/">
                 Logout
               </Link>

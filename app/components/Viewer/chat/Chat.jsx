@@ -1,3 +1,5 @@
+/* global $ */
+
 import React from 'react'
 import firebase from 'APP/fire'
 import ignite, { withAuth, FireInput } from './ignite'
@@ -22,13 +24,17 @@ const ChatMessage = ignite(
 )
 
 export default ignite(withAuth(class extends React.Component {
-  // Write is defined using the class property syntax.
-  // This is roughly equivalent to saying,
-  //
-  //    this.sendMessage = event => (etc...)
-  //
-  // in the constructor. Incidentally, this means that write
-  // is always bound to this.
+  constructor() {
+    super()
+    this.state = {
+      body: '',
+    }
+  }
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
   sendMessage = event => {
     event.preventDefault()
     if (!this.props.fireRef) return
@@ -36,6 +42,7 @@ export default ignite(withAuth(class extends React.Component {
       from: firebase.auth().currentUser.uid,
       body: event.target.body.value
     })
+    this.setState({ body: '' })
   }
 
   renderSendMsg(user) {
@@ -45,26 +52,35 @@ export default ignite(withAuth(class extends React.Component {
     return (
       <form className="chat-form"
         onSubmit={this.sendMessage}>
-          <FireInput fireRef={nickname(user.uid)} />
-          <input className="column is-12" name='body' />
-          <input type='submit' id='sDiv1' />
+          <input className="column is-12 margin-tobbottom-sm" name='body' onChange={this.handleChange} value={this.state.body} />
+          <span><strong>Nickname: </strong></span>
+          <span>
+            <FireInput fireRef={nickname(user.uid)} />
+            <input className='button is-primary is-small margin-left-sm' type='submit' id='sDiv1' />
+          </span>
       </form>
     )
   }
-  // We need to get this auto scroll to work.
-  // we need to attach jquery stuff.
+
+  componentDidMount() {
+    this.scrollToBottom()
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom()
+  }
+  scrollToBottom =() => {
+    $('#chat-log').animate({scrollTop: 9999}, 1000)
+  }
 
   render() {
-    console.log('disabled?', this.props.disabled)
     const { user, snapshot, asEntries, presentationID } = this.props
       , messages = asEntries(snapshot)
-    return <div>
-      <Scrollbars autoHeight>
-        <div className='chat-log' > {
+    return <div className='chatting'>
+      <div id='chat-log' ref={`chatscroll`}> {
           messages.map(({ key, fireRef }) => <ChatMessage key={key} fireRef={fireRef} />)
-        } </div>
-      </Scrollbars>
-
+        }
+     </div>
       {this.renderSendMsg(user)}
     </div >
   }

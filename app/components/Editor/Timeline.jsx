@@ -41,7 +41,7 @@ class Timeline extends Component {
 
       const newSlide = slides.push({
         number: this.state.slidesCount,
-        type: 'quill'
+        type: 'quillTimeline'
       })
 
       this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)

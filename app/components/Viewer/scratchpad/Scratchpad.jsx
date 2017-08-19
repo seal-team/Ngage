@@ -47,7 +47,7 @@ export default class extends React.Component {
       hidden = true
     }
     return (
-      <textarea
+      <textarea className='notes-area'
         hidden={hidden}
         rows={10}
         cols={140}

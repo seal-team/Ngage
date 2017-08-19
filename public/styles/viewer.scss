@@ -52,11 +52,11 @@
 // ------- Chat -------
 //----------------------
 .chat-super-container {
-  width: 100%;
+  height: 510px;
   margin-left: 0px;
+  margin-right: 24px;
   padding-right: 10px;
   background-color: rgb(174, 171, 171);
-  border: 2px solid black;
 }
 
 .chat-container {
@@ -64,43 +64,50 @@
   flex-direction: column;
 }
 
+.nickname {
+  padding: 2px;
+  width: 50%;
+}
 .chat-form {
+  width: 100%;
   flex: 1 0 auto;
 }
 
-.chat-title {
-  width: 60%;
-  margin-left: 15%;
-  margin-bottom: 15px;
+.chat-title, .notes-title {
+  width: 100%;
+  margin-bottom: 0px;
+  margin-top: 4px;
   text-align: center;
   color: white;
-  background-color: rgb(97, 93, 93);
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  background-color: #3273dc;
 }
 
-.chat-log {
-  width: 90%;
+#chat-log {
+  width: 100%;
+  height: 350px;
+  max-height: 350px;
+  overflow: auto;
   background-color: white;
-  border: 1px solid black;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
-  padding-left: 25px;
+  margin-bottom: 6px;
+  padding: 12px;
 }
 
-.chat-message {
+.chat-message,  .chat-message-nick, .chat-message-body{
   color: black;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 //----------------------
 //-------- Notes -------
 //----------------------
 .notes-title {
-  width: 700px;
-  margin-left: 65px;
-  margin-bottom: 15px;
-  text-align: center;
-  background-color: rgb(174, 171, 171);
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  margin-top: -14px;
+  width: 100%
+}
+.notes-area {
+  width: 100%;
 }
 
 //----------------------
