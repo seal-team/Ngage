@@ -43,7 +43,6 @@ class NewPresentationModal extends Component {
       .child('slides')
       .push({ number: 0, type: 'quill' })
 
-    
     const newSlideKey = newSlide.key
 
     this.setState({ newPresentation: '' })

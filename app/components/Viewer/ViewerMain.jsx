@@ -24,10 +24,10 @@ class ViewerMain extends Component {
       disabledSlides: true,
       disable: false,
       slideID: null
-      
+
     }
   }
-  
+
   componentDidMount(props) {
     const ref = firebase.database()
       .ref('presentations')
@@ -77,7 +77,7 @@ class ViewerMain extends Component {
           <div>
             <div className="section columns slide-and-chat">
               <div className="slide column">
-                <SlideCanvas 
+                <SlideCanvas
                   presID={this.props.match.params.presentationID}
                   slideID={this.state.slideID || this.state.firstSlide}
                   disabled={disabledSlides}
@@ -92,13 +92,15 @@ class ViewerMain extends Component {
             </div>
 
             <div className="scratchpad-and-graph section columns">
-              <div className="slide column">
+              <div className="notes column">
                 <h3 className="notes-title">Your Notes</h3>
                 <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
               </div>
-              <div className="graph-container column is-3">
+              <div className="graph column">
                 <h3 className="graph-title">Quiz results</h3>
-                <Graph />
+                <div className="graph-container column">
+                  <Graph />
+                </div>
               </div>
             </div>
           </div>

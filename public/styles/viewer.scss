@@ -8,6 +8,7 @@
 //----------------------
 .slide-canvas-container {
   position: relative;
+  border: 1px solid black;
 }
 
 .slide-and-chat {
@@ -52,11 +53,11 @@
 // ------- Chat -------
 //----------------------
 .chat-super-container {
-  width: 100%;
+  height: 510px;
   margin-left: 0px;
+  margin-right: 24px;
   padding-right: 10px;
   background-color: rgb(174, 171, 171);
-  border: 2px solid black;
 }
 
 .chat-container {
@@ -64,55 +65,74 @@
   flex-direction: column;
 }
 
+.nickname {
+  padding: 2px;
+  width: 50%;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
 .chat-form {
   flex: 1 0 auto;
 }
 
-.chat-title {
-  width: 60%;
-  margin-left: 15%;
-  margin-bottom: 15px;
+.chat-title, .notes-title, .graph-title {
+  margin-bottom: 0px;
+  margin-top: 6px;
   text-align: center;
   color: white;
-  background-color: rgb(97, 93, 93);
+  background-color: #3273dc;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
-.chat-log {
-  width: 90%;
+#chat-log {
+  height: 350px;
+  max-height: 350px;
+  overflow: auto;
   background-color: white;
-  border: 1px solid black;
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
-  padding-left: 25px;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  margin-bottom: 6px;
+  padding: 12px;
 }
 
-.chat-message {
+.chat-message, .chat-message-nick, .chat-message-body {
   color: black;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.chat-input {
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
 //----------------------
 //-------- Notes -------
 //----------------------
-.notes-title {
-  width: 700px;
-  margin-left: 65px;
-  margin-bottom: 15px;
-  text-align: center;
-  background-color: rgb(174, 171, 171);
+.notes {
+  position: relative;
+  padding: 12px 12px 0px 0px;
+}
+.notes-area {
+  width: 888px;
+  border: none;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+.notes-title {
+  max-width: 888px;
 }
 
 //----------------------
 //- Scratchpad & Graph -
 //----------------------
 .scratchpad-and-graph {
-  margin-top: 0px;
+  margin-top: -30px;
   padding-top: 0px;
+}
+
+.graph {
+  padding: 12px 0px;
+  max-width: 800px;
 }
 
 .graph-container {
   background-color: white;
-  margin-right: 65px;
   width: 100%;
 }
