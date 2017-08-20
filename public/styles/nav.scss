@@ -14,14 +14,18 @@
 }
 
 .logo-container:hover {
-  background-color: rgb(98, 98, 98)
+  background-color: rgb(98, 98, 98) !important;
 }
 
 .nav-profile {
-  color: white;
+  color: white !important;
 }
 
-.nav-text-item {
-  font-size: 16px;
-  color: rgb(188, 188, 188);
+.nav-profile:hover {
+  color: white !important;
+  background-color: rgb(98, 98, 98) !important;
+}
+
+.profile-dropdown {
+
 }
