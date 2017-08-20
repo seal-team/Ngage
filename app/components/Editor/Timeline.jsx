@@ -3,49 +3,48 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
 
+import {
+  getSlides,
+  getSlideType,
+  getQuillSnippet,
+  getQuestion,
+  slideMetadata
+} from '../../helpers'
+
 class Timeline extends Component {
   constructor() {
     super()
     this.state = {
       slides: null,
       slidesCount: 0,
-      selectedSlide: 0
+      selectedSlide: 0,
+      quillSnippet: ''
     }
   }
 
   componentDidMount() {
-    const slides = firebase.database()
-      .ref('presentations')
-      .child(this.props.presID)
-      .child('slides')
-
-    slides.on('value', (snapshot) => {
-      const value = snapshot.val()
-      this.setState({slides: value})
-    })
+    const { presentationID } = this.props.match.params
+    firebase.database()
+      .ref(`presentations/${presentationID}/slides`)
+      .on('value', (snapshot) => {
+        this.setState({ slides: snapshot.val() })
+      })
   }
 
-  makeNewSlide = (e) => {
-    e.preventDefault()
-    const activePresentation = firebase.database()
-      .ref('users')
-      .child(this.props.user)
-      .child('activePresentation')
+  makeNewSlide = () => {
+    firebase.database()
+      .ref(`users/${this.props.user}/activePresentation`)
+      .on('value', snapshot => {
+        const activePresentation = snapshot.val()
+        const newSlide = firebase.database()
+          .ref(`presentations/${activePresentation}/slides`)
+          .push({
+            number: this.state.slidesCount,
+            type: 'quill'
+          })
 
-    activePresentation.on('value', snapshot => {
-      const value = snapshot.val()
-      const slides = firebase.database()
-        .ref('presentations')
-        .child(value)
-        .child('slides')
-
-      const newSlide = slides.push({
-        number: this.state.slidesCount,
-        type: 'quill'
+        this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)
       })
-
-      this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)
-    })
 
     this.setState({ slidesCount: this.state.slidesCount++ })
   }
@@ -56,8 +55,8 @@ class Timeline extends Component {
   }
 
   render() {
+    const { presentationID, slideID } = this.props.match.params
     const slides = this.state.slides
-    const currentSlide = this.props.match.params.slideID
 
     return (
       <div>
@@ -69,14 +68,25 @@ class Timeline extends Component {
           </div>
 
           {slides && Object.keys(slides).map((slide, i) => (
-            <div key={i} className={ slide === this.props.match.params.slideID ? 'timeline-slide timeline-slide-selected' : 'timeline-slide' }
+            <div key={i} className={
+              slide === slideID
+                ? `timeline-slide timeline-slide-selected timeline-slide-${getSlideType(presentationID, slide)}`
+                : `timeline-slide timeline-slide-${getSlideType(presentationID, slide)}`
+              }
               onClick={() => this.selectSlide(slide)}>
-                <text>Slide #{i + 1}</text>
+                <div className="timeline-slide-contents-container">
+                  <p className="timeline-slide-type">
+                    {slideMetadata(presentationID, slide).type}
+                  </p>
+                  <p className="timeline-slide-contents">
+                    {slideMetadata(presentationID, slide).content}
+                  </p>
+                </div>
             </div>
           ))}
 
           <div className="plus-slide-btn"
-            onClick={this.makeNewSlide}>
+            onClick={() => this.makeNewSlide()}>
             <span className="icon">
               <i className="fa fa-plus-square-o"></i>
             </span>
