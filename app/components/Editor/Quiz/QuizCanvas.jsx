@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import firebase from 'APP/fire'
 
 import QuizModal from './QuizModal'
+import { getQuestion, getAnswers, getCorrectAnswers } from '../../../getQuizData'
 
 class QuizCanvas extends Component {
   constructor(props) {
@@ -23,66 +24,50 @@ class QuizCanvas extends Component {
   }
 
   render() {
-    // const exampleAnswers = ['New York', 'Mexico City', 'Los Angeles', 'Quebec', 'Chicago', 'Boston']
     const { presentationID, slideID } = this.props.match.params
 
-    let question = ''
-    const quizQuestion = firebase.database()
-      .ref(`presentations/${presentationID}/slides/${slideID}/quiz-contents/question`)
-      .once('value', snapshot => {
-        question = snapshot.val()
-      })
+    const quizQuestion = getQuestion(presentationID, slideID)
+    const quizAnswers = getAnswers(presentationID, slideID)
+    const quizCorrectAnswers = getCorrectAnswers(presentationID, slideID)
 
-    const answers = []
-    const quizAnswers = firebase.database()
-      .ref(`presentations/${presentationID}/slides/${slideID}/quiz-contents/answers`)
-      .once('value', snapshot => {
-        answers.push(snapshot.val())
-      })
-
-    const correctAnswers = []
-    const quizConnectedAnswer = firebase.database()
-      .ref(`presentations/${presentationID}/slides/${slideID}/quiz-contents/correctAnswers`)
-      .once('value', snapshot => {
-        correctAnswers.push(snapshot.val())
-      })
+    console.log('quiz answers', quizAnswers)
+    console.log('quiz correct answers', quizCorrectAnswers)
     
-    console.log('quiz canvas props', this.props)
-
     return (
-      <div>
-        {this.state.quizModal &&
-          <QuizModal
-            toggleQuizModal={this.toggleQuizModal}
-            quizIsNew={false}
-            // forceRerender={this.props.forceRerender}
-          />
-        }
+      <div className="edit-mode-quiz-canvas-container">
+        
+        <div className="edit-mode-quiz-title-container">
+          <span className="title edit-mode-quiz-title">Quiz</span>
 
-        <div className="edit-mode-quiz-canvas-container">
-          
-          <div className="edit-mode-quiz-title-container">
-            <span className="title edit-mode-quiz-title">Quiz</span>
-
-            <button className="button is-warning"
-              onClick={() => this.toggleQuizModal()}>
-              Modify
-            </button>
-          </div>
-
-          <h1 className="subtitle">{question}</h1>
-
-          {this.state.numberOfAnswers.map((answer, i) => (
-            <div key={i}>
-              <h1>Answer #{i + 1}</h1>
-            </div>
-          ))}
-
-          <h1 className="subtitle edit-mode-correct-answer-title">
-            Correct Answer(s):
-          </h1>
-
+          <button className="button is-warning"
+            onClick={() => this.props.toggleQuizModal(false)}>
+            Modify
+          </button>
         </div>
+
+        <h1 className="subtitle edit-mode-question">
+          {quizQuestion}
+        </h1>
+
+        {quizAnswers.map((answer, i) => (
+          <div key={i} className="edit-mode-answer-container">
+            <span className="edit-mode-answer-nums">{i + 1}) </span>
+            <span className="edit-mode-quiz-answer">
+              {answer}
+            </span>
+          </div>
+        ))}
+
+        <h1 className="subtitle edit-mode-correct-answer-title">
+          Correct Answer(s):
+        </h1>
+
+        {quizCorrectAnswers.map((correctAnswer, i) => (
+          <h1 key={i} className="edit-mode-quiz-correct-answer">
+            - {correctAnswer}
+          </h1>
+        ))}
+
       </div>
     )
   }

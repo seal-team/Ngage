@@ -30,7 +30,7 @@ class SlideCanvas extends Component {
       <div className="slide-canvas-container">
         { slideType === 'quill' && <QuillComp /> }
 
-        { slideType === 'quiz' && <QuizCanvas /> }
+        { slideType === 'quiz' && <QuizCanvas toggleQuizModal={this.props.toggleQuizModal} /> }
       </div>
     )
   }

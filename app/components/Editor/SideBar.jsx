@@ -6,6 +6,7 @@ import MediaModal from './Media/MediaModal'
 import VRUploader from './Media/VRUploader'
 import Uploader from './Media/Uploader'
 import QuizModal from './Quiz/QuizModal'
+import { slideHasQuiz } from '../../getQuizData'
 
 class SideBar extends Component {
   constructor(props) {
@@ -15,8 +16,7 @@ class SideBar extends Component {
       uid: null,
       mediaType: '',
       mediaModal: false,
-      updateModal: false,
-      quizModal: false
+      updateModal: false
     }
   }
 
@@ -28,10 +28,6 @@ class SideBar extends Component {
     this.setState({ updateModal: !this.state.updateModal })
   }
 
-  toggleQuizModal = () => {
-    this.setState({ quizModal: !this.state.quizModal })
-  }
-
   toggleAcitveTab = index => {
     const activeState = [...this.state.activeTab]
       .map((item, i) => i === index || false)
@@ -40,9 +36,14 @@ class SideBar extends Component {
   }
 
   render() {
+    const { presentationID, slideID } = this.props.match.params
     const activeTab = this.state.activeTab
     const mediaType = this.state.mediaType
 
+    // fix slideHasQuiz to display either edit quiz modal or new quiz modal
+    // bug exists because initially will be undefined (falsy)
+    // console.log('slide has quiz', slideHasQuiz(presentationID, slideID))
+    
     return (
       <div>
         {this.state.mediaModal && 
@@ -69,14 +70,6 @@ class SideBar extends Component {
                 history={this.props.history} 
                 mediaType={this.state.mediaType}
               />)
-        }
-
-        {this.state.quizModal &&
-          <QuizModal
-            toggleQuizModal={this.toggleQuizModal}
-            forceRerender={this.props.forceRerender}
-            quizIsNew={true}
-          />
         }
 
         <div className="sidebar-whole">
@@ -116,7 +109,7 @@ class SideBar extends Component {
             {activeTab[1] &&
               <div className="sidebar-quiz-options options-container">
                 <button className="button is-warning multiple-choice-btn"
-                  onClick={() => this.toggleQuizModal()}>
+                  onClick={() => this.props.toggleQuizModal(true)}>
                     Multiple<br />
                     Choice
                 </button>
@@ -130,4 +123,4 @@ class SideBar extends Component {
   }
 }
 
-export default SideBar
+export default withRouter(SideBar)
