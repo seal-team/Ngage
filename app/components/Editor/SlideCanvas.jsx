@@ -4,6 +4,7 @@ import firebase from 'APP/fire'
 
 import QuillComp from './QuillComp'
 import QuizCanvas from './Quiz/QuizCanvas'
+import { getSlideType } from '../../helpers'
 
 class SlideCanvas extends Component {
   constructor(props) {
@@ -23,8 +24,9 @@ class SlideCanvas extends Component {
   }
 
   render() {
+    const { presentationID, slideID } = this.props.match.params
     const info = this.state.info
-    const slideType = this.props.slideType
+    const slideType = getSlideType(presentationID, slideID)
 
     return (
       <div className="slide-canvas-container">

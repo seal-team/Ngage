@@ -7,7 +7,7 @@ import {
   getAnswers,
   getCorrectAnswers,
   generateRandomQuiz
-} from '../../../getQuizData'
+} from '../../../helpers'
 
 class QuizModal extends Component {
   constructor(props) {

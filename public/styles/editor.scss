@@ -13,6 +13,24 @@
   flex: 1 0 auto;
 }
 
+//--------------------
+//------ CANVAS ------
+//--------------------
+.slide-canvas-super-container {
+  margin-top: 30px;
+  height: 500px;
+  width: 900px;
+  border: 1px solid black;
+  background-color: white;
+  box-shadow: 4px 4px 4px 3px rgba(0, 0, 0, 0.2);
+}
+
+.slide-canvas-container {
+  height: 500px;
+  width: 900px;
+  background-color: white;
+}
+
 //----------------------
 // ------ SIDEBAR ------
 //----------------------
@@ -152,6 +170,29 @@
   margin-top: 35px;
 }
 
+.timeline-slide-contents-container {
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 5px;
+}
+
+.timeline-slide-type {
+  margin-left: 67px;
+  color: rgb(210, 168, 4);
+  font-weight: bold;
+}
+
+.timeline-slide-contents {
+  color: black;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.timeline-slide-quiz {
+  background-color: rgb(61, 130, 239)
+}
+
 //-----------------------------
 // ------ PROPERTIES BAR ------
 //-----------------------------
@@ -163,24 +204,6 @@
   border: 1px solid black;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   background-color: rgb(158, 158, 158);
-}
-
-//--------------------
-//------ CANVAS ------
-//--------------------
-.slide-canvas-super-container {
-  margin-top: 30px;
-  height: 500px;
-  width: 900px;
-  border: 1px solid black;
-  background-color: white;
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-}
-
-.slide-canvas-container {
-  height: 500px;
-  width: 900px;
-  background-color: white;
 }
 
 //-----------------------
@@ -264,7 +287,7 @@
   text-align: center;
   font-size: 22px;
   font-style: italic;
-  color: white;
+  color: black;
 }
 
 .edit-mode-answer-container {
@@ -275,6 +298,7 @@
   margin-left: 15%;
   font-weight: bolder;
   font-size: 19px;
+  color: black;
 }
 
 .edit-mode-quiz-answer {
@@ -288,7 +312,7 @@
   text-align: center;
   font-weight: bold;
   text-decoration: underline;
-  color: white;
+  color: black;
 }
 
 .edit-mode-quiz-correct-answer {

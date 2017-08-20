@@ -6,7 +6,7 @@ import MediaModal from './Media/MediaModal'
 import VRUploader from './Media/VRUploader'
 import Uploader from './Media/Uploader'
 import QuizModal from './Quiz/QuizModal'
-import { slideHasQuiz } from '../../getQuizData'
+import { slideHasQuiz } from '../../helpers'
 
 class SideBar extends Component {
   constructor(props) {

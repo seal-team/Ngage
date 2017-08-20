@@ -22,8 +22,7 @@ class EditorMain extends Component {
   }
 
   componentDidMount() {
-    const presentationID = this.props.match.params.presentationID
-    
+    const { presentationID } = this.props.match.params
     firebase.database().ref(`presentations/${presentationID}/title`)
       .once('value', snapshot => {
         this.setState({ presTitle: snapshot.val() })
@@ -41,8 +40,7 @@ class EditorMain extends Component {
     this.setState({ quizModalIsShowing: !this.state.quizModalIsShowing })
   }
 
-  toggleToPresentMode = () => {
-    const presentationID = this.props.match.params.presentationID
+  toggleToPresentMode = presentationID => {
     this.props.history.push(`/view/${presentationID}`)
   }
 
@@ -54,13 +52,6 @@ class EditorMain extends Component {
     const { presentationID, slideID } = this.props.match.params
     const timelineIsHidden = this.state.timelineIsHidden
     const quizModalIsShowing = this.state.quizModalIsShowing
-
-    let slideType = 'quill'
-    firebase.database()
-      .ref(`presentations/${presentationID}/slides/${slideID}/type`)
-      .once('value', snapshot => {
-        slideType = snapshot.val()
-      })
 
     return (
       <div>
@@ -78,7 +69,7 @@ class EditorMain extends Component {
               <h1 className="title presentation-title">{this.state.presTitle}</h1>
 
               <button className="button is-info view-pres-btn"
-                onClick={this.toggleToPresentMode}>
+                onClick={() => this.toggleToPresentMode(presentationID)}>
                 View Presentation
               </button>
 
@@ -90,7 +81,6 @@ class EditorMain extends Component {
                 <SlideCanvas
                   presID={presentationID} 
                   slideID={this.state.slideID}
-                  slideType={slideType}
                   toggleQuizModal={this.toggleQuizModal}
                 />
               </div>

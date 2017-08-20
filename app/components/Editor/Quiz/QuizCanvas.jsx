@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import firebase from 'APP/fire'
 
 import QuizModal from './QuizModal'
-import { getQuestion, getAnswers, getCorrectAnswers } from '../../../getQuizData'
+import { getQuestion, getAnswers, getCorrectAnswers } from '../../../helpers'
 
 class QuizCanvas extends Component {
   constructor(props) {
