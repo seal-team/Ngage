@@ -2,43 +2,50 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import firebase from 'APP/fire'
 
-class NewQuizModal extends Component {
+import {
+  getQuestion,
+  getAnswers,
+  getCorrectAnswers,
+  generateRandomQuiz
+} from '../../../helpers'
+
+class QuizModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
       numberOfAnswers: [null, null]
     }
-
-    this.submitNewQuiz = this.submitNewQuiz.bind(this)
-    this.handleNumberOfAnswers = this.handleNumberOfAnswers.bind(this)
-    this.setCorrectAnswer = this.setCorrectAnswer.bind(this)
   }
 
-  submitNewQuiz(evt) {
+  submitOrUpdateQuiz = evt => {
     evt.preventDefault()
-
     const formData = evt.target
     const question = formData.question.value
+
     if (!question.length) return alert('Cannot leave question blank!')
 
     let answers = [], correctAnswers = []
     for (let i = 0; i < this.state.numberOfAnswers.length; i++) {
-      const answerName = `correct-answer-${i}`, answer = `answer-${i}`
+      const correctAnswer = `correct-answer-${i}`, answer = `answer-${i}`
       
-      // if (formData[answerName].checked) correctAnswers.push(formData[answer].value)
-      if (formData[answerName].checked) correctAnswers.push(i)
+      if (formData[correctAnswer].checked) {
+        correctAnswers.push(formData[answer].value)
+      }
       
-      if (!formData[answer].value.length) return alert('Cannot leave answer blank!')
-      else answers.push(formData[answer].value)
+      if (!formData[answer].value.length) {
+        return alert('Cannot leave answer blank!')
+      } else {
+        answers.push(formData[answer].value)
+      }
     }
-    if (!correctAnswers.length) return alert('Must select at least one correct answer!')
+
+    if (!correctAnswers.length) {
+      return alert('Must select at least one correct answer!')
+    }
 
     const { presentationID, slideID } = this.props.match.params
     const slideRef = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('slides')
-      .child(slideID)
+      .ref(`presentations/${presentationID}/slides/${slideID}`)
 
     slideRef.child('type').set('quiz')
 
@@ -48,21 +55,28 @@ class NewQuizModal extends Component {
       correctAnswers
     })
 
-    this.props.forceRerender()
     this.props.toggleQuizModal()
   }
 
-  setCorrectAnswer(correctAnswer) {
+  setCorrectAnswer = correctAnswer => {
     this.setState({ correctAnswer })
   }
 
-  handleNumberOfAnswers(evt) {
+  handleNumberOfAnswers = evt => {
     const numberOfAnswers = Array.apply(null, Array(+evt.target.value))
     this.setState({ numberOfAnswers })
   }
 
   render() {
-    const exampleAnswers = ['New York', 'Mexico City', 'Los Angeles', 'Quebec', 'Chicago', 'Boston']
+    const { presentationID, slideID } = this.props.match.params
+    const quizIsNew = this.props.quizIsNew
+    
+    const quizQuestion = !quizIsNew && getQuestion(presentationID, slideID)
+    const quizAnswers = !quizIsNew && getAnswers(presentationID, slideID)
+    const quizCorrectAnswers = !quizIsNew && getCorrectAnswers(presentationID, slideID)
+
+    // fix bugs in modifying quiz
+    // - if current quiz data set to input value, becomes uneditable
 
     return (
       <div className="modal is-active">
@@ -70,18 +84,26 @@ class NewQuizModal extends Component {
         <div className="modal-card">
           <section className="modal-card-body">
             <div className="field">
-              <label className="label title add-new-quiz">Add New Quiz</label>
+              <label className="label title add-new-quiz">
+                {quizIsNew ? 'Add New Quiz' : 'Modify Quiz'}
+              </label>
 
-              <form onSubmit={this.submitNewQuiz}>
+              <form onSubmit={this.submitOrUpdateQuiz}>
                 <div className="field question-container">
                   <label className="label">Question</label>
                   <div className="control">
-                    
-                    <input className="input"
-                      type="text"
-                      name="question"
-                      placeholder="ex. What is the largest city in North America by population?"
-                    />
+                    {quizIsNew
+                      ? <input className="input"
+                          type="text"
+                          name="question"
+                          placeholder={`ex. ${generateRandomQuiz().question}`}
+                        />
+                      : <input className="input"
+                          type="text"
+                          name="question"
+                          placeholder={quizQuestion}
+                        />
+                    }
                   </div>
                 </div>
                 
@@ -113,11 +135,18 @@ class NewQuizModal extends Component {
                     <label className="label">Answer #{i + 1}</label>
                     <div className="field is-grouped">
                       <div className="control">
-                        <input className="input answer-input"
-                          type="text"
-                          name={`answer-${i}`}
-                          placeholder={`ex. ${exampleAnswers[i]}`}
-                        />
+                        {quizIsNew
+                          ? <input className="input answer-input"
+                              type="text"
+                              name={`answer-${i}`}
+                              placeholder={`ex. ${generateRandomQuiz().answers[i]}`}
+                            />
+                          : <input className="input answer-input"
+                              type="text"
+                              name={`answer-${i}`}
+                              placeholder={quizAnswers[i]}
+                            />
+                        }
                       </div>
 
                       <div className="control"
@@ -132,7 +161,7 @@ class NewQuizModal extends Component {
                   <div className="control">
                     <button className="button is-primary"
                       type="submit">
-                        Create
+                        {quizIsNew ? 'Create' : 'Update'}
                     </button>
                   </div>
 
@@ -153,4 +182,4 @@ class NewQuizModal extends Component {
   }
 }
 
-export default withRouter(NewQuizModal)
+export default withRouter(QuizModal)
