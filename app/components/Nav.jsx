@@ -17,6 +17,7 @@ class Nav extends Component {
   }
 
   render() {
+    const { userName } = this.props
     return (
       <nav className="navbar nav-container">
         <div className="navbar-brand">
@@ -28,18 +29,18 @@ class Nav extends Component {
             && <NewPresentationModal handleModal={this.handleModal} />
           }
         <div className="navbar-start navbar-item">
-          <button className="nav-text-item button is-primary" onClick={this.handleModal}>
+          <button className="button is-primary" onClick={this.handleModal}>
             New Presentation
           </button>
         </div>
 
         <div className="navbar-menu">
-          <div className="navbar-end navbar-item has-dropdown is-hoverable">
+          <div className="navbar-end navbar-item has-dropdown is-hoverable profile-dropdown">
             <Link className="navbar-link is-active nav-profile" to="/profile">
-              Username
+              {userName}
             </Link>
 
-            <div className="navbar-dropdown ">
+            <div className="navbar-dropdown profile-dropdown">
               <Link className="navbar-item " to="/login">
                 Login
               </Link>

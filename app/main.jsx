@@ -10,7 +10,7 @@ import { render } from 'react-dom'
 import { Provider, connect } from 'react-redux'
 
 import Routes from './routes'
-import WhoAmI from './components/WhoAmI'
+import WhoAmI, { name } from './components/WhoAmI'
 import Nav from './components/Nav'
 
 import store from './store'
@@ -21,19 +21,27 @@ import '../public/index.scss'
 class App extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      userName: ''
+    }
   }
 
   componentDidMount() {
     this.props.auth.onAuthStateChanged(user => {
-      console.log('auth state change user', user)
       user && this.props.fetchUser(user.uid)
+      this.setState({ userName: name(user) })
     })
   }
 
   render() {
+    const { auth, user } = this.props
+    const { userName } = this.state
+
+    console.log('userName in render ', userName)
+
     return (
       <div className="app-container">
-        <Nav />
+        <Nav userName={userName} />
         <Routes />
       </div>
     )
