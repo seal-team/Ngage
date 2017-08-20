@@ -267,14 +267,6 @@
   color: white;
 }
 
-.edit-mode-correct-answer-title {
-  margin-top: 30px;
-  text-align: center;
-  font-weight: bold;
-  text-decoration: underline;
-  color: white;
-}
-
 .edit-mode-answer-container {
   margin-bottom: 10px;
 }
@@ -288,6 +280,15 @@
 .edit-mode-quiz-answer {
   margin-left: 5px;
   font-size: 19px;
+}
+
+.edit-mode-correct-answer-title {
+  margin-top: 30px;
+  margin-bottom: 0px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: underline;
+  color: white;
 }
 
 .edit-mode-quiz-correct-answer {

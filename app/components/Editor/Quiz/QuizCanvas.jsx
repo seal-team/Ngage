@@ -29,9 +29,6 @@ class QuizCanvas extends Component {
     const quizQuestion = getQuestion(presentationID, slideID)
     const quizAnswers = getAnswers(presentationID, slideID)
     const quizCorrectAnswers = getCorrectAnswers(presentationID, slideID)
-
-    console.log('quiz answers', quizAnswers)
-    console.log('quiz correct answers', quizCorrectAnswers)
     
     return (
       <div className="edit-mode-quiz-canvas-container">
