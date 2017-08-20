@@ -117,7 +117,7 @@
   border-top: 2px solid black;
   height: 150px;
   width: 100%;
-  padding-top: 1.5%;
+  padding-top: 2%;
   bottom: 0px;
 }
 
@@ -158,16 +158,21 @@
 .left-arrow-btn {
   margin-left: 10px;
   margin-right: 20px;
-  margin-top: 35px;
+  margin-top: 40px;
 }
 
 .right-arrow-btn {
-  margin-top: 35px;
-  right: 10px;
+  position: absolute;
+  top: 40%;
+  left: 97%;
+  width: 100%;
 }
 
 .plus-slide-btn {
-  margin-top: 35px;
+  position: absolute;
+  top: 40%;
+  left: 94%;
+  width: 100%;
 }
 
 .timeline-slide-contents-container {
@@ -176,8 +181,12 @@
   padding-right: 5px;
 }
 
+.timeline-slide-num {
+  font-weight: bold;
+}
+
 .timeline-slide-type {
-  margin-left: 67px;
+  margin-left: 15px;
   color: rgb(210, 168, 4);
   font-weight: bold;
 }

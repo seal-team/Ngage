@@ -41,7 +41,7 @@ class NewPresentationModal extends Component {
     const newSlide = presentationsRef
       .child(newPresentKey)
       .child('slides')
-      .push({ number: 0, type: 'quill' })
+      .push({ number: 1, type: 'quill' })
 
     const newSlideKey = newSlide.key
 
@@ -59,7 +59,14 @@ class NewPresentationModal extends Component {
             <div className="field">
               <label className="label has-text-left">New Presentation</label>
               <div className="control">
-                <input className="input" type="text" name="newPresentation" placeholder="Enter Name" onChange={this.handleChange} value={this.state.newPresentation} />
+                <input autoFocus
+                  className="input"
+                  type="text"
+                  name="newPresentation"
+                  placeholder="Enter Presentation Name"
+                  onChange={this.handleChange}
+                  value={this.state.newPresentation}
+                />
               </div>
             </div>
 

@@ -93,12 +93,14 @@ class QuizModal extends Component {
                   <label className="label">Question</label>
                   <div className="control">
                     {quizIsNew
-                      ? <input className="input"
+                      ? <input autoFocus
+                          className="input"
                           type="text"
                           name="question"
                           placeholder={`ex. ${generateRandomQuiz().question}`}
                         />
-                      : <input className="input"
+                      : <input autoFocus
+                          className="input"
                           type="text"
                           name="question"
                           placeholder={quizQuestion}

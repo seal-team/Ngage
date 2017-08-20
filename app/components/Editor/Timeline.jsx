@@ -15,8 +15,9 @@ class Timeline extends Component {
   constructor() {
     super()
     this.state = {
-      slides: null,
-      slidesCount: 0,
+      slides: {},
+      fourSlides: [],
+      slidesCount: 1,
       selectedSlide: 0,
       quillSnippet: ''
     }
@@ -26,12 +27,15 @@ class Timeline extends Component {
     const { presentationID } = this.props.match.params
     firebase.database()
       .ref(`presentations/${presentationID}/slides`)
-      .on('value', (snapshot) => {
+      .on('value', snapshot => {
         this.setState({ slides: snapshot.val() })
       })
+    this.setFourSlides(this.state.slides)
   }
 
   makeNewSlide = () => {
+    this.setState({ slidesCount: this.state.slidesCount++ })
+
     firebase.database()
       .ref(`users/${this.props.user}/activePresentation`)
       .on('value', snapshot => {
@@ -49,19 +53,42 @@ class Timeline extends Component {
     this.setState({ slidesCount: this.state.slidesCount++ })
   }
 
-  selectSlide = (slide) => {
+  selectSlide = slide => {
     this.props.selectSlide(slide)
     this.props.history.push(`/edit/${this.props.presID}/slide/${slide}`)
   }
 
+  setFourSlides = slides => {
+    const fourSlides = []
+    for (let slide in slides) {
+      if (slides[slide].number <= 4) {
+        fourSlides.push(slide)
+      }
+    }
+
+    this.setState({ fourSlides })
+  }
+
+  showNextSlides = () => {
+
+  }
+
+  showPrevSlides = () => {
+
+  }
+
   render() {
     const { presentationID, slideID } = this.props.match.params
-    const slides = this.state.slides
+    const { slides, fourSlides } = this.state
 
+    console.log('all slides: ', slides)
+    console.log('four slides: ', fourSlides)
+    
     return (
       <div>
         <div className="timeline-strip">
-          <div className="left-arrow-btn">
+          <div className="left-arrow-btn"
+            onClick={() => this.showPrevSlides()}>
             <span className="icon">
               <i className="fa fa-chevron-circle-left"></i>
             </span>
@@ -75,9 +102,12 @@ class Timeline extends Component {
               }
               onClick={() => this.selectSlide(slide)}>
                 <div className="timeline-slide-contents-container">
-                  <p className="timeline-slide-type">
-                    {slideMetadata(presentationID, slide).type}
-                  </p>
+                  <div>
+                    <span className="timeline-slide-num">{i + 1}</span>
+                    <span className="timeline-slide-type">
+                      {slideMetadata(presentationID, slide).type}
+                    </span>
+                  </div>
                   <p className="timeline-slide-contents">
                     {slideMetadata(presentationID, slide).content}
                   </p>
@@ -92,7 +122,8 @@ class Timeline extends Component {
             </span>
           </div>
 
-          <div className="right-arrow-btn">
+          <div className="right-arrow-btn"
+            onClick={() => this.showNextSlides()}>
             <span className="icon">
               <i className="fa fa-chevron-circle-right"></i>
             </span>

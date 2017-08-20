@@ -82,6 +82,8 @@ class QuillComp extends React.Component {
   }
 
   render() {
+    setTimeout(() => this.saveQuill(), 60000)
+
     return (
       <div className="text-editor">
         <CustomToolbar saving={this.state.saving} />
@@ -93,11 +95,11 @@ class QuillComp extends React.Component {
           formats={QuillComp.formats}
           theme={'snow'}
         >
-          <div
-            key="editor"
-            ref="editor"
-            className="quill-contents"
-          />
+        <div
+          key="editor"
+          ref="editor"
+          className="quill-contents"
+        />
         </ReactQuill>
       </div>
     )
