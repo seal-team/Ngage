@@ -45,30 +45,27 @@ class QuillComp extends React.Component {
     this.setState({saving: 'is-loading'})
     const quillContents = this.quillRef.getContents()
 
+    const { presentationID, slideID } = this.props.match.params
     const slideRef = firebase.database()
-      .ref('presentations')
-      .child(this.props.match.params.presentationID)
-      .child('slides')
-      .child(this.props.match.params.slideID)
+      .ref(`presentations/${presentationID}/slides/${slideID}`)
 
     slideRef.child('type').set('quill')
     slideRef.child('quillContents').set(JSON.stringify(quillContents))
 
-    setTimeout(() => { this.setState({saving: ''}) }, 1000)
+    setTimeout(() => { this.setState({saving: ''}) }, 500)
   }
 
   insertQuill = () => {
-    const slideRef = firebase.database()
-      .ref('presentations')
-      .child(this.props.match.params.presentationID)
-      .child('slides')
-      .child(this.props.match.params.slideID)
-    slideRef.once('value', (snapshot) => {
-      const slide = snapshot.val()
-      let setSlide=''
-      if (slide && slide.quillContents) setSlide = JSON.parse(slide.quillContents)
-      this.quillRef.setContents(setSlide)
-    })
+    const { presentationID, slideID } = this.props.match.params
+
+    firebase.database()
+      .ref(`presentations/${presentationID}/slides/${slideID}`)
+      .once('value', (snapshot) => {
+        const slide = snapshot.val()
+        let setSlide=''
+        if (slide && slide.quillContents) setSlide = JSON.parse(slide.quillContents)
+        this.quillRef.setContents(setSlide)
+      })
   }
 
   handleChange= (html) => {
@@ -85,9 +82,11 @@ class QuillComp extends React.Component {
   }
 
   render() {
+    setTimeout(() => this.saveQuill(), 60000)
+
     return (
       <div className="text-editor">
-        <CustomToolbar saving = {this.state.saving} />
+        <CustomToolbar saving={this.state.saving} />
         <ReactQuill
           ref={(el) => { this.reactQuillRef = el }}
           onChange={this.handleChange}
@@ -96,11 +95,11 @@ class QuillComp extends React.Component {
           formats={QuillComp.formats}
           theme={'snow'}
         >
-          <div
-            key="editor"
-            ref="editor"
-            className="quill-contents"
-          />
+        <div
+          key="editor"
+          ref="editor"
+          className="quill-contents"
+        />
         </ReactQuill>
       </div>
     )

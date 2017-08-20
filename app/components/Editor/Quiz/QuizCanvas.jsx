@@ -2,146 +2,70 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import firebase from 'APP/fire'
 
+import QuizModal from './QuizModal'
+import { getQuestion, getAnswers, getCorrectAnswers } from '../../../helpers'
+
 class QuizCanvas extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      numberOfAnswers: [null, null]
+      numberOfAnswers: [null, null],
+      quizModal: false
     }
-
-    this.submitNewQuiz = this.submitNewQuiz.bind(this)
-    this.handleNumberOfAnswers = this.handleNumberOfAnswers.bind(this)
   }
 
-  submitNewQuiz(evt) {
-    evt.preventDefault()
-
-    const formData = evt.target
-    const question = formData.question.value
-    if (!question.length) return alert('Cannot leave question blank!')
-
-    let answers = [], correctAnswers = []
-    for (let i = 0; i < this.state.numberOfAnswers.length; i++) {
-      const answerName = `correct-answer-${i}`, answer = `answer-${i}`
-
-      if (formData[answerName].checked) correctAnswers.push(formData[answer].value)
-
-      if (!formData[answer].value.length) return alert('Cannot leave answer blank!')
-      else answers.push(formData[answer].value)
-    }
-    if (!correctAnswers.length) return alert('Must select at least one correct answer!')
-
-    const { presentationID, slideID } = this.props.match.params
-    const slideRef = firebase.database()
-      .ref(`presentations/${presentationID}/slides/${slideID}`)
-
-    slideRef.child('type').set('quiz')
-
-    slideRef.child('quiz-contents').set({
-      question,
-      answers,
-      correctAnswers
-    })
-
-    // this.props.forceRerender()
-    // this.props.toggleQuizModal()
+  toggleQuizModal = () => {
+    this.setState({ quizModal: !this.state.quizModal })
   }
 
-  handleNumberOfAnswers(evt) {
+  handleNumberOfAnswers = evt => {
     const numberOfAnswers = Array.apply(null, Array(+evt.target.value))
     this.setState({ numberOfAnswers })
   }
 
   render() {
-    // const exampleAnswers = ['New York', 'Mexico City', 'Los Angeles', 'Quebec', 'Chicago', 'Boston']
     const { presentationID, slideID } = this.props.match.params
 
-    let question = ''
-    const quizQuestion = firebase.database()
-      .ref(`presentations/${presentationID}/slides/${slideID}/quiz-contents/question`)
-      .once('value', snapshot => {
-        question = snapshot.val()
-      })
-
-    let answers = []
-    const quizAnswers = firebase.database()
-      .ref(`presentations/${presentationID}/slides/${slideID}/quiz-contents/answers`)
-      .once('value', snapshot => {
-        answers.push(snapshot.val())
-      })
-
-    let correctAnswers = []
-    const quizConnectedAnswer = firebase.database()
-      .ref(`presentations/${presentationID}/slides/${slideID}/quiz-contents/correctAnswers`)
-      .once('value', snapshot => {
-        answers.push(snapshot.val())
-      })
-
+    const quizQuestion = getQuestion(presentationID, slideID)
+    const quizAnswers = getAnswers(presentationID, slideID)
+    const quizCorrectAnswers = getCorrectAnswers(presentationID, slideID)
+    
     return (
-      <form onSubmit={this.submitNewQuiz}>
-        <div className="field question-container">
-          <label className="label">Question</label>
-          <div className="control">
+      <div className="edit-mode-quiz-canvas-container">
+        
+        <div className="edit-mode-quiz-title-container">
+          <span className="title edit-mode-quiz-title">Quiz</span>
 
-            <input className="input"
-              type="text"
-              name="question"
-              placeholder={question}
-            />
-          </div>
-        </div>
-
-        <div className="field is-grouped is-grouped-right answers-super-container">
-          <div className="num-of-answers-container field is-grouped">
-            <label className="label num-of-answers-title">Number of Answers</label>
-            <div className="control">
-              <div className="select">
-                <select onChange={this.handleNumberOfAnswers}>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <h1 className="subtitle correct-answer-title">
-            Select<br />
-            Correct<br />
-            Answer(s)
-          </h1>
-        </div>
-
-        {this.state.numberOfAnswers.map((answer, i) => (
-          <div key={i}>
-            <label className="label">Answer #{i + 1}</label>
-            <div className="field is-grouped">
-              <div className="control">
-                <input className="input answer-input"
-                  type="text"
-                  name={`answer-${i}`}
-                  placeholder={`ex.`}
-                />
-              </div>
-
-              <div className="control"
-                onClick={() => console.log('set new correct answer')}>
-                <input type="checkbox" name={`correct-answer-${i}`} />
-              </div>
-            </div>
-          </div>
-        ))}
-
-        <div className="control">
-          <button className="button is-primary"
-            type="submit">
-              Update Quiz
+          <button className="button is-warning"
+            onClick={() => this.props.toggleQuizModal(false)}>
+            Modify
           </button>
         </div>
 
-      </form>
+        <h1 className="subtitle edit-mode-question">
+          {quizQuestion}
+        </h1>
+
+        {quizAnswers.map((answer, i) => (
+          <div key={i} className="edit-mode-answer-container">
+            <span className="edit-mode-answer-nums">{i + 1}) </span>
+            <span className="edit-mode-quiz-answer">
+              {answer}
+            </span>
+          </div>
+        ))}
+
+        <h1 className="subtitle edit-mode-correct-answer-title">
+          Correct Answer(s):
+        </h1>
+
+        {quizCorrectAnswers.map((correctAnswer, i) => (
+          <h1 key={i} className="edit-mode-quiz-correct-answer">
+            - {correctAnswer}
+          </h1>
+        ))}
+
+      </div>
     )
   }
 }
