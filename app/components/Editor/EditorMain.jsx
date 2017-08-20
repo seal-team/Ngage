@@ -6,6 +6,7 @@ import SlideCanvas from './SlideCanvas'
 import SideBar from './SideBar'
 import Timeline from './Timeline'
 import QuizModal from './Quiz/QuizModal'
+import { getPresentationTitle } from '../../helpers'
 
 class EditorMain extends Component {
   constructor(props) {
@@ -23,10 +24,9 @@ class EditorMain extends Component {
 
   componentDidMount() {
     const { presentationID } = this.props.match.params
-    firebase.database().ref(`presentations/${presentationID}/title`)
-      .once('value', snapshot => {
-        this.setState({ presTitle: snapshot.val() })
-      })
+    getPresentationTitle(presentationID)
+      .then(res => res.val())
+      .then(presTitle => this.setState({ presTitle }))
   }
 
   toggleTimeline = () => {

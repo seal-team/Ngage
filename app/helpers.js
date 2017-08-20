@@ -14,25 +14,15 @@ export const getSlideType = (presentationID, slideID) => {
   return slideType
 }
 
-export const getPresentationTitle = presentationID => {
-  let slideTitle
+export const getPresentationTitle = presentationID =>
   firebase.database()
     .ref(`presentations/${presentationID}/title`)
-    .once('value', snapshot => {
-      slideTitle = snapshot.val()
-    })
-  return slideTitle
-}
+    .once('value', snapshot => snapshot)
 
-export const getSlides = presentationID => {
-  let slides
+export const getSlides = presentationID =>
   firebase.database()
     .ref(`presentations/${presentationID}/slides`)
-    .on('value', snapshot => {
-      slides = snapshot.val()
-    })
-  return slides
-}
+    .on('value', snapshot => snapshot)
 
 export const getQuillSnippet = (presentationID, slideID) => {
   let snippet
@@ -42,6 +32,24 @@ export const getQuillSnippet = (presentationID, slideID) => {
       snippet = snapshot.val()
     })
   return JSON.parse(snippet)
+}
+
+export const slideMetadata = (presentationID, slideID) => {
+  const slideData = {}
+  if (getSlideType(presentationID, slideID) === 'quill') {
+    slideData.type = 'Text'
+    const quillSnippet = getQuillSnippet(presentationID, slideID)
+    if (quillSnippet) slideData.content = quillSnippet.ops[0].insert.slice(0, 71)
+  }
+  else if (getSlideType(presentationID, slideID) === 'quiz') {
+    slideData.type = 'Quiz'
+    slideData.content = getQuestion(presentationID, slideID)
+  }
+  else if (getSlideType(presentationID, slideID) === 'VR') {
+    slideData.type = 'VR'
+    slideData.content = 'VR Name'
+  }
+  return slideData
 }
 
 // --------------------

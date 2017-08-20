@@ -3,7 +3,13 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
 
-import { getSlideType, getQuillSnippet, getQuestion } from '../../helpers'
+import {
+  getSlides,
+  getSlideType,
+  getQuillSnippet,
+  getQuestion,
+  slideMetadata
+} from '../../helpers'
 
 class Timeline extends Component {
   constructor() {
@@ -48,24 +54,6 @@ class Timeline extends Component {
     this.props.history.push(`/edit/${this.props.presID}/slide/${slide}`)
   }
 
-  slideMetadata = (presentationID, slideID) => {
-    const slideData = {}
-    if (getSlideType(presentationID, slideID) === 'quill') {
-      slideData.type = 'Text'
-      const quillSnippet = getQuillSnippet(presentationID, slideID)
-      if (quillSnippet) slideData.content = quillSnippet.ops[0].insert.slice(0, 71)
-    }
-    else if (getSlideType(presentationID, slideID) === 'quiz') {
-      slideData.type = 'Quiz'
-      slideData.content = getQuestion(presentationID, slideID)
-    }
-    else if (getSlideType(presentationID, slideID) === 'VR') {
-      slideData.type = 'VR'
-      slideData.content = 'VR Name'
-    }
-    return slideData
-  }
-
   render() {
     const { presentationID, slideID } = this.props.match.params
     const slides = this.state.slides
@@ -88,10 +76,10 @@ class Timeline extends Component {
               onClick={() => this.selectSlide(slide)}>
                 <div className="timeline-slide-contents-container">
                   <p className="timeline-slide-type">
-                    {this.slideMetadata(presentationID, slide).type}
+                    {slideMetadata(presentationID, slide).type}
                   </p>
                   <p className="timeline-slide-contents">
-                    {this.slideMetadata(presentationID, slide).content}
+                    {slideMetadata(presentationID, slide).content}
                   </p>
                 </div>
             </div>
