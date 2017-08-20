@@ -50,6 +50,24 @@ class Timeline extends Component {
     this.setState({ slidesCount: this.state.slidesCount++ })
   }
 
+  deleteCurrentSlide = (e) => {
+    e.preventDefault()
+    const currentPresentation = firebase.database()
+      .ref('presentations')
+      .child(this.props.presID)
+      .child('slides')
+      .child(this.props.match.params.slideID)
+    console.log(currentPresentation)
+    currentPresentation.remove()
+      .then(() => {
+        console.log(firebase)
+        // this.props.history.push(`/edit/${this.props.presID}`)
+      })
+      .catch(() => {
+        console.log('nothing to delete!')
+      })
+  }
+
   selectSlide = (slide) => {
     this.props.selectSlide(slide)
     this.props.history.push(`/edit/${this.props.presID}/slide/${slide}`)
@@ -79,6 +97,13 @@ class Timeline extends Component {
             onClick={this.makeNewSlide}>
             <span className="icon">
               <i className="fa fa-plus-square-o"></i>
+            </span>
+          </div>
+
+          <div className="minus-slide-btn"
+            onClick={this.deleteCurrentSlide}>
+            <span className="icon">
+              <i className="fa fa-minus-square-o"></i>
             </span>
           </div>
 

@@ -59,6 +59,31 @@ class Profile extends Component {
     })
   }
 
+  deletePresentation = (e, id) => {
+    const currentPresentation = firebase.database()
+      .ref('presentations')
+      .child(id)
+    console.log(id)
+    currentPresentation.remove()
+      .then(() => {
+        const userPresentation = firebase.database()
+          .ref('users')
+          .child(this.state.uid)
+          .child('presentations')
+          .child(id)
+        userPresentation.remove()
+          .then(() => {
+            console.log('user presentation removed')
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   render() {
     const user = this.props.user
     return (
@@ -88,6 +113,12 @@ class Profile extends Component {
                               className="button is-small profile-btn">
                                 <span className="icon">
                                   Edit<i className="fa fa-edit profile-icon"></i>
+                                </span>
+                            </a>
+                            <a onClick={(e) => this.deletePresentation(e, `${item.id}`)}
+                              className="button is-small profile-btn">
+                                <span className="icon">
+                                  Delete<i className="fa fa-delete profile-icon"></i>
                                 </span>
                             </a>
                             <Link to={`/view/${item.id}`}
