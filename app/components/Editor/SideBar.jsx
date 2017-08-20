@@ -5,13 +5,13 @@ import { connect } from 'react-redux'
 import MediaModal from './Media/MediaModal'
 import VRUploader from './Media/VRUploader'
 import Uploader from './Media/Uploader'
-import NewQuizModal from './Quiz/NewQuizModal'
+import QuizModal from './Quiz/QuizModal'
 
 class SideBar extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeTab: [false, false, false, false],
+      activeTab: [false, false],
       uid: null,
       mediaType: '',
       mediaModal: false,
@@ -43,7 +43,6 @@ class SideBar extends Component {
     const activeTab = this.state.activeTab
     const mediaType = this.state.mediaType
 
-    console.log('sidebar props', this.props)
     return (
       <div>
         {this.state.mediaModal && 
@@ -73,52 +72,23 @@ class SideBar extends Component {
         }
 
         {this.state.quizModal &&
-          <NewQuizModal
+          <QuizModal
             toggleQuizModal={this.toggleQuizModal}
             forceRerender={this.props.forceRerender}
+            quizIsNew={true}
           />
         }
 
         <div className="sidebar-whole">
 
-          {/* All Text Options */}
-          <div>
-            <div className="button is-info sidebar-btn"
-              onClick={() => this.toggleAcitveTab(0)}>
-              <span className="sidebar-category">Text</span>
-            </div>
-
-            {activeTab[0] &&
-              <div className="sidebar-text-options options-container">
-                <p>Text Box</p>
-                <p>Bullet Points</p>
-              </div>
-            }
-          </div>
-
-          {/* All Shape Options */}
-          <div>
-            <div className="button is-danger sidebar-btn"
-              onClick={() => this.toggleAcitveTab(1)}>
-              <span className="sidebar-category">Shape</span>
-            </div>
-
-            {activeTab[1] &&
-              <div className="sidebar-shape-options options-container">
-                <p>Rectangle</p>
-                <p>Circle</p>
-              </div>
-            }
-          </div>
-
           {/* All Media Options */}
           <div>
             <div className="button is-primary sidebar-btn"
-              onClick={() => this.toggleAcitveTab(2)}>
+              onClick={() => this.toggleAcitveTab(0)}>
               <span className="sidebar-category">Media</span>
             </div>
 
-            {activeTab[2] &&
+            {activeTab[0] &&
               <div className="sidebar-media-options options-container">
                 <button className="button is-primary"
                 onClick={() => { this.handleMediaModal(); this.setState({ mediaType: 'Audio' }) }}>
@@ -139,17 +109,17 @@ class SideBar extends Component {
           {/* All Quiz Options */}
           <div>
             <div className="button is-warning sidebar-btn"
-              onClick={() => this.toggleAcitveTab(3)}>
+              onClick={() => this.toggleAcitveTab(1)}>
               <span className="sidebar-category">Quiz</span>
             </div>
 
-            {activeTab[3] &&
+            {activeTab[1] &&
               <div className="sidebar-quiz-options options-container">
                 <button className="button is-warning multiple-choice-btn"
                   onClick={() => this.toggleQuizModal()}>
-                    Multiple<br />Choice
+                    Multiple<br />
+                    Choice
                 </button>
-                <button className="button is-warning">Poll</button>
               </div>
             }
           </div>

@@ -2,52 +2,22 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import firebase from 'APP/fire'
 
+import QuizModal from './QuizModal'
+
 class QuizCanvas extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      numberOfAnswers: [null, null]
+      numberOfAnswers: [null, null],
+      quizModal: false
     }
-
-    this.submitNewQuiz = this.submitNewQuiz.bind(this)
-    this.handleNumberOfAnswers = this.handleNumberOfAnswers.bind(this)
   }
 
-  submitNewQuiz(evt) {
-    evt.preventDefault()
-
-    const formData = evt.target
-    const question = formData.question.value
-    if (!question.length) return alert('Cannot leave question blank!')
-
-    let answers = [], correctAnswers = []
-    for (let i = 0; i < this.state.numberOfAnswers.length; i++) {
-      const answerName = `correct-answer-${i}`, answer = `answer-${i}`
-
-      if (formData[answerName].checked) correctAnswers.push(formData[answer].value)
-
-      if (!formData[answer].value.length) return alert('Cannot leave answer blank!')
-      else answers.push(formData[answer].value)
-    }
-    if (!correctAnswers.length) return alert('Must select at least one correct answer!')
-
-    const { presentationID, slideID } = this.props.match.params
-    const slideRef = firebase.database()
-      .ref(`presentations/${presentationID}/slides/${slideID}`)
-
-    slideRef.child('type').set('quiz')
-
-    slideRef.child('quiz-contents').set({
-      question,
-      answers,
-      correctAnswers
-    })
-
-    // this.props.forceRerender()
-    // this.props.toggleQuizModal()
+  toggleQuizModal = () => {
+    this.setState({ quizModal: !this.state.quizModal })
   }
 
-  handleNumberOfAnswers(evt) {
+  handleNumberOfAnswers = evt => {
     const numberOfAnswers = Array.apply(null, Array(+evt.target.value))
     this.setState({ numberOfAnswers })
   }
@@ -63,85 +33,57 @@ class QuizCanvas extends Component {
         question = snapshot.val()
       })
 
-    let answers = []
+    const answers = []
     const quizAnswers = firebase.database()
       .ref(`presentations/${presentationID}/slides/${slideID}/quiz-contents/answers`)
       .once('value', snapshot => {
         answers.push(snapshot.val())
       })
 
-    let correctAnswers = []
+    const correctAnswers = []
     const quizConnectedAnswer = firebase.database()
       .ref(`presentations/${presentationID}/slides/${slideID}/quiz-contents/correctAnswers`)
       .once('value', snapshot => {
-        answers.push(snapshot.val())
+        correctAnswers.push(snapshot.val())
       })
+    
+    console.log('quiz canvas props', this.props)
 
     return (
-      <form onSubmit={this.submitNewQuiz}>
-        <div className="field question-container">
-          <label className="label">Question</label>
-          <div className="control">
+      <div>
+        {this.state.quizModal &&
+          <QuizModal
+            toggleQuizModal={this.toggleQuizModal}
+            quizIsNew={false}
+            // forceRerender={this.props.forceRerender}
+          />
+        }
 
-            <input className="input"
-              type="text"
-              name="question"
-              placeholder={question}
-            />
+        <div className="edit-mode-quiz-canvas-container">
+          
+          <div className="edit-mode-quiz-title-container">
+            <span className="title edit-mode-quiz-title">Quiz</span>
+
+            <button className="button is-warning"
+              onClick={() => this.toggleQuizModal()}>
+              Modify
+            </button>
           </div>
-        </div>
 
-        <div className="field is-grouped is-grouped-right answers-super-container">
-          <div className="num-of-answers-container field is-grouped">
-            <label className="label num-of-answers-title">Number of Answers</label>
-            <div className="control">
-              <div className="select">
-                <select onChange={this.handleNumberOfAnswers}>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                </select>
-              </div>
+          <h1 className="subtitle">{question}</h1>
+
+          {this.state.numberOfAnswers.map((answer, i) => (
+            <div key={i}>
+              <h1>Answer #{i + 1}</h1>
             </div>
-          </div>
+          ))}
 
-          <h1 className="subtitle correct-answer-title">
-            Select<br />
-            Correct<br />
-            Answer(s)
+          <h1 className="subtitle edit-mode-correct-answer-title">
+            Correct Answer(s):
           </h1>
+
         </div>
-
-        {this.state.numberOfAnswers.map((answer, i) => (
-          <div key={i}>
-            <label className="label">Answer #{i + 1}</label>
-            <div className="field is-grouped">
-              <div className="control">
-                <input className="input answer-input"
-                  type="text"
-                  name={`answer-${i}`}
-                  placeholder={`ex.`}
-                />
-              </div>
-
-              <div className="control"
-                onClick={() => console.log('set new correct answer')}>
-                <input type="checkbox" name={`correct-answer-${i}`} />
-              </div>
-            </div>
-          </div>
-        ))}
-
-        <div className="control">
-          <button className="button is-primary"
-            type="submit">
-              Update Quiz
-          </button>
-        </div>
-
-      </form>
+      </div>
     )
   }
 }

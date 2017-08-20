@@ -69,6 +69,11 @@
   border: 1px solid rgba(215, 169, 38, 0.1);
 }
 
+.view-pres-btn {
+  margin-top: 8%;
+  margin-bottom: 15%;
+}
+
 //-----------------------
 // ------ TIMELINE ------
 //-----------------------
@@ -160,14 +165,21 @@
   background-color: rgb(158, 158, 158);
 }
 
-
 //--------------------
 //------ CANVAS ------
 //--------------------
+.slide-canvas-super-container {
+  margin-top: 30px;
+  height: 500px;
+  width: 900px;
+  border: 1px solid black;
+  background-color: white;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
 .slide-canvas-container {
   height: 500px;
   width: 900px;
-  border: 2px solid black;
   background-color: white;
 }
 
@@ -227,7 +239,55 @@
   margin-top: 20px;
 }
 
-
-.view-pres-btn {
-  margin-top: 10%;
+//-----------------------
+// --- QUIZ EDIT MODE ---
+//-----------------------
+.edit-mode-quiz-canvas-container {
+  padding-top: 2%;
+  padding-right: 4%;
+  padding-left: 4%
 }
+
+.edit-mode-quiz-title {
+  text-align: center;
+}
+
+// .edit-mode-answers-super-container {
+//   margin-bottom: 1px !important;
+// }
+
+// .edit-mode-multiple-choice-btn {
+//   height: 75px;
+// }
+
+// .edit-mode-question-container {
+//   margin-bottom: 45px !important;
+// }
+
+// .edit-mode-correct-answer-title {
+//   text-align: center;
+//   font-style: italic;
+//   font-weight: bold;
+//   font-size: 15px;
+//   margin-bottom: 0px !important;
+// }
+
+// .edit-mode-num-of-answers-container {
+//   margin-right: 25%;
+// }
+
+// .edit-mode-num-of-answers-title {
+//   margin-bottom: 0px !important;
+//   padding-top: 4px;
+//   padding-right: 15px;
+// }
+
+// .edit-mode-answer-input {
+//   width: 500px;
+//   margin-bottom: 10px;
+//   margin-right: 45px;
+// }
+
+// .edit-mode-quiz-btns {
+//   margin-top: 20px;
+// }

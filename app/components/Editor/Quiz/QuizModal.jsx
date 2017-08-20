@@ -2,19 +2,15 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import firebase from 'APP/fire'
 
-class NewQuizModal extends Component {
+class QuizModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
       numberOfAnswers: [null, null]
     }
-
-    this.submitNewQuiz = this.submitNewQuiz.bind(this)
-    this.handleNumberOfAnswers = this.handleNumberOfAnswers.bind(this)
-    this.setCorrectAnswer = this.setCorrectAnswer.bind(this)
   }
 
-  submitNewQuiz(evt) {
+  submitOrUpdateQuiz = evt => {
     evt.preventDefault()
 
     const formData = evt.target
@@ -35,10 +31,7 @@ class NewQuizModal extends Component {
 
     const { presentationID, slideID } = this.props.match.params
     const slideRef = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('slides')
-      .child(slideID)
+      .ref(`presentations/${presentationID}/slides/${slideID}`)
 
     slideRef.child('type').set('quiz')
 
@@ -52,17 +45,18 @@ class NewQuizModal extends Component {
     this.props.toggleQuizModal()
   }
 
-  setCorrectAnswer(correctAnswer) {
+  setCorrectAnswer = correctAnswer => {
     this.setState({ correctAnswer })
   }
 
-  handleNumberOfAnswers(evt) {
+  handleNumberOfAnswers = evt => {
     const numberOfAnswers = Array.apply(null, Array(+evt.target.value))
     this.setState({ numberOfAnswers })
   }
 
   render() {
     const exampleAnswers = ['New York', 'Mexico City', 'Los Angeles', 'Quebec', 'Chicago', 'Boston']
+    const quizIsNew = this.props.quizIsNew
 
     return (
       <div className="modal is-active">
@@ -70,9 +64,11 @@ class NewQuizModal extends Component {
         <div className="modal-card">
           <section className="modal-card-body">
             <div className="field">
-              <label className="label title add-new-quiz">Add New Quiz</label>
+              <label className="label title add-new-quiz">
+                {quizIsNew ? 'Add New Quiz' : 'Modify Quiz'}
+              </label>
 
-              <form onSubmit={this.submitNewQuiz}>
+              <form onSubmit={this.submitOrUpdateQuiz}>
                 <div className="field question-container">
                   <label className="label">Question</label>
                   <div className="control">
@@ -153,4 +149,4 @@ class NewQuizModal extends Component {
   }
 }
 
-export default withRouter(NewQuizModal)
+export default withRouter(QuizModal)
