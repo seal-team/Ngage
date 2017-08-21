@@ -4,6 +4,9 @@ import firebase from 'APP/fire'
 
 import ReactQuill, { Quill, Mixin, Toolbar } from 'react-quill'
 import theme from 'react-quill/dist/quill.snow.css'
+import { ImageResize } from 'quill-image-resize-module'
+
+Quill.register('modules/imageResize', ImageResize)
 
 import CustomToolbar from './CustomToolbar'
 
@@ -78,11 +81,14 @@ class QuillComp extends React.Component {
       handlers: {
         'save': this.saveQuill
       }
+    },
+    imageResize: {
+      displaySize: true
     }
   }
 
   render() {
-    setTimeout(() => this.saveQuill(), 60000)
+    // setTimeout(() => this.saveQuill(), 60000)
 
     return (
       <div className="text-editor">
@@ -90,7 +96,7 @@ class QuillComp extends React.Component {
         <ReactQuill
           ref={(el) => { this.reactQuillRef = el }}
           onChange={this.handleChange}
-          placeholder={this.props.placeholder}
+          placeholder='Add text or images'
           modules={this.modules}
           formats={QuillComp.formats}
           theme={'snow'}
@@ -112,9 +118,5 @@ QuillComp.formats = [
   'list', 'bullet', 'indent', 'align',
   'link', 'image', 'video', 'background', 'color'
 ]
-
-QuillComp.propTypes = {
-  placeholder: React.PropTypes.string,
-}
 
 export default withRouter(QuillComp)

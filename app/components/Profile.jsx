@@ -5,6 +5,7 @@ import firebase from 'APP/fire'
 
 import WhoAmI from './WhoAmI'
 import NewPresentationModal from './NewPresentationModal'
+import DeletePresentationModal from './DeletePresentationModal'
 
 class Profile extends Component {
   constructor() {
@@ -12,12 +13,21 @@ class Profile extends Component {
     this.state = {
       presentations: [],
       uid: null,
-      showModal: false
+      showModal: false,
+      showDeleteModal: false,
+      presentationID: ''
     }
   }
 
   handleModal = (e) => {
     this.setState({ showModal: !this.state.showModal })
+  }
+
+  handleDeleteModal = (presentationID) => {
+    this.setState({
+      showDeleteModal: !this.state.showDeleteModal,
+      presentationID
+    })
   }
 
   handleLink = (action, id) => {
@@ -65,7 +75,14 @@ class Profile extends Component {
       <div className='whoami'>
         {user && <div>
           {this.state.showModal
-            && <NewPresentationModal handleModal={this.handleModal} />
+            && <NewPresentationModal
+            handleModal={this.handleModal} />
+          }
+          {this.state.showDeleteModal
+            && <DeletePresentationModal
+            handleDeleteModal={this.handleDeleteModal}
+            presentationID = {this.state.presentationID}
+            uid = {user} />
           }
           <section className='display-item'>
             <div className="columns">
@@ -96,6 +113,12 @@ class Profile extends Component {
                                   View<i className="fa fa-eye profile-icon"></i>
                                 </span>
                             </Link>
+                            <a onClick={() => this.handleDeleteModal(item.id)}
+                            className="button is-small profile-btn">
+                              <span className="icon">
+                                Delete<i className="fa fa-remove profile-icon"></i>
+                              </span>
+                          </a>
                           </span>
                           <span className="pres-name">
                             {item.title}

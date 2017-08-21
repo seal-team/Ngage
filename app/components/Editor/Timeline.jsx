@@ -10,6 +10,7 @@ import {
   getQuestion,
   slideMetadata
 } from '../../helpers'
+import DeleteSlideModal from '../DeleteSlideModal'
 
 class Timeline extends Component {
   constructor() {
@@ -19,7 +20,9 @@ class Timeline extends Component {
       fourSlides: [],
       slidesCount: 1,
       selectedSlide: 0,
-      quillSnippet: ''
+      quillSnippet: '',
+      showModal: false,
+      deleteGoTo: ''
     }
   }
 
@@ -77,15 +80,45 @@ class Timeline extends Component {
 
   }
 
+  handleModal = (deleteGoTo) => {
+    this.setState({
+      showModal: !this.state.showModal,
+      deleteGoTo
+    })
+  }
+
   render() {
     const { presentationID, slideID } = this.props.match.params
     const { slides, fourSlides } = this.state
 
+    if (slides) {
+      Object.keys(slides).forEach((slide, i) => {
+        if (Object.keys(slides).length === 1) {
+          slides[slide].showDelete = false
+        } else {
+          slides[slide].showDelete = true
+        }
+        if (i===0 && Object.keys(slides)[1]) {
+          slides[slide].deleteGoTo = Object.keys(slides)[1]
+        } else {
+          slides[slide].deleteGoTo = Object.keys(slides)[i-1]
+        }
+      })
+    }
+
     console.log('all slides: ', slides)
     console.log('four slides: ', fourSlides)
-    
+
     return (
       <div>
+        {this.state.showModal && 
+          <DeleteSlideModal
+            handleModal={this.handleModal}
+            presentationID = {presentationID}
+            slideID = {slideID}
+            deleteGoTo = {this.state.deleteGoTo}
+          /> 
+        }
         <div className="timeline-strip">
           <div className="left-arrow-btn"
             onClick={() => this.showPrevSlides()}>
@@ -107,6 +140,13 @@ class Timeline extends Component {
                     <span className="timeline-slide-type">
                       {slideMetadata(presentationID, slide).type}
                     </span>
+                    {slides[slide].showDelete &&
+                      <span className="icon remove-slide-btn">
+                        <i className="fa fa-times"
+                          onClick={() => this.handleModal(slides[slide].deleteGoTo)}>
+                        </i>
+                      </span>
+                    }
                   </div>
                   <p className="timeline-slide-contents">
                     {slideMetadata(presentationID, slide).content}
