@@ -67,8 +67,7 @@ class QuillComp extends React.Component {
       .ref(`presentations/${presentationID}/slides/${slideID}`)
     slideRef.once('value')
       .then((snapshot) => {
-        if (snapshot.val()) {
-          slideRef.child('type').set('quill')
+        if (snapshot.val().type === 'quill') {
           slideRef.child('quillContents').set(JSON.stringify(quillContents))
         }
       })
