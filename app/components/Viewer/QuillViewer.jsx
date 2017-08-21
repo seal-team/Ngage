@@ -34,7 +34,6 @@ class QuillComp extends React.Component {
   }
 
   insertQuill = () => {
-    console.log("myID", this.props.slideID)
     const slideRef = firebase.database()
       .ref('presentations')
       .child(this.props.match.params.presentationID)
