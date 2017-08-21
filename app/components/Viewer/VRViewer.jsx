@@ -11,87 +11,87 @@ class VRViewer extends Component {
     }
   }
   render() {
-    let currentscale
-    AFRAME.registerComponent('set-camera-top', {
-      schema: {
-        on: { type: 'string' },
-        target: { type: 'selector' },
-        dur: { type: 'number', default: 0 }
-      },
-      init: function() {
-        const data = this.data
-        const el = this.el
+    // let currentscale
+    // AFRAME.registerComponent('set-camera-top', {
+    //   schema: {
+    //     on: { type: 'string' },
+    //     target: { type: 'selector' },
+    //     dur: { type: 'number', default: 0 }
+    //   },
+    //   init: function() {
+    //     const data = this.data
+    //     const el = this.el
 
-        el.addEventListener(data.on, function() {
-          setTimeout(function() {
-        // Set camera.
-            data.target.setAttribute('position', '10 8 10')
-            data.target.setAttribute('rotation', '-28 45 0')
-          }, data.dur)
-        })
-      }
-    })
-    AFRAME.registerComponent('set-camera-bottom', {
-      schema: {
-        on: { type: 'string' },
-        target: { type: 'selector' },
-        dur: { type: 'number', default: 0 }
-      },
-      init: function() {
-        const data = this.data
-        const el = this.el
+    //     el.addEventListener(data.on, function() {
+    //       setTimeout(function() {
+    //     // Set camera.
+    //         data.target.setAttribute('position', '10 8 10')
+    //         data.target.setAttribute('rotation', '-28 45 0')
+    //       }, data.dur)
+    //     })
+    //   }
+    // })
+    // AFRAME.registerComponent('set-camera-bottom', {
+    //   schema: {
+    //     on: { type: 'string' },
+    //     target: { type: 'selector' },
+    //     dur: { type: 'number', default: 0 }
+    //   },
+    //   init: function() {
+    //     const data = this.data
+    //     const el = this.el
 
-        el.addEventListener(data.on, function() {
-          setTimeout(function() {
-        // Set camera.
-            data.target.setAttribute('position', '10 -8 10')
-            data.target.setAttribute('rotation', '28 45 0')
-          }, data.dur)
-        })
-      }
-    })
-    AFRAME.registerComponent('zoom-in', {
-      schema: {
-        on: { type: 'string' },
-        target: { type: 'selector' },
-        dur: { type: 'number', default: 0 }
-      },
-      init: function() {
-        const data = this.data
-        const el = this.el
+    //     el.addEventListener(data.on, function() {
+    //       setTimeout(function() {
+    //     // Set camera.
+    //         data.target.setAttribute('position', '10 -8 10')
+    //         data.target.setAttribute('rotation', '28 45 0')
+    //       }, data.dur)
+    //     })
+    //   }
+    // })
+    // AFRAME.registerComponent('zoom-in', {
+    //   schema: {
+    //     on: { type: 'string' },
+    //     target: { type: 'selector' },
+    //     dur: { type: 'number', default: 0 }
+    //   },
+    //   init: function() {
+    //     const data = this.data
+    //     const el = this.el
 
-        el.addEventListener(data.on, () => {
-          if (currentscale) {
-            currentscale = currentscale.split(' ').map((el) => ((Number(el) + 0.3))).join(' ')
-          } else {
-            currentscale = data.target.attributes.scale.nodeValue.split(' ').map((el) => ((Number(el) + 0.3))).join(' ')
-          }
-          console.log(currentscale)
-                    // Set camera.
-          data.target.setAttribute('scale', currentscale)
-        })
-      }
-    })
-    AFRAME.registerComponent('zoom-out', {
-      schema: {
-        on: { type: 'string' },
-        target: { type: 'selector' },
-      },
-      init: function() {
-        const data = this.data
-        const el = this.el
-        el.addEventListener(data.on, () => {
-          if (currentscale) {
-            currentscale = currentscale.split(' ').map((el) => ((Number(el) - 0.3))).join(' ')
-          } else {
-            currentscale = data.target.attributes.scale.nodeValue.split(' ').map((el) => ((Number(el) - 0.3))).join(' ')
-          }
-          console.log(currentscale)
-                    // Set camera.
-          data.target.setAttribute('scale', currentscale)
-        })
-      }
-    })
+    //     el.addEventListener(data.on, () => {
+    //       if (currentscale) {
+    //         currentscale = currentscale.split(' ').map((el) => ((Number(el) + 0.3))).join(' ')
+    //       } else {
+    //         currentscale = data.target.attributes.scale.nodeValue.split(' ').map((el) => ((Number(el) + 0.3))).join(' ')
+    //       }
+    //       console.log(currentscale)
+    //                 // Set camera.
+    //       data.target.setAttribute('scale', currentscale)
+    //     })
+    //   }
+    // })
+    // AFRAME.registerComponent('zoom-out', {
+    //   schema: {
+    //     on: { type: 'string' },
+    //     target: { type: 'selector' },
+    //   },
+    //   init: function() {
+    //     const data = this.data
+    //     const el = this.el
+    //     el.addEventListener(data.on, () => {
+    //       if (currentscale) {
+    //         currentscale = currentscale.split(' ').map((el) => ((Number(el) - 0.3))).join(' ')
+    //       } else {
+    //         currentscale = data.target.attributes.scale.nodeValue.split(' ').map((el) => ((Number(el) - 0.3))).join(' ')
+    //       }
+    //       console.log(currentscale)
+    //                 // Set camera.
+    //       data.target.setAttribute('scale', currentscale)
+    //     })
+    //   }
+    // })
 
     return (
             <Scene>
@@ -104,6 +104,7 @@ class VRViewer extends Component {
                         <img id='zoom-out' src='../../../public/bottom.png'></img>
 
                         <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
+                        </a-assets>
 
                         {/* <!-- this creates a template that makes the buttons pop-out when you click and it calls the AFRAME component in changeView --> */}
                         <script id="toplink" type="text/html">
@@ -130,7 +131,6 @@ class VRViewer extends Component {
                                 zoom-out="on: click; target: #builded-object" sound="on: click; src: #click-sound">
                             </Entity>
                         </script>
-                    </a-assets>
 
                     {/* <!-- this will load the model --> */}
                     <a-obj-model id='builded-object' src="#object" mtl="#material" rotate='0 0 0' position='0,0,0' scale="1 1 1">

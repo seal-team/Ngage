@@ -12,7 +12,8 @@ export const getSlideType = (presentationID, slideID) =>
 export const getPresentationTitle = presentationID =>
   firebase.database()
     .ref(`presentations/${presentationID}/title`)
-    .once('value', snapshot => snapshot)
+    .once('value')
+    .then(presTitle => presTitle.val())
 
 export const getSlides = presentationID =>
   firebase.database()
@@ -35,7 +36,7 @@ export const slideMetadata = (presentationID, slideID) => {
   if (getSlideType(presentationID, slideID) === 'quill') {
     slideData.type = 'Text'
     const quillSnippet = getQuillSnippet(presentationID, slideID)
-    if (quillSnippet) slideData.content = quillSnippet.ops[0].insert.slice(0, 71)
+    if (quillSnippet) slideData.content = quillSnippet.ops[0].insert.slice(0, 71) || 'Image'
   }
   else if (getSlideType(presentationID, slideID) === 'quiz') {
     slideData.type = 'Quiz'

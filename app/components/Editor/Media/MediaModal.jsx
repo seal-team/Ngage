@@ -1,7 +1,7 @@
 /*
 
 Dummy Component for Media
-is Modal for uploading different medias
+This is Modal for uploading medias
 
 */
 import React, { Component } from 'react'
@@ -13,8 +13,7 @@ class MediaModal extends Component {
     super(props)
     this.state = {
       allMediaObject: {},
-      urlArray: ['https://firebasestorage.googleapis.com/v0/b/ngage-fae7f.appspot.com/o/VR%2Faudioptimised02.obj?alt=media&token=aed2511d-4244-4f37-8a70-0363a6212521',
-        'https://firebasestorage.googleapis.com/v0/b/ngage-fae7f.appspot.com/o/VR%2Fstandard-male-figure.mtl?alt=media&token=4d08b407-a866-4edc-97e6-150d2262872e'],
+      urlArray: [],
       mediaUrl: ''
     }
   }
@@ -24,11 +23,12 @@ class MediaModal extends Component {
   }
 
   createTable = () => {
-    firebase.database().ref('/Media/' + `${this.props.mediaType}/`).once('value')
+    firebase.database().ref(`/Media/${this.props.mediaType}/`).once('value')
       .then((snapshot) => {
         this.setState({ allMediaObject: snapshot.val() })
       })
   }
+
   setSelectedItemToState = (media) => {
     media.url2 ? (this.setState({urlArray: [media.url, media.url2]})) : (this.setState({mediaUrl: media.url}))
   }
@@ -46,6 +46,7 @@ class MediaModal extends Component {
       VRurl
     })
   }
+
   createMedia = () => {
     const mediaUrl = this.state.mediaUrl
     const { presentationID, slideID } = this.props.match.params
@@ -59,6 +60,7 @@ class MediaModal extends Component {
     slideRef.child(`${this.props.mediaType}-contents`)
       .set({mediaUrl})
   }
+
   renderTypeOfMedia = () => {
     if (this.props.mediaType ==='VR') {
       this.props.handleModal()
@@ -68,6 +70,7 @@ class MediaModal extends Component {
       this.createMedia()
     }
   }
+
   render() {
     const allMediaObject = this.state.allMediaObject
     const keys = Object.keys(allMediaObject)

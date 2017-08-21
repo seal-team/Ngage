@@ -1,5 +1,5 @@
 /*
-Modal that let you upload the file to firebase storage
+Modal that let you upload VR files to firebase storage
 */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -22,9 +22,9 @@ class VRUploader extends Component {
   listenForFile = (e) => {
     const uploader = document.getElementById('upload')
     const fileButton = document.getElementById('fileButton')
-        // listen for file selection
+        // listen for file selections
     fileButton.addEventListener('change', (e) => {
-            // get file and put it on state
+            // get files and put it on state
       const file = e.target.files[0]
       this.setState({ file })
     })
@@ -34,7 +34,7 @@ class VRUploader extends Component {
     const fileButton = document.getElementById('fileButton2')
         // listen for file selection
     fileButton.addEventListener('change', (e) => {
-            // get file and put it on state
+            // put files on state
       const file2 = e.target.files[0]
       this.setState({ file2 })
     })
@@ -46,20 +46,22 @@ class VRUploader extends Component {
   submitFile = () => {
     const uploader = document.getElementById('upload')
     const uploader2 = document.getElementById('upload2')
-    // grab the selected file from state
+    // grab the selected files from state
     const file = this.state.file
     const file2 =this.state.file2
     // grab the description
     const description = this.state.mediaDescription
-    // put the stuff on the cloud
+    // put the files on the Firebase cloud
     const storageRef = firebase.storage().ref('/' + this.props.mediaType + '/' + file.name)
     const storageRef2 = firebase.storage().ref('/' + this.props.mediaType + '/' + file2.name)
     const task = storageRef.put(file)
     const task2 = storageRef2.put(file2)
     // select a new Key
     const newMediaKey = firebase.database().ref().child(file.name.split('.')[0] + '/').push().key
-    console.log('this is mediakey', newMediaKey)
     // task take care of progress bar, if sucessful it'll update the database with corrosponding information.
+    // information include url, user id, file name and file description.
+
+    // take care of object file of VR rendering.
     task.on('state_changed',
         function progress(snapshot) {
           const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -82,19 +84,21 @@ class VRUploader extends Component {
             .update(newMediaData)
         }
     )
+
+    // keep track of material file for VR.
     task2.on('state_changed',
         function progress(snapshot) {
-            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            uploader2.value = percentage
+          const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          uploader2.value = percentage
         },
         function error(err) {
-            alert(err)
+          alert(err)
         },
         () => {
-            const downloadUrl2 = task2.snapshot.downloadURL
-            const updatepath = ('Media/VR/' + newMediaKey)
-            const newMediaData2 = { url2: downloadUrl2 }
-            firebase.database().ref('Media')
+          const downloadUrl2 = task2.snapshot.downloadURL
+          const updatepath = ('Media/VR/' + newMediaKey)
+          const newMediaData2 = { url2: downloadUrl2 }
+          firebase.database().ref('Media')
             .child('VR')
             .child(newMediaKey)
             .update(newMediaData2)
