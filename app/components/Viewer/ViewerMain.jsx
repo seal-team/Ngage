@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
 
-import SlideCanvas from './SlideCanvas'
+import SlideCanvasViewer from './SlideCanvasViewer'
 import Chat from './chat'
 import Scratchpad from './scratchpad'
 import Graph from './Graph'
@@ -73,9 +73,9 @@ class ViewerMain extends Component {
           <div>
             <div className="section columns slide-and-chat">
               <div className="slide column">
-                <SlideCanvas
+                <SlideCanvasViewer
                   presID={this.props.match.params.presentationID}
-                  slideID={this.state.slideID || this.state.firstSlide}
+                  slideID={this.state.slideID}
                   disabled={disabledSlides}
                 />
               </div>

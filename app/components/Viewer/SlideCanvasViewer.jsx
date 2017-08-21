@@ -34,6 +34,7 @@ class SlideCanvas extends Component {
       .ref('presentations')
       .child(this.props.presID)
       .child('slides')
+    
     slides.on('value', (snapshot) => {
       const allslides = snapshot.val()
       this.setState({slides: allslides})
@@ -96,16 +97,17 @@ class SlideCanvas extends Component {
   }
 
   render() {
-    console.log('slideid', this.state.slideID, this.state.type)
+    console.log('Canvas State slideID', this.state.slideID)
+    console.log('Canvas props slideID', this.props.slideID)
     const type = this.state.type
 
     let typeComp = null
     if (type === 'quill') {
-        typeComp = <QuillViewer presID={this.props.presID} slideID={this.state.slideID} />
+        typeComp = <QuillViewer presID={this.props.presID} slideID={this.props.slideID} />
     } else if (type === 'vr') {
         // typeComp = <VRViewer presID={this.props.presID} slideID={this.state.slideID} />
     } else if (type === 'quiz') {
-        typeComp = <QuizViewer presID={this.props.presID} slideID={this.state.slideID} />
+        typeComp = <QuizViewer presID={this.props.presID} slideID={this.props.slideID} />
     }
 
     const info = this.state.info
