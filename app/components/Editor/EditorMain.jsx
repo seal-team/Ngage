@@ -25,19 +25,21 @@ class EditorMain extends Component {
   componentDidMount() {
     const { presentationID } = this.props.match.params
     getPresentationTitle(presentationID)
-      .then(presTitle => this.setState({ presTitle }))
+      .then(presTitle => this.setState(prevState => ({ presTitle })))
       .catch(console.error)
   }
 
   toggleTimeline = () => {
-    this.setState({
-      timelineIsHidden: !this.state.timelineIsHidden
-    })
+    this.setState(prevState => ({
+      timelineIsHidden: !prevState.timelineIsHidden
+    }))
   }
 
   toggleQuizModal = quizIsNew => {
-    this.setState({ quizIsNew })
-    this.setState({ quizModalIsShowing: !this.state.quizModalIsShowing })
+    this.setState(prevState => ({ quizIsNew }))
+    this.setState(prevState =>
+      ({ quizModalIsShowing: !prevState.quizModalIsShowing })
+    )
   }
 
   toggleToPresentMode = presentationID => {
