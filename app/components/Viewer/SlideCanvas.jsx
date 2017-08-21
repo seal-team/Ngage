@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import firebase from 'firebase'
-
+import { withRouter } from 'react-router-dom'
 import QuillViewer from './QuillViewer'
 import QuizViewer from './QuizViewer'
 
@@ -37,7 +37,7 @@ class SlideCanvas extends Component {
       const allslides = snapshot.val()
       this.setState({slides: allslides})
     })
-    
+
     const slide = slides.child(this.props.slideID)
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
@@ -147,4 +147,4 @@ class SlideCanvas extends Component {
   }
 }
 
-export default SlideCanvas
+export default withRouter(SlideCanvas)
