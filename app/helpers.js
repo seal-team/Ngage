@@ -4,15 +4,10 @@ import firebase from 'APP/fire'
 // ----------------------------------
 // --- Presentation/Slide Helpers ---
 // ----------------------------------
-export const getSlideType = (presentationID, slideID) => {
-  let slideType
+export const getSlideType = (presentationID, slideID) =>
   firebase.database()
     .ref(`presentations/${presentationID}/slides/${slideID}/type`)
-    .once('value', snapshot => {
-      slideType = snapshot.val()
-    })
-  return slideType
-}
+    .once('value').then(res => res.val())
 
 export const getPresentationTitle = presentationID =>
   firebase.database()
@@ -22,7 +17,8 @@ export const getPresentationTitle = presentationID =>
 export const getSlides = presentationID =>
   firebase.database()
     .ref(`presentations/${presentationID}/slides`)
-    .on('value', snapshot => snapshot)
+    .once('value')
+    .then()
 
 export const getQuillSnippet = (presentationID, slideID) => {
   let snippet

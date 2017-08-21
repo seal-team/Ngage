@@ -20,28 +20,43 @@ class SlideCanvas extends Component {
 
   componentDidMount() {
     const { presentationID } = this.props.match.params
-    const ref = firebase.database()
-      .ref(`presentations/${presentationID}/active`)
-      .on('value', snapshot => {
-        const activeSlideId = snapshot.val()
-        console.log('activeSlideId', activeSlideId)
-        if (activeSlideId) {
-          this.setState({
-            slideID: activeSlideId,
-            type: getSlideType(presentationID, activeSlideId)
-          })
-        }
-      })
-   
+    
     const slides = firebase.database()
       .ref('presentations')
       .child(this.props.presID)
       .child('slides')
-    
+
     slides.on('value', (snapshot) => {
       const allslides = snapshot.val()
-      this.setState({slides: allslides})
+      this.setState({ slides: allslides })
     })
+
+    firebase.database()
+      .ref(`presentations/${presentationID}/active`)
+      .on('value', snapshot => {
+        const activeSlideId = snapshot.val()
+        console.log('activeSlideId', activeSlideId)
+        
+        getSlideType(presentationID, activeSlideId)
+          .then(type => {
+            if (activeSlideId) {
+              this.setState({
+                slideID: activeSlideId,
+                type
+              })
+            }
+          })
+      })
+  }
+
+  componentWillUnmount() {
+    console.log('----------------UNMOUNT--------------------')
+    console.log('all slides', this.state.slides)
+    
+    const firstSlide = Object.keys(this.state.slides)[0]
+    firebase.database()
+      .ref(`/presentations/${this.props.presID}/active`)
+      .set(firstSlide)
   }
 
   toggleBack = () => {
@@ -51,6 +66,7 @@ class SlideCanvas extends Component {
       .child(this.props.presID)
       .child('slides')
       .child(currSlide)
+
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
       this.setState({
@@ -60,9 +76,11 @@ class SlideCanvas extends Component {
         slideID: currSlide
       })
     })
+
     const presentation = firebase.database()
       .ref('presentations')
       .child(this.props.presID)
+    
     presentation.child('active').set(currSlide)
   }
 
