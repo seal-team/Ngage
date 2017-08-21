@@ -25,8 +25,8 @@ class EditorMain extends Component {
   componentDidMount() {
     const { presentationID } = this.props.match.params
     getPresentationTitle(presentationID)
-      .then(res => res.val())
       .then(presTitle => this.setState({ presTitle }))
+      .catch(console.error)
   }
 
   toggleTimeline = () => {
@@ -50,8 +50,7 @@ class EditorMain extends Component {
 
   render() {
     const { presentationID, slideID } = this.props.match.params
-    const timelineIsHidden = this.state.timelineIsHidden
-    const quizModalIsShowing = this.state.quizModalIsShowing
+    const { timelineIsHidden, quizModalIsShowing } = this.state
 
     return (
       <div>
