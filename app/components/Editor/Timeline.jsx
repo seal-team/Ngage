@@ -38,7 +38,6 @@ class Timeline extends Component {
 
   makeNewSlide = () => {
     this.setState({ slidesCount: this.state.slidesCount++ })
-
     firebase.database()
       .ref(`users/${this.props.user}/activePresentation`)
       .on('value', snapshot => {
@@ -52,7 +51,6 @@ class Timeline extends Component {
 
         this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)
       })
-
     this.setState({ slidesCount: this.state.slidesCount++ })
   }
 
@@ -111,13 +109,13 @@ class Timeline extends Component {
 
     return (
       <div>
-        {this.state.showModal && 
+        {this.state.showModal &&
           <DeleteSlideModal
             handleModal={this.handleModal}
             presentationID = {presentationID}
             slideID = {slideID}
             deleteGoTo = {this.state.deleteGoTo}
-          /> 
+          />
         }
         <div className="timeline-strip">
           <div className="left-arrow-btn"

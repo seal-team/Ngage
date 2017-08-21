@@ -29,25 +29,21 @@ class ViewerMain extends Component {
   }
 
   componentDidMount(props) {
-    const presentationID = this.props.match.params.presentationID
-    const ref = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('active')
-    ref.on('child_changed', function(snapshot) {
-      const theId = snapshot.val()
-      this.setState({slideID: theId})
-      console.log('my id', theId)
-    })
+    const { presentationID } = this.props.match.params
+    firebase.database()
+      .ref(`presentation/${presentationID}/active`)
+      .on('child_changed', function(snapshot) {
+        const theId = snapshot.val()
+        this.setState({slideID: theId})
+        console.log('my id', theId)
+      })
 
-    const owner = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('userID')
-    owner.on('value', snapshot => {
-      const creator = snapshot.val()
-      this.setState({ owner: creator, user: this.props.user })
-    })
+    firebase.database()
+      .ref(`presentation/${presentationID}/userID`)
+      .on('value', snapshot => {
+        const creator = snapshot.val()
+        this.setState({ owner: creator, user: this.props.user })
+      })
 
     const slides = firebase.database()
       .ref('presentations')
