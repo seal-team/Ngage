@@ -34,10 +34,10 @@ class ViewerMain extends Component {
       .ref('presentations')
       .child(presentationID)
       .child('active')
-    ref.on('value', function(snapshot) {
-      const theId = snapshot.val()
-      this.setState({slideID: theId})
-      console.log('my id', theId)
+    ref.on('value', snapshot => {
+      const activeSlideId = snapshot.val()
+      console.log('activeSlideId', activeSlideId)
+      if (activeSlideId) this.setState({slideID: activeSlideId})
     })
 
     firebase.database()
@@ -45,6 +45,11 @@ class ViewerMain extends Component {
       .on('value', snapshot => {
         const creator = snapshot.val()
         this.setState({ owner: creator, user: this.props.user })
+        if (creator) {
+          if (creator === this.props.user) {
+            this.setState({ disabledSlides: false })
+          }
+        }
       })
 
     const slides = firebase.database()
@@ -55,13 +60,6 @@ class ViewerMain extends Component {
       const firstSlide = Object.keys(value)[0]
       this.setState({ presentationID, firstSlide: firstSlide })
     })
-
-    const { owner, user } = this.state
-    if (owner) {
-      if (owner === user) {
-        this.setState({ disabledSlides: false })
-      }
-    }
   }
 
   disableUsers = () => {
@@ -70,7 +68,7 @@ class ViewerMain extends Component {
 
   render() {
     const disabledSlides = this.state.disabledSlides
-    console.log('the state', this.state)
+    
     return (
       <div className="viewer-main-container">
         {this.state.firstSlide &&
