@@ -111,12 +111,14 @@ class Timeline extends Component {
 
     return (
       <div>
-       {this.state.showModal && <DeleteSlideModal
-         handleModal={this.handleModal}
-         presentationID = {presentationID}
-         slideID = {slideID}
-         deleteGoTo = {this.state.deleteGoTo}
-       /> }
+        {this.state.showModal && 
+          <DeleteSlideModal
+            handleModal={this.handleModal}
+            presentationID = {presentationID}
+            slideID = {slideID}
+            deleteGoTo = {this.state.deleteGoTo}
+          /> 
+        }
         <div className="timeline-strip">
           <div className="left-arrow-btn"
             onClick={() => this.showPrevSlides()}>
@@ -138,13 +140,17 @@ class Timeline extends Component {
                     <span className="timeline-slide-type">
                       {slideMetadata(presentationID, slide).type}
                     </span>
+                    {slides[slide].showDelete &&
+                      <span className="icon remove-slide-btn">
+                        <i className="fa fa-times"
+                          onClick={() => this.handleModal(slides[slide].deleteGoTo)}>
+                        </i>
+                      </span>
+                    }
                   </div>
                   <p className="timeline-slide-contents">
                     {slideMetadata(presentationID, slide).content}
                   </p>
-                  {slides[slide].showDelete && <span className='is-pulled-right'>
-                    <i onClick={() => this.handleModal(slides[slide].deleteGoTo)} className="fa fa-times"></i>
-                  </span>}
                 </div>
             </div>
           ))}

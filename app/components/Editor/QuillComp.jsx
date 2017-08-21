@@ -88,7 +88,7 @@ class QuillComp extends React.Component {
   }
 
   render() {
-    setTimeout(() => this.saveQuill(), 60000)
+    // setTimeout(() => this.saveQuill(), 60000)
 
     return (
       <div className="text-editor">
