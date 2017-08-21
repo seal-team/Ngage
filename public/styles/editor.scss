@@ -117,7 +117,7 @@
   border-top: 2px solid black;
   height: 150px;
   width: 100%;
-  padding-top: 2%;
+  padding-top: 20px;
   bottom: 0px;
 }
 
@@ -173,6 +173,10 @@
   top: 40%;
   left: 94%;
   width: 100%;
+}
+
+.remove-slide-btn {
+  margin-left: 80px;
 }
 
 .timeline-slide-contents-container {
