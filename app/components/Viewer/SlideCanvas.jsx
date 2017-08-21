@@ -19,17 +19,17 @@ class SlideCanvas extends Component {
 
   componentDidMount() {
     const presentationID = this.props.match.params.presentationID
-    const ref = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('active')
-    ref.on('value', function(snapshot) {
-      const theId = snapshot.val()
-      if (theId) {
-        this.setState({slideID: theId})
-        console.log('my id', theId)
-      }
-    })
+    // const ref = firebase.database()
+    //   .ref('presentations')
+    //   .child(presentationID)
+    //   .child('active')
+    // ref.on('value', function(snapshot) {
+    //   const theId = snapshot.val()
+    //   if (theId) {
+    //     this.setState({slideID: theId})
+    //     console.log('my id', theId)
+    //   }
+    // })
 
     const slides = firebase.database()
       .ref('presentations')
@@ -49,10 +49,6 @@ class SlideCanvas extends Component {
         slideID: this.props.slideID
       })
     })
-  }
-
-  submitSlideText(evt) {
-    evt.preventDefault()
   }
 
   toggleBack = () => {

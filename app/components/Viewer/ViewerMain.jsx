@@ -29,16 +29,14 @@ class ViewerMain extends Component {
   }
 
   componentDidMount(props) {
-    const presentationID = this.props.match.params.presentationID
+    const { presentationID } = this.props.match.params
     const ref = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('active')
-    ref.on('value', snapshot => {
-      const activeSlideId = snapshot.val()
-      console.log('activeSlideId', activeSlideId)
-      if (activeSlideId) this.setState({slideID: activeSlideId})
-    })
+      .ref(`presentations/${presentationID}/active`)
+      .on('value', snapshot => {
+        const activeSlideId = snapshot.val()
+        console.log('activeSlideId', activeSlideId)
+        if (activeSlideId) this.setState({slideID: activeSlideId})
+      })
 
     firebase.database()
       .ref(`presentations/${presentationID}/userID`)
