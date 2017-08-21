@@ -14,7 +14,6 @@ class SlideCanvas extends Component {
       counter: 0,
       slideID: null
     }
-    this.submitSlideText = this.submitSlideText.bind(this)
   }
 
   componentDidMount() {
