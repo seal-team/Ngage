@@ -1,5 +1,5 @@
 /*
-Modal that let you upload the file to firebase storage
+Modal that let you upload non-VR file to firebase storage
 */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -13,52 +13,58 @@ class Uploader extends Component {
       mediaDescription: ''
     }
   }
+
   componentDidMount() {
     this.listenForFile()
   }
+
   listenForFile = (e) => {
     const uploader = document.getElementById('upload')
     const fileButton = document.getElementById('fileButton')
         // listen for file selection
     fileButton.addEventListener('change', (e) => {
-            // get file and put it on state
+            // put file on state
       const file = e.target.files[0]
       this.setState({ file })
     })
   }
+
   mediaNameHandleChange = (e) => {
     this.setState({ mediaDescription: e.target.value })
   }
 
+  // submit file on to cloud and log corresponding data information on database if sucessful.
   submitFile = () => {
     const uploader = document.getElementById('upload')
     const file = this.state.file
     const description = this.state.mediaDescription
+    // following two lines put file on cloud.
     const storageRef = firebase.storage().ref('/' + this.props.mediaType + '/' + file.name)
     const task = storageRef.put(file)
+    // if sucessful, log data in database with name, url, uid, description.
     task.on('state_changed',
-            function progress(snapshot) {
-              const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              uploader.value = percentage
-            },
-            function error(err) {
-                alert(err)
-            },
-            () => {
-              const downloadUrl = task.snapshot.downloadURL
-              const newMediaKey = firebase.database().ref().child(file.name.split('.')[0] + '/').push().key
-              const update = {}
-              const newMediaData = {
-                name: file.name,
-                url: downloadUrl,
-                uid: this.props.user,
-                description,
-              }
-              const updatepath = ('Media/' + `${this.props.mediaType}/` + newMediaKey)
-              update[updatepath] = newMediaData
-              firebase.database().ref().update(update)
-            }
-        )
+      function progress(snapshot) {
+        const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        uploader.value = percentage
+      },
+      function error(err) {
+        alert(err)
+      },
+      () => {
+        const downloadUrl = task.snapshot.downloadURL
+        const newMediaKey = firebase.database().ref().child(file.name.split('.')[0] + '/').push().key
+        const update = {}
+        const newMediaData = {
+          name: file.name,
+          url: downloadUrl,
+          uid: this.props.user,
+          description,
+        }
+        const updatepath = ('Media/' + `${this.props.mediaType}/` + newMediaKey)
+        update[updatepath] = newMediaData
+        firebase.database().ref().update(update)
+      }
+    )
   }
 
   render() {
