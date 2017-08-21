@@ -24,9 +24,8 @@ class MediaModal extends Component {
 
   createTable = () => {
     firebase.database().ref(`/Media/${this.props.mediaType}/`).once('value')
-      .then((snapshot) => {
-        this.setState({ allMediaObject: snapshot.val() })
-      })
+      .then(snapshot => snapshot.val())
+      .then(result => this.setState({ allMediaObject: result }))
   }
 
   setSelectedItemToState = (media) => {
@@ -36,12 +35,9 @@ class MediaModal extends Component {
   createVRSlide=() => {
     const VRurl = this.state.urlArray
     const { presentationID, slideID } = this.props.match.params
-    const slideRef = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('slides')
-      .child(slideID)
-    slideRef.child('type').set(`${this.props.mediaType}`)
+    const slideRef = firebase.database().ref(`/presentations/${presentationID}/slides/${slideID}`)
+    slideRef.child('type')
+      .set(`${this.props.mediaType}`)
     slideRef.child(`${this.props.mediaType}-contents`).set({
       VRurl
     })
@@ -50,13 +46,7 @@ class MediaModal extends Component {
   createMedia = () => {
     const mediaUrl = this.state.mediaUrl
     const { presentationID, slideID } = this.props.match.params
-    const slideRef = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('slides')
-      .child(slideID)
-    slideRef.child('type')
-      .set(`${this.props.mediaType}`)
+    const slideRef = firebase.database().ref(`/presentations/${presentationID}/slides/${slideID}`)
     slideRef.child(`${this.props.mediaType}-contents`)
       .set({mediaUrl})
   }

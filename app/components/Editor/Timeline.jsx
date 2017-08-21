@@ -38,6 +38,13 @@ class Timeline extends Component {
 
   makeNewSlide = () => {
     this.setState({ slidesCount: this.state.slidesCount++ })
+    // this.setState((prevState, props) => {
+    //   return {slidesCount: prevState.slidesCount++}
+    // })
+  //   this.setState({showForm : !this.state.showForm})
+  //   this.setState(function(prevState, props){
+  //     return {showForm: !prevState.showForm}
+  //  })
 
     firebase.database()
       .ref(`users/${this.props.user}/activePresentation`)
@@ -54,6 +61,9 @@ class Timeline extends Component {
       })
 
     this.setState({ slidesCount: this.state.slidesCount++ })
+    // this.setState((prevState, props) => {
+    //   return {slidesCount: prevState.slidesCount++}
+    // })
   }
 
   selectSlide = slide => {
