@@ -6,10 +6,10 @@ class DeleteSlideModal extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     const presentationsRef = firebase.database()
-      .ref(`presentations/${this.props.presID}/slides/${this.props.selectedSlide}`)
+      .ref(`presentations/${this.props.presentationID}/slides/${this.props.slideID}`)
     presentationsRef.remove()
     this.props.handleModal()
-    this.props.history.push(`/edit/${this.props.presID}/slide/${this.props.gotoSlide}`)
+    this.props.history.push(`/edit/${this.props.presentationID}/slide/${this.props.deleteGoTo}`)
   }
 
   render() {
@@ -17,7 +17,7 @@ class DeleteSlideModal extends Component {
       <div className='modal is-active'>
         <div className="modal-background"></div>
         <div className="modal-card">
-        <h3 className="modal-title">This Will Permanently Delete Data. Are You Sure?</h3>
+        <h3 className="modal-title">This Will Permanently Delete Your Slide. Are You Sure?</h3>
           <section className="modal-card-body center-text">
             <div className="margin-top-sm">
               <button className="button is-danger"
