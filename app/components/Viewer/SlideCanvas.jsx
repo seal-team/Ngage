@@ -18,6 +18,17 @@ class SlideCanvas extends Component {
   }
 
   componentDidMount() {
+    const presentationID = this.props.match.params.presentationID
+    const ref = firebase.database()
+      .ref('presentations')
+      .child(presentationID)
+      .child('active')
+    ref.on('child_changed', function(snapshot) {
+      const theId = snapshot.val()
+      this.setState({slideID: theId})
+      console.log('my id', theId)
+    })
+
     const slides = firebase.database()
       .ref('presentations')
       .child(this.props.presID)
@@ -26,6 +37,7 @@ class SlideCanvas extends Component {
       const allslides = snapshot.val()
       this.setState({slides: allslides})
     })
+    
     const slide = slides.child(this.props.slideID)
     slide.on('value', (snapshot) => {
       const value = snapshot.val()

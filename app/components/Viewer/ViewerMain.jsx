@@ -29,8 +29,10 @@ class ViewerMain extends Component {
   }
 
   componentDidMount(props) {
+    const presentationID = this.props.match.params.presentationID
     const ref = firebase.database()
       .ref('presentations')
+      .child(presentationID)
       .child('active')
     ref.on('child_changed', function(snapshot) {
       const theId = snapshot.val()
@@ -38,10 +40,9 @@ class ViewerMain extends Component {
       console.log('my id', theId)
     })
 
-    const presentationID = this.props.match.params.presentationID
-
     const owner = firebase.database()
       .ref('presentations')
+      .child(presentationID)
       .child('userID')
     owner.on('value', snapshot => {
       const creator = snapshot.val()
@@ -65,12 +66,12 @@ class ViewerMain extends Component {
   }
 
   disableUsers = () => {
-    this.state.disable ? this.setState({disable: false}) : this.setState({disable: true})
+   this.setState({disable: !this.state.disable})
   }
 
   render() {
     const disabledSlides = this.state.disabledSlides
-
+    console.log('the state', this.state)
     return (
       <div className="viewer-main-container">
         {this.state.firstSlide &&
