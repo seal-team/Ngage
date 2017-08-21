@@ -19,8 +19,8 @@ class ViewerMain extends Component {
     this.state = {
       presentationID: '',
       firstSlide: '',
-      owner: "",
-      user: "",
+      owner: null,
+      user: null,
       disabledSlides: true,
       disable: false,
       slideID: null
@@ -34,35 +34,32 @@ class ViewerMain extends Component {
       .ref('presentations')
       .child(presentationID)
       .child('active')
-    ref.on('child_changed', function(snapshot) {
-      const theId = snapshot.val()
-      this.setState({slideID: theId})
-      console.log('my id', theId)
+    ref.on('value', snapshot => {
+      const activeSlideId = snapshot.val()
+      console.log('activeSlideId', activeSlideId)
+      if (activeSlideId) this.setState({slideID: activeSlideId})
     })
 
-    const owner = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('userID')
-    owner.on('value', snapshot => {
-      const creator = snapshot.val()
-      this.setState({ owner: creator, user: this.props.user })
-    })
+    firebase.database()
+      .ref(`presentations/${presentationID}/userID`)
+      .on('value', snapshot => {
+        const creator = snapshot.val()
+        this.setState({ owner: creator, user: this.props.user })
+        if (creator) {
+          if (creator === this.props.user) {
+            this.setState({ disabledSlides: false })
+          }
+        }
+      })
 
     const slides = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('slides')
+      .ref(`presentations/${presentationID}/slides`)
 
     slides.on('value', snapshot => {
       const value = snapshot.val()
       const firstSlide = Object.keys(value)[0]
       this.setState({ presentationID, firstSlide: firstSlide })
     })
-
-    if (this.state.owner === this.state.user) {
-      this.setState({ disabledSlides: false })
-    }
   }
 
   disableUsers = () => {
@@ -71,7 +68,7 @@ class ViewerMain extends Component {
 
   render() {
     const disabledSlides = this.state.disabledSlides
-    console.log('the state', this.state)
+    
     return (
       <div className="viewer-main-container">
         {this.state.firstSlide &&
