@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom'
 import QuillViewer from './QuillViewer'
 import QuizViewer from './QuizViewer'
 
+import { getSlideType } from '../../helpers'
+
 class SlideCanvas extends Component {
   constructor(props) {
     super(props)
@@ -12,24 +14,25 @@ class SlideCanvas extends Component {
       slides: null,
       type: null,
       counter: 0,
-      slideID: null
+      slideID: 0
     }
   }
 
   componentDidMount() {
-    const presentationID = this.props.match.params.presentationID
-    // const ref = firebase.database()
-    //   .ref('presentations')
-    //   .child(presentationID)
-    //   .child('active')
-    // ref.on('value', function(snapshot) {
-    //   const theId = snapshot.val()
-    //   if (theId) {
-    //     this.setState({slideID: theId})
-    //     console.log('my id', theId)
-    //   }
-    // })
-
+    const { presentationID } = this.props.match.params
+    const ref = firebase.database()
+      .ref(`presentations/${presentationID}/active`)
+      .on('value', snapshot => {
+        const activeSlideId = snapshot.val()
+        console.log('activeSlideId', activeSlideId)
+        if (activeSlideId) {
+          this.setState({
+            slideID: activeSlideId,
+            type: getSlideType(presentationID, activeSlideId)
+          })
+        }
+      })
+   
     const slides = firebase.database()
       .ref('presentations')
       .child(this.props.presID)
@@ -38,16 +41,6 @@ class SlideCanvas extends Component {
     slides.on('value', (snapshot) => {
       const allslides = snapshot.val()
       this.setState({slides: allslides})
-    })
-
-    const slide = slides.child(this.props.slideID)
-    slide.on('value', (snapshot) => {
-      const value = snapshot.val()
-      this.setState({
-        info: value,
-        type: value.type,
-        slideID: this.props.slideID
-      })
     })
   }
 
@@ -97,17 +90,19 @@ class SlideCanvas extends Component {
   }
 
   render() {
-    console.log('Canvas State slideID', this.state.slideID)
-    console.log('Canvas props slideID', this.props.slideID)
-    const type = this.state.type
+    const { presID } = this.props
+    const { type, slideID } = this.state
+
+    console.log('Canvas State', this.state)
+    console.log('Canvas props slideID', this.state.slideID)
 
     let typeComp = null
     if (type === 'quill') {
-        typeComp = <QuillViewer presID={this.props.presID} slideID={this.props.slideID} />
+        typeComp = <QuillViewer presID={presID} slideID={slideID} />
     } else if (type === 'vr') {
         // typeComp = <VRViewer presID={this.props.presID} slideID={this.state.slideID} />
     } else if (type === 'quiz') {
-        typeComp = <QuizViewer presID={this.props.presID} slideID={this.props.slideID} />
+        typeComp = <QuizViewer presID={presID} slideID={slideID} />
     }
 
     const info = this.state.info

@@ -30,13 +30,13 @@ class ViewerMain extends Component {
 
   componentDidMount(props) {
     const { presentationID } = this.props.match.params
-    const ref = firebase.database()
-      .ref(`presentations/${presentationID}/active`)
-      .on('value', snapshot => {
-        const activeSlideId = snapshot.val()
-        console.log('activeSlideId', activeSlideId)
-        if (activeSlideId) this.setState({slideID: activeSlideId})
-      })
+    // const ref = firebase.database()
+    //   .ref(`presentations/${presentationID}/active`)
+    //   .on('value', snapshot => {
+    //     const activeSlideId = snapshot.val()
+    //     console.log('activeSlideId', activeSlideId)
+    //     if (activeSlideId) this.setState({slideID: activeSlideId})
+    //   })
 
     firebase.database()
       .ref(`presentations/${presentationID}/userID`)
@@ -56,7 +56,7 @@ class ViewerMain extends Component {
     slides.on('value', snapshot => {
       const value = snapshot.val()
       const firstSlide = Object.keys(value)[0]
-      this.setState({ presentationID, firstSlide: firstSlide })
+      this.setState({ presentationID, firstSlide })
     })
   }
 
@@ -65,7 +65,8 @@ class ViewerMain extends Component {
   }
 
   render() {
-    const disabledSlides = this.state.disabledSlides
+    const { presentationID } = this.props.match.params
+    const { slideID, firstSlide, disabledSlides } = this.state
     
     return (
       <div className="viewer-main-container">
@@ -74,15 +75,15 @@ class ViewerMain extends Component {
             <div className="section columns slide-and-chat">
               <div className="slide column">
                 <SlideCanvasViewer
-                  presID={this.props.match.params.presentationID}
-                  slideID={this.state.slideID}
+                  presID={presentationID}
+                  // slideID={slideID || firstSlide}
                   disabled={disabledSlides}
                 />
               </div>
               <div className="chat-super-container column">
                 <h3 className="chat-title">Chat</h3>
                 <div className="chat-container">
-                    <Chat presentationID={this.state.presentationID} />
+                    <Chat presentationID={presentationID} />
                 </div>
               </div>
             </div>
@@ -90,7 +91,7 @@ class ViewerMain extends Component {
             <div className="scratchpad-and-graph section columns">
               <div className="notes column">
                 <h3 className="notes-title">Your Notes</h3>
-                <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
+                <Scratchpad presentationID={presentationID} userID={this.props.user} />
               </div>
               <div className="graph column">
                 <h3 className="graph-title">Quiz results</h3>
