@@ -23,7 +23,7 @@ class SlideCanvas extends Component {
       .ref('presentations')
       .child(presentationID)
       .child('active')
-    ref.on('child_changed', function(snapshot) {
+    ref.on('value', function(snapshot) {
       const theId = snapshot.val()
       this.setState({slideID: theId})
       console.log('my id', theId)

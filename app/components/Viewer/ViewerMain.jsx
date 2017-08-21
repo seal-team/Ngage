@@ -19,8 +19,8 @@ class ViewerMain extends Component {
     this.state = {
       presentationID: '',
       firstSlide: '',
-      owner: "",
-      user: "",
+      owner: null,
+      user: null,
       disabledSlides: true,
       disable: false,
       slideID: null
@@ -34,25 +34,21 @@ class ViewerMain extends Component {
       .ref('presentations')
       .child(presentationID)
       .child('active')
-    ref.on('child_changed', function(snapshot) {
+    ref.on('value', function(snapshot) {
       const theId = snapshot.val()
       this.setState({slideID: theId})
       console.log('my id', theId)
     })
 
-    const owner = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('userID')
-    owner.on('value', snapshot => {
-      const creator = snapshot.val()
-      this.setState({ owner: creator, user: this.props.user })
-    })
+    firebase.database()
+      .ref(`presentations/${presentationID}/userID`)
+      .on('value', snapshot => {
+        const creator = snapshot.val()
+        this.setState({ owner: creator, user: this.props.user })
+      })
 
     const slides = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('slides')
+      .ref(`presentations/${presentationID}/slides`)
 
     slides.on('value', snapshot => {
       const value = snapshot.val()
@@ -60,8 +56,11 @@ class ViewerMain extends Component {
       this.setState({ presentationID, firstSlide: firstSlide })
     })
 
-    if (this.state.owner === this.state.user) {
-      this.setState({ disabledSlides: false })
+    const { owner, user } = this.state
+    if (owner) {
+      if (owner === user) {
+        this.setState({ disabledSlides: false })
+      }
     }
   }
 
