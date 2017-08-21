@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "node dev",
+    "deploy": "webpack && firebase deploy",
     "validate": "check-node-version --node '>= 7.0.0'",
     "setup": "./bin/setup",
     "prep": "npm run validate && npm run setup",
