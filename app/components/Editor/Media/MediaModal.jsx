@@ -18,18 +18,19 @@ class MediaModal extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.createTable()
   }
 
   createTable = () => {
     firebase.database().ref(`/Media/${this.props.mediaType}/`).once('value')
       .then(snapshot => snapshot.val())
-      .then(result => this.setState({ allMediaObject: result }))
+      .then(result => this.setState((prevState) => { return { allMediaObject: result } }))
   }
 
   setSelectedItemToState = (media) => {
-    media.url2 ? (this.setState({urlArray: [media.url, media.url2]})) : (this.setState({mediaUrl: media.url}))
+    media.url2 ? (this.setState((prevState) => { return {urlArray: [media.url, media.url2]} })) : 
+      (this.setState((prevState) => { return {mediaUrl: media.url} }))
   }
 
   createVRSlide=() => {
