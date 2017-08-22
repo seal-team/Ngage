@@ -45,6 +45,8 @@ class Timeline extends Component {
     this.setState({ slidesCount: this.state.slidesCount++ })
     this.sortSlides()
 
+    const quillContents = '{"ops":[{"attributes":{"size":"huge","color":"#0047b2","bold":true},"insert":"Add Your Title"},{"attributes":{"align":"center","header":2},"insert":"\\n"},{"attributes":{"size":"large","color":"#0047b2","bold":true},"insert":"Add Your Subtitle"},{"attributes":{"align":"center","header":3},"insert":"\\n"},{"attributes":{"align":"center","header":2},"insert":"\\n"},{"attributes":{"size":"large"},"insert":"Item 1"},{"attributes":{"indent":8,"list":"bullet"},"insert":"\\n"},{"attributes":{"size":"large"},"insert":"Item 2"},{"attributes":{"indent":8,"list":"bullet"},"insert":"\\n"},{"attributes":{"size":"large"},"insert":"Item 3"},{"attributes":{"indent":8,"list":"bullet"},"insert":"\\n"}]}'
+
     firebase.database()
       .ref(`users/${this.props.user}/activePresentation`)
       .on('value', snapshot => {
@@ -53,7 +55,8 @@ class Timeline extends Component {
           .ref(`presentations/${activePresentation}/slides`)
           .push({
             number: this.state.slidesCount,
-            type: 'quill'
+            type: 'quill',
+            quillContents
           }, () => {
             const numberOfSlides = this.slideli.childNodes.length
             if (numberOfSlides > 4) {

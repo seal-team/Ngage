@@ -17,6 +17,8 @@ class NewPresentationModal extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    const quillContents = '{"ops":[{"attributes":{"size":"huge","color":"#0047b2","bold":true},"insert":"Welcome to nGage!"},{"attributes":{"align":"center","header":2},"insert":"\\n"},{"attributes":{"size":"large","color":"#0047b2","bold":true},"insert":"An Interactive Presentation Platform"},{"attributes":{"align":"center","header":3},"insert":"\\n"},{"attributes":{"align":"center","header":2},"insert":"\\n"},{"attributes":{"size":"large"},"insert":"Insert Your Text, Images and Video Here"},{"attributes":{"align":"center"},"insert":"\\n"}]}'
+
     const usersRef = firebase.database()
       .ref('users')
       .child(this.props.user)
@@ -30,18 +32,28 @@ class NewPresentationModal extends Component {
 
     // add the new Presentation under the user
     const newPresent = usersRef.child('presentations').push(title)
+
     // get the key
     const newPresentKey = newPresent.key
-    // add to the presentations
-    presentationsRef.child(newPresentKey).set(title)
-    presentationsRef.child(newPresentKey).child('userID').set(this.props.user)
+
     // set it as the active one
     usersRef.child('activePresentation').set(newPresentKey)
+
+    const newPresentationData = {
+      title: this.state.newPresentation,
+      userID: this.props.user
+    }
+    presentationsRef.child(newPresentKey).set(newPresentationData)
+
     // add a slide
     const newSlide = presentationsRef
       .child(newPresentKey)
       .child('slides')
-      .push({ number: 1, type: 'quill' })
+      .push({
+        number: 1,
+        type: 'quill',
+        quillContents
+      })
 
     const newSlideKey = newSlide.key
 
