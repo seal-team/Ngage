@@ -30,7 +30,23 @@ class Graph extends Component {
       })
   }
 
-  
+
+  // componentWillUnmount() {
+  //   const { presentationID } = this.props.match.params
+  //   const { activeSlideID } = this.props
+
+  //   const quizResultsRef = firebase.database()
+  //     .ref(`presentations/${presentationID}/slides/${activeSlideID}/quiz-results`)
+    
+  //   let quizResults
+  //   quizResultsRef.once('value', snapshot => {
+  //     quizResults = snapshot.val()
+  //   })
+
+  //   for (let answer in quizResults) {
+  //     quizResultsRef.child(answer).set(0)
+  //   }
+  // }
 
   render() {
     const { graphData } = this.state

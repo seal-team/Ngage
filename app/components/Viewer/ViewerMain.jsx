@@ -70,7 +70,6 @@ class ViewerMain extends Component {
     const { pollData, disabledSlides, slideType, activeSlideID } = this.state
     const { presentationID } = this.props.match.params
 
-    console.log('slide type in ViewerMain', slideType)
     return (
       <div className="viewer-main-container">
         {this.state.firstSlide &&

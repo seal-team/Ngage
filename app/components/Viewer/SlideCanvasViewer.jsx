@@ -101,7 +101,6 @@ class SlideCanvasViewer extends Component {
   }
 
   render() {
-    console.log('slideid', this.state.slideID, this.state.type)
     const type = this.state.type
 
     let typeComp = null
