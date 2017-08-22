@@ -66,7 +66,6 @@ class Timeline extends Component {
           }
         )
       })
-
     this.setState({ slidesCount: this.state.slidesCount++ })
   }
 
