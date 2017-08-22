@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
 
-import SlideCanvas from './SlideCanvas'
+import SlideCanvasViewer from './SlideCanvasViewer'
 import Chat from './chat'
 import Scratchpad from './scratchpad'
 import Graph from './Graph'
@@ -19,8 +19,8 @@ class ViewerMain extends Component {
     this.state = {
       presentationID: '',
       firstSlide: '',
-      owner: "",
-      user: "",
+      owner: null,
+      user: null,
       disabledSlides: true,
       disable: false,
       slideID: null
@@ -30,35 +30,27 @@ class ViewerMain extends Component {
 
   componentDidMount(props) {
     const { presentationID } = this.props.match.params
-    firebase.database()
-      .ref(`presentation/${presentationID}/active`)
-      .on('child_changed', function(snapshot) {
-        const theId = snapshot.val()
-        this.setState({slideID: theId})
-        console.log('my id', theId)
-      })
 
     firebase.database()
-      .ref(`presentation/${presentationID}/userID`)
+      .ref(`presentations/${presentationID}/userID`)
       .on('value', snapshot => {
         const creator = snapshot.val()
         this.setState({ owner: creator, user: this.props.user })
+        if (creator) {
+          if (creator === this.props.user) {
+            this.setState({ disabledSlides: false })
+          }
+        }
       })
 
     const slides = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('slides')
+      .ref(`presentations/${presentationID}/slides`)
 
     slides.on('value', snapshot => {
       const value = snapshot.val()
       const firstSlide = Object.keys(value)[0]
-      this.setState({ presentationID, firstSlide: firstSlide })
+      this.setState({ presentationID, firstSlide })
     })
-
-    if (this.state.owner === this.state.user) {
-      this.setState({ disabledSlides: false })
-    }
   }
 
   disableUsers = () => {
@@ -66,24 +58,25 @@ class ViewerMain extends Component {
   }
 
   render() {
-    const disabledSlides = this.state.disabledSlides
-    console.log('the state', this.state)
+    const { presentationID } = this.props.match.params
+    const { slideID, firstSlide, disabledSlides } = this.state
+    
     return (
       <div className="viewer-main-container">
         {this.state.firstSlide &&
           <div>
             <div className="section columns slide-and-chat">
               <div className="slide column">
-                <SlideCanvas
-                  presID={this.props.match.params.presentationID}
-                  slideID={this.state.slideID || this.state.firstSlide}
+                <SlideCanvasViewer
+                  presID={presentationID}
+                  // slideID={slideID || firstSlide}
                   disabled={disabledSlides}
                 />
               </div>
               <div className="chat-super-container column">
                 <h3 className="chat-title">Chat</h3>
                 <div className="chat-container">
-                    <Chat presentationID={this.state.presentationID} />
+                    <Chat presentationID={presentationID} />
                 </div>
               </div>
             </div>
@@ -91,7 +84,7 @@ class ViewerMain extends Component {
             <div className="scratchpad-and-graph section columns">
               <div className="notes column">
                 <h3 className="notes-title">Your Notes</h3>
-                <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
+                <Scratchpad presentationID={presentationID} userID={this.props.user} />
               </div>
               <div className="graph column">
                 <h3 className="graph-title">Quiz results</h3>
