@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import firebase from 'APP/fire'
 
-import SlideCanvas from './SlideCanvas'
+import SlideCanvasEditor from './SlideCanvasEditor'
 import SideBar from './SideBar'
 import Timeline from './Timeline'
 import QuizModal from './Quiz/QuizModal'
@@ -79,7 +79,7 @@ class EditorMain extends Component {
 
             <div className="column">
               <div className="slide-canvas-super-container">
-                <SlideCanvas
+                <SlideCanvasEditor
                   presID={presentationID} 
                   slideID={this.state.slideID}
                   toggleQuizModal={this.toggleQuizModal}
