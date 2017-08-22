@@ -64,7 +64,6 @@ class QuillComp extends React.Component {
 
   saveQuill = (updateButton) => {
     const { presentationID, slideID } = this.props.match.params
-    console.log('saving', slideID, 'updatebutton', updateButton)
     updateButton && this.setState({saving: 'is-loading'})
     const quillContents = this.quillRef.getContents()
 
