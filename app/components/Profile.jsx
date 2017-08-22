@@ -7,7 +7,7 @@ import WhoAmI from './WhoAmI'
 import NewPresentationModal from './NewPresentationModal'
 import DeletePresentationModal from './DeletePresentationModal'
 
-class Profile extends Component {
+export class Profile extends Component {
   constructor() {
     super()
     this.state = {

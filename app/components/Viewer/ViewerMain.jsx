@@ -50,7 +50,7 @@ class ViewerMain extends Component {
     slides.on('value', snapshot => {
       const value = snapshot.val()
       const firstSlide = Object.keys(value)[0]
-      this.setState({ presentationID, firstSlide: firstSlide })
+      this.setState({ presentationID, firstSlide })
     })
   }
 
