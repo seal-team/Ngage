@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom'
 import QuillViewer from './QuillViewer'
 import QuizViewer from './QuizViewer'
 
+import { getSlideType } from '../../helpers'
+
 class SlideCanvas extends Component {
   constructor(props) {
     super(props)
@@ -19,15 +21,18 @@ class SlideCanvas extends Component {
 
   componentDidMount() {
     const presentationID = this.props.match.params.presentationID
-    const ref = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('active')
-    ref.on('child_changed', function(snapshot) {
-      const theId = snapshot.val()
-      this.setState({slideID: theId})
-      console.log('my id', theId)
-    })
+    firebase.database()
+      .ref(`presentations/${presentationID}/active`)
+      .on('value', snapshot => {
+        const activeSlideId = snapshot.val()
+
+        if (activeSlideId) {
+          this.setState({
+            slideID: activeSlideId,
+            type: getSlideType(presentationID, activeSlideId)
+          })
+        }
+      })
 
     const slides = firebase.database()
       .ref('presentations')
@@ -37,16 +42,13 @@ class SlideCanvas extends Component {
       const allslides = snapshot.val()
       this.setState({slides: allslides})
     })
+  }
 
-    const slide = slides.child(this.props.slideID)
-    slide.on('value', (snapshot) => {
-      const value = snapshot.val()
-      this.setState({
-        info: value,
-        type: value.type,
-        slideID: this.props.slideID
-      })
-    })
+  componentWillUnmount() {
+    const firstSlide = Object.keys(this.state.slides)[0]
+    firebase.database()
+      .ref(`/presentations/${this.props.presID}/active`)
+      .set(firstSlide)
   }
 
   submitSlideText(evt) {

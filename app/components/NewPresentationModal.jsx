@@ -44,6 +44,9 @@ class NewPresentationModal extends Component {
       .push({ number: 1, type: 'quill' })
 
     const newSlideKey = newSlide.key
+    firebase.database()
+      .ref(`presentations/${newPresentKey}/active`)
+      .set(newSlideKey)
 
     this.setState({ newPresentation: '' })
     this.props.handleModal()
