@@ -31,7 +31,6 @@ describe('<Profile />', () => {
 
       expect(profileWithProps.find('.whoami')).to.have.length(1)
       expect(profileWithProps.find('.columns')).to.have.length(1)
-      profile.setState
     })
   })
 
