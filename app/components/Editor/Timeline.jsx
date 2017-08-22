@@ -61,9 +61,6 @@ class Timeline extends Component {
       })
 
     this.setState({ slidesCount: this.state.slidesCount++ })
-    // this.setState((prevState, props) => {
-    //   return {slidesCount: prevState.slidesCount++}
-    // })
   }
 
   selectSlide = slide => {
@@ -121,13 +118,13 @@ class Timeline extends Component {
 
     return (
       <div>
-        {this.state.showModal && 
+        {this.state.showModal &&
           <DeleteSlideModal
             handleModal={this.handleModal}
             presentationID = {presentationID}
             slideID = {slideID}
             deleteGoTo = {this.state.deleteGoTo}
-          /> 
+          />
         }
         <div className="timeline-strip">
           <div className="left-arrow-btn"
