@@ -8,11 +8,15 @@ import Chat from './chat'
 import Scratchpad from './scratchpad'
 import Graph from './Graph'
 
+import { getSlideType } from '../../helpers'
+
 class ViewerMain extends Component {
   constructor() {
     super()
     this.state = {
       presentationID: '',
+      activeSlideID: '',
+      slideType: '',
       firstSlide: '',
       owner: '',
       user: '',
@@ -38,28 +42,35 @@ class ViewerMain extends Component {
       })
 
     const slides = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('slides')
+      .ref(`presentations/${presentationID}/slides`)
+      .on('value', snapshot => {
+        const value = snapshot.val()
+        const firstSlide = Object.keys(value)[0]
+        this.setState({ presentationID, firstSlide })
+      })
 
-    slides.on('value', snapshot => {
-      const value = snapshot.val()
-      const firstSlide = Object.keys(value)[0]
-      this.setState({ presentationID, firstSlide: firstSlide })
-    })
+    firebase.database()
+      .ref(`presentations/${presentationID}/active`)
+      .on('value', snapshot => {
+        const activeSlideID = snapshot.val()
+        if (activeSlideID) {
+          this.setState({
+            activeSlideID,
+            slideType: getSlideType(presentationID, activeSlideID)
+          })
+        }
+      })
   }
 
   disableUsers = () => {
-   this.setState({disable: !this.state.disable})
-  }
-
-  updateGraph = pollData => {
-    this.setState(prevState => ({ pollData }))
+    this.setState({disable: !this.state.disable})
   }
 
   render() {
-    const { pollData, disabledSlides } = this.state
+    const { pollData, disabledSlides, slideType, activeSlideID } = this.state
+    const { presentationID } = this.props.match.params
 
+    console.log('slide type in ViewerMain', slideType)
     return (
       <div className="viewer-main-container">
         {this.state.firstSlide &&
@@ -67,7 +78,7 @@ class ViewerMain extends Component {
             <div className="section columns slide-and-chat">
               <div className="slide column">
                 <SlideCanvasViewer
-                  presID={this.props.match.params.presentationID}
+                  presID={presentationID}
                   slideID={this.state.firstSlide}
                   disabled={disabledSlides}
                   updateGraph={this.updateGraph}
@@ -76,7 +87,7 @@ class ViewerMain extends Component {
               <div className="chat-super-container column">
                 <h3 className="chat-title">Chat</h3>
                 <div className="chat-container">
-                    <Chat presentationID={this.state.presentationID} />
+                    <Chat presentationID={presentationID} />
                 </div>
               </div>
             </div>
@@ -84,12 +95,12 @@ class ViewerMain extends Component {
             <div className="scratchpad-and-graph section columns">
               <div className="notes column">
                 <h3 className="notes-title">Your Notes</h3>
-                <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
+                <Scratchpad presentationID={presentationID} userID={this.props.user} />
               </div>
               <div className="graph column">
                 <h3 className="graph-title">Quiz results</h3>
                 <div className="graph-container column">
-                  <Graph pollData={pollData} />
+                  { slideType === 'quiz' && <Graph activeSlideID={activeSlideID} /> }
                 </div>
               </div>
             </div>

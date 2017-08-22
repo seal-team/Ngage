@@ -34,6 +34,7 @@ class QuizViewer extends Component {
   }
 
   componentWillUnmount() {
+    const { presID, slideID } = this.props
     firebase.database()
       .ref(`presentations/${presID}/slides/${slideID}/quiz-results`)
       .once('value', snapshot => {
