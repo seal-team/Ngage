@@ -3,6 +3,8 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'APP/fire'
 
+import { quillContents } from './Editor/quillDefaults'
+
 class NewPresentationModal extends Component {
   constructor() {
     super()
@@ -17,6 +19,7 @@ class NewPresentationModal extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+
     const usersRef = firebase.database()
       .ref('users')
       .child(this.props.user)
@@ -30,20 +33,34 @@ class NewPresentationModal extends Component {
 
     // add the new Presentation under the user
     const newPresent = usersRef.child('presentations').push(title)
+
     // get the key
     const newPresentKey = newPresent.key
-    // add to the presentations
-    presentationsRef.child(newPresentKey).set(title)
-    presentationsRef.child(newPresentKey).child('userID').set(this.props.user)
+
     // set it as the active one
     usersRef.child('activePresentation').set(newPresentKey)
+
+    // add title and userID
+    const newPresentationData = {
+      title: this.state.newPresentation,
+      userID: this.props.user
+    }
+    presentationsRef.child(newPresentKey).set(newPresentationData)
+
     // add a slide
     const newSlide = presentationsRef
       .child(newPresentKey)
       .child('slides')
-      .push({ number: 1, type: 'quill' })
+      .push({
+        number: 1,
+        type: 'quill',
+        quillContents
+      })
 
     const newSlideKey = newSlide.key
+    firebase.database()
+      .ref(`presentations/${newPresentKey}/active`)
+      .set(newSlideKey)
 
     this.setState({ newPresentation: '' })
     this.props.handleModal()

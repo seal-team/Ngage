@@ -18,31 +18,24 @@ class ViewerMain extends Component {
       user: "",
       disabledSlides: true,
       disable: false,
-      slideID: null
 
     }
   }
 
   componentDidMount(props) {
-    const presentationID = this.props.match.params.presentationID
-    const ref = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('active')
-    ref.on('child_changed', function(snapshot) {
-      const theId = snapshot.val()
-      this.setState({slideID: theId})
-      console.log('my id', theId)
-    })
+    const { presentationID } = this.props.match.params
 
-    const owner = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('userID')
-    owner.on('value', snapshot => {
-      const creator = snapshot.val()
-      this.setState({ owner: creator, user: this.props.user })
-    })
+    firebase.database()
+      .ref(`presentations/${presentationID}/userID`)
+      .on('value', snapshot => {
+        const creator = snapshot.val()
+        this.setState({ owner: creator, user: this.props.user })
+        if (creator) {
+          if (creator === this.props.user) {
+            this.setState({ disabledSlides: false })
+          }
+        }
+      })
 
     const slides = firebase.database()
       .ref('presentations')
@@ -54,10 +47,6 @@ class ViewerMain extends Component {
       const firstSlide = Object.keys(value)[0]
       this.setState({ presentationID, firstSlide: firstSlide })
     })
-
-    if (this.state.owner === this.state.user) {
-      this.setState({ disabledSlides: false })
-    }
   }
 
   disableUsers = () => {
@@ -75,7 +64,7 @@ class ViewerMain extends Component {
               <div className="slide column">
                 <SlideCanvas
                   presID={this.props.match.params.presentationID}
-                  slideID={this.state.slideID || this.state.firstSlide}
+                  slideID={this.state.firstSlide}
                   disabled={disabledSlides}
                 />
               </div>
