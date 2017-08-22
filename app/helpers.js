@@ -19,7 +19,7 @@ export const getSlides = presentationID =>
   firebase.database()
     .ref(`presentations/${presentationID}/slides`)
     .once('value')
-    .then()
+    .then(slides => slides.val())
 
 export const getQuillSnippet = (presentationID, slideID) => {
   let snippet
