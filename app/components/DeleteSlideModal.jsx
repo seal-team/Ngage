@@ -5,10 +5,11 @@ import firebase from 'APP/fire'
 class DeleteSlideModal extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
-    const deletes = {
-      [`presentations/${this.props.presentationID}/slides/${this.props.slideID}`]: null
+    const changes = {
+      [`presentations/${this.props.presentationID}/slides/${this.props.slideID}`]: null,
+      [`presentations/${this.props.presentationID}/active/`]: this.props.deleteGoTo
     }
-    firebase.database().ref('/').update(deletes)
+    firebase.database().ref('/').update(changes)
       .then(() => {
         this.props.handleModal()
         this.props.history.push(`/edit/${this.props.presentationID}/slide/${this.props.deleteGoTo}`)
