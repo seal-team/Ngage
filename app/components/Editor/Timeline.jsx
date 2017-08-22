@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
+import { quillContentsNew } from './quillDefaults'
 
 import {
   getSlides,
@@ -14,8 +15,8 @@ import {
 import DeleteSlideModal from '../DeleteSlideModal'
 
 class Timeline extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       slides: {},
       slidesCount: 1,
@@ -27,6 +28,16 @@ class Timeline extends Component {
   }
 
   componentDidMount() {
+    this.getSlides()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.getSlides()
+    }
+  }
+
+  getSlides = () => {
     const { presentationID } = this.props.match.params
     firebase.database()
       .ref(`presentations/${presentationID}/slides`)
@@ -42,33 +53,28 @@ class Timeline extends Component {
   }
 
   makeNewSlide = () => {
+    const { presentationID } = this.props.match.params
     this.setState({ slidesCount: this.state.slidesCount++ })
     this.sortSlides()
 
-    const quillContents = '{"ops":[{"attributes":{"size":"huge","color":"#0047b2","bold":true},"insert":"Add Your Title"},{"attributes":{"align":"center","header":2},"insert":"\\n"},{"attributes":{"size":"large","color":"#0047b2","bold":true},"insert":"Add Your Subtitle"},{"attributes":{"align":"center","header":3},"insert":"\\n"},{"attributes":{"align":"center","header":2},"insert":"\\n"},{"attributes":{"size":"large"},"insert":"Item 1"},{"attributes":{"indent":8,"list":"bullet"},"insert":"\\n"},{"attributes":{"size":"large"},"insert":"Item 2"},{"attributes":{"indent":8,"list":"bullet"},"insert":"\\n"},{"attributes":{"size":"large"},"insert":"Item 3"},{"attributes":{"indent":8,"list":"bullet"},"insert":"\\n"}]}'
-
-    firebase.database()
-      .ref(`users/${this.props.user}/activePresentation`)
-      .on('value', snapshot => {
-        const activePresentation = snapshot.val()
-        const newSlide = firebase.database()
-          .ref(`presentations/${activePresentation}/slides`)
-          .push({
-            number: this.state.slidesCount,
-            type: 'quill',
-            quillContents
-          }, () => {
-            const numberOfSlides = this.slideli.childNodes.length
-            if (numberOfSlides > 4) {
-              const counter = numberOfSlides - 4
-              for (let i = 1; i < counter; i++) {
-                $('#carousel ul li:first').appendTo('ul#slides')
-              }
-            }
-            this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)
+    const newSlide = firebase.database()
+      .ref(`presentations/${presentationID}/slides`)
+      .push({
+        number: this.state.slidesCount,
+        type: 'quill',
+        quillContents: quillContentsNew
+      }, () => {
+        const numberOfSlides = this.slideli.childNodes.length
+        if (numberOfSlides > 4) {
+          const counter = numberOfSlides - 4
+          for (let i = 1; i < counter; i++) {
+            $('#carousel ul li:first').appendTo('ul#slides')
           }
-        )
-      })
+        }
+        this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)
+      }
+    )
+
     this.setState({ slidesCount: this.state.slidesCount++ })
   }
 

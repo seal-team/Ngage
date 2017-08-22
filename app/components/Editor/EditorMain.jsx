@@ -23,6 +23,16 @@ class EditorMain extends Component {
   }
 
   componentDidMount() {
+    this.getPresentationID()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.getPresentationID()
+    }
+  }
+
+  getPresentationID = () => {
     const { presentationID } = this.props.match.params
     getPresentationTitle(presentationID)
       .then(presTitle => this.setState(prevState => ({ presTitle })))
@@ -80,7 +90,7 @@ class EditorMain extends Component {
             <div className="column">
               <div className="slide-canvas-super-container">
                 <SlideCanvas
-                  presID={presentationID} 
+                  presID={presentationID}
                   slideID={this.state.slideID}
                   toggleQuizModal={this.toggleQuizModal}
                 />

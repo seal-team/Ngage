@@ -23,7 +23,6 @@ export default class CustomToolbar extends React.Component {
           <button className="ql-bold"></button>
           <button className="ql-italic"></button>
           <button className="ql-underline"></button>
-          <button className="ql-strike"></button>
         </span>
         <span className="ql-formats">
           <select className="ql-color"></select>
@@ -38,9 +37,10 @@ export default class CustomToolbar extends React.Component {
             <option value="right"></option>
             <option value="justify"></option>
           </select>
+          <button className="ql-indent" value="-1"></button>
+          <button className="ql-indent" value="+1"></button>
         </span>
         <span className="ql-formats">
-          <button className="ql-blockquote"></button>
           <button className="ql-link"></button>
           <button className="ql-image"></button>
           <button className="ql-code-block"></button>

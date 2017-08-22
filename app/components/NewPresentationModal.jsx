@@ -3,6 +3,8 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'APP/fire'
 
+import { quillContents } from './Editor/quillDefaults'
+
 class NewPresentationModal extends Component {
   constructor() {
     super()
@@ -17,7 +19,6 @@ class NewPresentationModal extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const quillContents = '{"ops":[{"attributes":{"size":"huge","color":"#0047b2","bold":true},"insert":"Welcome to nGage!"},{"attributes":{"align":"center","header":2},"insert":"\\n"},{"attributes":{"size":"large","color":"#0047b2","bold":true},"insert":"An Interactive Presentation Platform"},{"attributes":{"align":"center","header":3},"insert":"\\n"},{"attributes":{"align":"center","header":2},"insert":"\\n"},{"attributes":{"size":"large"},"insert":"Insert Your Text, Images and Video Here"},{"attributes":{"align":"center"},"insert":"\\n"}]}'
 
     const usersRef = firebase.database()
       .ref('users')
@@ -39,6 +40,7 @@ class NewPresentationModal extends Component {
     // set it as the active one
     usersRef.child('activePresentation').set(newPresentKey)
 
+    // add title and userID
     const newPresentationData = {
       title: this.state.newPresentation,
       userID: this.props.user
