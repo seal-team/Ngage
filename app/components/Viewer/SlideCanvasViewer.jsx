@@ -22,14 +22,11 @@ class SlideCanvas extends Component {
     const { presentationID } = this.props.match.params
     
     const slides = firebase.database()
-      .ref('presentations')
-      .child(this.props.presID)
-      .child('slides')
-
-    slides.on('value', (snapshot) => {
-      const allslides = snapshot.val()
-      this.setState({ slides: allslides })
-    })
+      .ref(`presentations/${this.props.presID}/slides`)
+      .on('value', (snapshot) => {
+        const allslides = snapshot.val()
+        this.setState({ slides: allslides })
+      })
 
     firebase.database()
       .ref(`presentations/${presentationID}/active`)
@@ -50,9 +47,6 @@ class SlideCanvas extends Component {
   }
 
   componentWillUnmount() {
-    console.log('----------------UNMOUNT--------------------')
-    console.log('all slides', this.state.slides)
-    
     const firstSlide = Object.keys(this.state.slides)[0]
     firebase.database()
       .ref(`/presentations/${this.props.presID}/active`)
