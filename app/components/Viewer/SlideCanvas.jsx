@@ -3,7 +3,7 @@ import firebase from 'firebase'
 import { withRouter } from 'react-router-dom'
 import QuillViewer from './QuillViewer'
 import QuizViewer from './QuizViewer'
-import VRViewer from './mediaviewer/VRViewer/VRViewer'
+import VRViewer from './mediaviewer/VRViewer'
 
 class SlideCanvas extends Component {
   constructor(props) {
