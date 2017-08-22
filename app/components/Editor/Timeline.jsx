@@ -1,3 +1,4 @@
+/* global $ */
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -17,7 +18,6 @@ class Timeline extends Component {
     super()
     this.state = {
       slides: {},
-      fourSlides: [],
       slidesCount: 1,
       selectedSlide: 0,
       quillSnippet: '',
@@ -33,11 +33,18 @@ class Timeline extends Component {
       .on('value', snapshot => {
         this.setState({ slides: snapshot.val() })
       })
-    this.setFourSlides(this.state.slides)
+  }
+
+  sortSlides = () => {
+    $("li[id*='slide']").detach().sort(function(a, b) {
+      return +a.id.replace('slide', '') - b.id.replace('slide', '')
+    }).appendTo('ul#slides')
   }
 
   makeNewSlide = () => {
     this.setState({ slidesCount: this.state.slidesCount++ })
+    this.sortSlides()
+
     firebase.database()
       .ref(`users/${this.props.user}/activePresentation`)
       .on('value', snapshot => {
@@ -47,9 +54,17 @@ class Timeline extends Component {
           .push({
             number: this.state.slidesCount,
             type: 'quill'
-          })
-
-        this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)
+          }, () => {
+            const numberOfSlides = this.slideli.childNodes.length
+            if (numberOfSlides > 4) {
+              const counter = numberOfSlides - 4
+              for (let i = 1; i < counter; i++) {
+                $('#carousel ul li:first').appendTo('ul#slides')
+              }
+            }
+            this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)
+          }
+        )
       })
     this.setState({ slidesCount: this.state.slidesCount++ })
   }
@@ -59,23 +74,18 @@ class Timeline extends Component {
     this.props.history.push(`/edit/${this.props.presID}/slide/${slide}`)
   }
 
-  setFourSlides = slides => {
-    const fourSlides = []
-    for (let slide in slides) {
-      if (slides[slide].number <= 4) {
-        fourSlides.push(slide)
-      }
-    }
-
-    this.setState({ fourSlides })
-  }
-
-  showNextSlides = () => {
-
+  showNextSlides() {
+    $('#carousel ul').animate({marginLeft: -200}, 500, function() {
+      $(this).find('li:first').appendTo('ul#slides')
+      $(this).css({marginLeft: 0})
+    })
   }
 
   showPrevSlides = () => {
-
+    $('#carousel ul').animate({marginLeft: 200}, 500, function() {
+      $(this).find('li:last').prependTo('ul#slides')
+      $(this).css({marginLeft: 0})
+    })
   }
 
   handleModal = (deleteGoTo) => {
@@ -87,7 +97,7 @@ class Timeline extends Component {
 
   render() {
     const { presentationID, slideID } = this.props.match.params
-    const { slides, fourSlides } = this.state
+    const { slides } = this.state
 
     if (slides) {
       Object.keys(slides).forEach((slide, i) => {
@@ -104,9 +114,6 @@ class Timeline extends Component {
       })
     }
 
-    console.log('all slides: ', slides)
-    console.log('four slides: ', fourSlides)
-
     return (
       <div>
         {this.state.showModal &&
@@ -115,25 +122,28 @@ class Timeline extends Component {
             presentationID = {presentationID}
             slideID = {slideID}
             deleteGoTo = {this.state.deleteGoTo}
+            sortSlides = {this.sortSlides}
           />
         }
         <div className="timeline-strip">
           <div className="left-arrow-btn"
             onClick={() => this.showPrevSlides()}>
-            <span className="icon">
+            <span className="icon timeline-icon">
               <i className="fa fa-chevron-circle-left"></i>
             </span>
           </div>
 
+          <div id="carousel"><ul id="slides" ref={el => this.slideli = el}>
           {slides && Object.keys(slides).map((slide, i) => (
-            <div key={i} className={
+            <li key={i} id={`slide${i}`}>
+            <div className={
               slide === slideID
                 ? `timeline-slide timeline-slide-selected timeline-slide-${getSlideType(presentationID, slide)}`
                 : `timeline-slide timeline-slide-${getSlideType(presentationID, slide)}`
               }
               onClick={() => this.selectSlide(slide)}>
                 <div className="timeline-slide-contents-container">
-                  <div>
+
                     <span className="timeline-slide-num">{i + 1}</span>
                     <span className="timeline-slide-type">
                       {slideMetadata(presentationID, slide).type}
@@ -145,24 +155,24 @@ class Timeline extends Component {
                         </i>
                       </span>
                     }
-                  </div>
-                  <p className="timeline-slide-contents">
-                    {slideMetadata(presentationID, slide).content}
-                  </p>
-                </div>
-            </div>
-          ))}
 
+                    <p className="timeline-slide-contents">
+                      {slideMetadata(presentationID, slide).content}
+                    </p>
+              </div>
+            </div></li>
+          ))}
+          </ul></div>
           <div className="plus-slide-btn"
             onClick={() => this.makeNewSlide()}>
-            <span className="icon">
+            <span className="icon timeline-icon">
               <i className="fa fa-plus-square-o"></i>
             </span>
           </div>
 
           <div className="right-arrow-btn"
             onClick={() => this.showNextSlides()}>
-            <span className="icon">
+            <span className="icon timeline-icon">
               <i className="fa fa-chevron-circle-right"></i>
             </span>
           </div>
