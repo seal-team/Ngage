@@ -46,10 +46,7 @@ class VRUploader extends Component {
     })
   }
   mediaNameHandleChange = (e) => {
-    // this.setState({ mediaDescription: e.target.value })
-    this.setState((prevState, props) => {
-      return { mediaDescription: e.target.value }
-    })
+    this.setState({ mediaDescription: e.target.value })
   }
 
   submitFile = () => {
@@ -85,7 +82,7 @@ class VRUploader extends Component {
             name: file.name,
             url: downloadUrl,
             uid: this.props.user,
-            description,
+            description: this.state.mediaDescription,
           }
           firebase.database().ref(`Media/VR/${newMediaKey}`)
             .update(newMediaData)

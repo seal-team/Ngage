@@ -18,7 +18,7 @@ class QuizViewer extends Component {
     const { presID, slideID } = this.props
     const slide = firebase.database()
       .ref(`presentations/${presID}/slides/${slideID}/quiz-contents`)
-  
+
     slide.child('question').once('value', snapshot => {
       const question = snapshot.val()
       this.setState({ question })
@@ -66,7 +66,6 @@ class QuizViewer extends Component {
               Submit
           </button>
         </div>
-        
         <div className="column"></div>
       </div>
     )

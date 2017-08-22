@@ -87,7 +87,7 @@ class ViewerMain extends Component {
               <div className="chat-super-container column">
                 <h3 className="chat-title">Chat</h3>
                 <div className="chat-container">
-                    <Chat presentationID={this.state.presentationID} />
+                  <Chat presentationID={this.state.presentationID} />
                 </div>
               </div>
             </div>

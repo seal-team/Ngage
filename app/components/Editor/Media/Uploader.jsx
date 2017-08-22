@@ -33,10 +33,7 @@ class Uploader extends Component {
   }
 
   mediaNameHandleChange = (e) => {
-    this.setState((prevState, props) => {
-      return { mediaDescription: e.target.value }
-    })
-    // this.setState({ mediaDescription: e.target.value })
+    this.setState({ mediaDescription: e.target.value })
   }
 
   // submit file on to cloud and log corresponding data information on database if sucessful.
@@ -64,7 +61,7 @@ class Uploader extends Component {
           name: file.name,
           url: downloadUrl,
           uid: this.props.user,
-          description,
+          description: this.state.mediaDescription,
         }
         const updatepath = (`Media/${this.props.mediaType}/${newMediaKey}`)
         update[updatepath] = newMediaData
