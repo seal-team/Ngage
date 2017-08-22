@@ -12,6 +12,7 @@ class DeleteSlideModal extends Component {
       .then(() => {
         this.props.handleModal()
         this.props.history.push(`/edit/${this.props.presentationID}/slide/${this.props.deleteGoTo}`)
+        this.props.sortSlides()
       })
       .catch(err => console.log('err', err))
   }

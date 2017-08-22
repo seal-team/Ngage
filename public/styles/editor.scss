@@ -137,8 +137,7 @@
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   height: 108px;
   width: 192px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 0px 10px;
 }
 .timeline-slide-selected {
   border: 4px solid #ffdd57;
@@ -204,6 +203,29 @@
 
 .timeline-slide-quiz {
   background-color: rgb(61, 130, 239)
+}
+
+.timeline-icon {
+  color: black
+}
+
+#carousel {
+  width: 1050px;
+  height: 108px;
+  overflow:hidden;
+}
+
+#carousel ul {
+  width: 1920px;
+  padding: 0;
+  margin: 0;
+}
+
+#carousel ul li {
+  text-align: center;
+  /*height: 280px;*/
+  list-style: none;
+  float:  left;
 }
 
 //-----------------------------
