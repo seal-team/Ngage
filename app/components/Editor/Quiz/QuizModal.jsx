@@ -55,6 +55,10 @@ class QuizModal extends Component {
       correctAnswers
     })
 
+    answers.forEach(answer => {
+      slideRef.child('quiz-results').child(answer).set(0)
+    })
+
     this.props.toggleQuizModal()
   }
 

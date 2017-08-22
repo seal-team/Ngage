@@ -30,7 +30,7 @@ class QuillComp extends React.Component {
   componentDidMount() {
     this.attachQuillRefs()
     this.insertQuill()
-    setInterval(this.saveQuill, 60000)
+    // setInterval(this.saveQuill, 60000)
   }
 
   componentDidUpdate(prevProps) {

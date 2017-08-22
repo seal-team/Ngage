@@ -1,27 +1,63 @@
-import React from 'react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
+import firebase from 'APP/fire'
 
-const data = [
-      {name: 'Page A', uv: 4000},
-      {name: 'Page B', uv: 3000},
-      {name: 'Page C', uv: 2000},
-      {name: 'Page D'},
-      {name: 'Page E', uv: 1890},
-      {name: 'Page F', uv: 2390},
-      {name: 'Page G', uv: 3490},
-];
+import { getAnswers } from '../../helpers'
 
-const Graph = () => (
-    <div>
-        <LineChart width={600} height={200} data={data}
-              margin={{top: 10, right: 30, left: 0, bottom: 0}}>
-          <XAxis dataKey="name"/>
-          <YAxis/>
-          <CartesianGrid strokeDasharray="3 3"/>
-          <Tooltip/>
-          <Line connectNulls={true} type='monotone' dataKey='uv' stroke='#8884d8' fill='#8884d8' />
-        </LineChart>
+const testData = [
+  {answer: 'Pizza', poll: 8},
+  {answer: 'Spagetti', poll: 11},
+  {answer: 'Tacos', poll: 4},
+  {answer: 'Sushi', poll: 23},
+  {answer: 'Beer', poll: 31}
+]
+
+class Graph extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      answers: [],
+      pollData: []
+    }
+  }
+
+  componentDidMount() {
+    const { presentationID, slideID } = this.props.match.params
+    this.setState({
+      answers: getAnswers(presentationID, slideID)
+    })
+
+    firebase.database()
+      .ref(`presentations/${presentationID}/slides/${slideID}/quiz-results`)
+      .on('value', snapshot => {
+        const pollData = snapshot.val()
+
+        if (pollData) {
+          this.setState(prevState => ({ pollData }))
+        }
+      })
+  }
+
+  render() {
+    console.log('state in graph', this.state)
+    
+    return (
+      <div>
+        <BarChart
+          data={testData}
+          width={500}
+          height={200}
+          margin={{top: 10, right: 30, left: 0, bottom: 0}}>
+            <XAxis dataKey="answer" />
+            <YAxis dataKey="poll" />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip/>
+            <Bar type="monotone" dataKey="poll" fill="#8884d8" />
+        </BarChart>
       </div>
-)
+    )
+  }
+}
 
-export default Graph
+export default withRouter(Graph)

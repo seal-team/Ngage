@@ -3,15 +3,10 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
 
-import SlideCanvas from './SlideCanvas'
+import SlideCanvasViewer from './SlideCanvasViewer'
 import Chat from './chat'
 import Scratchpad from './scratchpad'
 import Graph from './Graph'
-// const sectionStyle = {
-//   width: '100%',
-//   height: '100%',
-//   background-color: 'black'
-// }
 
 class ViewerMain extends Component {
   constructor() {
@@ -19,11 +14,11 @@ class ViewerMain extends Component {
     this.state = {
       presentationID: '',
       firstSlide: '',
-      owner: "",
-      user: "",
+      owner: '',
+      user: '',
       disabledSlides: true,
       disable: false,
-
+      pollData: []
     }
   }
 
@@ -58,19 +53,24 @@ class ViewerMain extends Component {
    this.setState({disable: !this.state.disable})
   }
 
+  updateGraph = pollData => {
+    this.setState(prevState => ({ pollData }))
+  }
+
   render() {
-    const disabledSlides = this.state.disabledSlides
-    console.log('the state', this.state)
+    const { pollData, disabledSlides } = this.state
+
     return (
       <div className="viewer-main-container">
         {this.state.firstSlide &&
           <div>
             <div className="section columns slide-and-chat">
               <div className="slide column">
-                <SlideCanvas
+                <SlideCanvasViewer
                   presID={this.props.match.params.presentationID}
                   slideID={this.state.firstSlide}
                   disabled={disabledSlides}
+                  updateGraph={this.updateGraph}
                 />
               </div>
               <div className="chat-super-container column">
@@ -89,7 +89,7 @@ class ViewerMain extends Component {
               <div className="graph column">
                 <h3 className="graph-title">Quiz results</h3>
                 <div className="graph-container column">
-                  <Graph />
+                  <Graph pollData={pollData} />
                 </div>
               </div>
             </div>
