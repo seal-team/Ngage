@@ -8,7 +8,7 @@ import Timeline from './Timeline'
 import QuizModal from './Quiz/QuizModal'
 import { getPresentationTitle } from '../../helpers'
 
-class EditorMain extends Component {
+export class EditorMain extends Component {
   constructor(props) {
     super(props)
 
