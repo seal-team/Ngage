@@ -23,7 +23,8 @@ class ViewerMain extends Component {
       disabledSlides: true,
       disable: false,
       graphDisabled: false,
-      pollData: []
+      pollData: [],
+      title: ''
     }
   }
 
@@ -33,10 +34,11 @@ class ViewerMain extends Component {
     firebase.database()
       .ref(`presentations/${presentationID}`)
       .on('value', snapshot => {
-        const {owner, title} = snapshot.val()
-        this.setState({ owner, user: this.props.user, title })
-        if (owner) {
-          if (owner === this.props.user) {
+        const {userID, title} = snapshot.val()
+        console.log('owner', userID, 'title', title)
+        this.setState({ owner: userID, user: this.props.user, title })
+        if (userID) {
+          if (userID === this.props.user) {
             this.setState({ disabledSlides: false })
           }
         }
@@ -81,7 +83,7 @@ class ViewerMain extends Component {
           <div>
             <div className="section columns slide-and-chat">
               <div className="slide column">
-              <h3 className="chat-title">{title}</h3>
+              <h3 className="slide-title">{title}</h3>
                 <SlideCanvasViewer
                   presID={presentationID}
                   slideID={this.state.firstSlide}
