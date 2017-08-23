@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { DefaultPlayer as Video } from 'react-html5video'
+import 'react-html5video/dist/styles.css'
 
 import WhoAmI from './WhoAmI'
 
@@ -13,6 +15,12 @@ const Home = () => (
       <p className="subtitle description">A platform for creating<br />
         interactive presentations
       </p>
+      
+     {/* <Video autoPlay loop muted
+        controls={['PlayPause', 'Seek', 'Time']}>
+        <source src="../../public/media/EditorMode.webm" type="video/webm" />
+     </Video> */}
+
       <WhoAmI />
     </div>
 
