@@ -1,7 +1,9 @@
+/* global $ */
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
+import { quillContentsNew } from './quillDefaults'
 
 import {
   getSlides,
@@ -13,11 +15,10 @@ import {
 import DeleteSlideModal from '../DeleteSlideModal'
 
 class Timeline extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       slides: {},
-      fourSlides: [],
       slidesCount: 1,
       selectedSlide: 0,
       quillSnippet: '',
@@ -27,38 +28,52 @@ class Timeline extends Component {
   }
 
   componentDidMount() {
+    this.getSlides()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.getSlides()
+    }
+  }
+
+  getSlides = () => {
     const { presentationID } = this.props.match.params
     firebase.database()
       .ref(`presentations/${presentationID}/slides`)
       .on('value', snapshot => {
         this.setState({ slides: snapshot.val() })
       })
-    this.setFourSlides(this.state.slides)
+  }
+
+  sortSlides = () => {
+    $("li[id*='slide']").detach().sort(function(a, b) {
+      return +a.id.replace('slide', '') - b.id.replace('slide', '')
+    }).appendTo('ul#slides')
   }
 
   makeNewSlide = () => {
+    const { presentationID } = this.props.match.params
     this.setState({ slidesCount: this.state.slidesCount++ })
-    // this.setState((prevState, props) => {
-    //   return {slidesCount: prevState.slidesCount++}
-    // })
-  //   this.setState({showForm : !this.state.showForm})
-  //   this.setState(function(prevState, props){
-  //     return {showForm: !prevState.showForm}
-  //  })
+    this.sortSlides()
 
-    firebase.database()
-      .ref(`users/${this.props.user}/activePresentation`)
-      .on('value', snapshot => {
-        const activePresentation = snapshot.val()
-        const newSlide = firebase.database()
-          .ref(`presentations/${activePresentation}/slides`)
-          .push({
-            number: this.state.slidesCount,
-            type: 'quill'
-          })
-
+    const newSlide = firebase.database()
+      .ref(`presentations/${presentationID}/slides`)
+      .push({
+        number: this.state.slidesCount,
+        type: 'quill',
+        quillContents: quillContentsNew
+      }, () => {
+        const numberOfSlides = this.slideli.childNodes.length
+        if (numberOfSlides > 4) {
+          const counter = numberOfSlides - 4
+          for (let i = 1; i < counter; i++) {
+            $('#carousel ul li:first').appendTo('ul#slides')
+          }
+        }
         this.props.history.push(`/edit/${this.props.presID}/slide/${newSlide.key}`)
-      })
+      }
+    )
 
     this.setState({ slidesCount: this.state.slidesCount++ })
     // this.setState((prevState, props) => {
@@ -71,23 +86,18 @@ class Timeline extends Component {
     this.props.history.push(`/edit/${this.props.presID}/slide/${slide}`)
   }
 
-  setFourSlides = slides => {
-    const fourSlides = []
-    for (let slide in slides) {
-      if (slides[slide].number <= 4) {
-        fourSlides.push(slide)
-      }
-    }
-
-    this.setState({ fourSlides })
-  }
-
-  showNextSlides = () => {
-
+  showNextSlides() {
+    $('#carousel ul').animate({marginLeft: -200}, 500, function() {
+      $(this).find('li:first').appendTo('ul#slides')
+      $(this).css({marginLeft: 0})
+    })
   }
 
   showPrevSlides = () => {
-
+    $('#carousel ul').animate({marginLeft: 200}, 500, function() {
+      $(this).find('li:last').prependTo('ul#slides')
+      $(this).css({marginLeft: 0})
+    })
   }
 
   handleModal = (deleteGoTo) => {
@@ -99,7 +109,7 @@ class Timeline extends Component {
 
   render() {
     const { presentationID, slideID } = this.props.match.params
-    const { slides, fourSlides } = this.state
+    const { slides } = this.state
 
     if (slides) {
       Object.keys(slides).forEach((slide, i) => {
@@ -116,36 +126,36 @@ class Timeline extends Component {
       })
     }
 
-    console.log('all slides: ', slides)
-    console.log('four slides: ', fourSlides)
-
     return (
       <div>
-        {this.state.showModal && 
+        {this.state.showModal &&
           <DeleteSlideModal
             handleModal={this.handleModal}
             presentationID = {presentationID}
             slideID = {slideID}
             deleteGoTo = {this.state.deleteGoTo}
-          /> 
+            sortSlides = {this.sortSlides}
+          />
         }
         <div className="timeline-strip">
           <div className="left-arrow-btn"
             onClick={() => this.showPrevSlides()}>
-            <span className="icon">
+            <span className="icon timeline-icon">
               <i className="fa fa-chevron-circle-left"></i>
             </span>
           </div>
 
+          <div id="carousel"><ul id="slides" ref={el => this.slideli = el}>
           {slides && Object.keys(slides).map((slide, i) => (
-            <div key={i} className={
+            <li key={i} id={`slide${i}`}>
+            <div className={
               slide === slideID
                 ? `timeline-slide timeline-slide-selected timeline-slide-${getSlideType(presentationID, slide)}`
                 : `timeline-slide timeline-slide-${getSlideType(presentationID, slide)}`
               }
               onClick={() => this.selectSlide(slide)}>
                 <div className="timeline-slide-contents-container">
-                  <div>
+
                     <span className="timeline-slide-num">{i + 1}</span>
                     <span className="timeline-slide-type">
                       {slideMetadata(presentationID, slide).type}
@@ -157,24 +167,24 @@ class Timeline extends Component {
                         </i>
                       </span>
                     }
-                  </div>
-                  <p className="timeline-slide-contents">
-                    {slideMetadata(presentationID, slide).content}
-                  </p>
-                </div>
-            </div>
-          ))}
 
+                    <p className="timeline-slide-contents">
+                      {slideMetadata(presentationID, slide).content}
+                    </p>
+              </div>
+            </div></li>
+          ))}
+          </ul></div>
           <div className="plus-slide-btn"
             onClick={() => this.makeNewSlide()}>
-            <span className="icon">
+            <span className="icon timeline-icon">
               <i className="fa fa-plus-square-o"></i>
             </span>
           </div>
 
           <div className="right-arrow-btn"
             onClick={() => this.showNextSlides()}>
-            <span className="icon">
+            <span className="icon timeline-icon">
               <i className="fa fa-chevron-circle-right"></i>
             </span>
           </div>

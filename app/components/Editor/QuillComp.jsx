@@ -7,6 +7,8 @@ import theme from 'react-quill/dist/quill.snow.css'
 import { ImageResize } from 'quill-image-resize-module'
 
 Quill.register('modules/imageResize', ImageResize)
+const Delta = ReactQuill.Quill.import('delta')
+let change = new Delta()
 
 import CustomToolbar from './CustomToolbar'
 
@@ -17,18 +19,34 @@ class QuillComp extends React.Component {
       editorHtml: '',
       saving: '',
     }
+
+    this.props.history.listen((location, action) => {
+      if (change.length() > 0) {
+        this.saveQuill()
+      }
+    })
   }
 
   componentDidMount() {
     this.attachQuillRefs()
     this.insertQuill()
+    let saveInterval = setInterval(this.saveQuill, 60000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.saveInterval)
   }
 
   componentDidUpdate(prevProps) {
     this.attachQuillRefs()
+
     if (this.props.location !== prevProps.location) {
       this.onRouteChanged()
     }
+
+    this.quillRef.on('text-change', function(delta) {
+      change = change.compose(delta)
+    })
   }
 
   static propTypes = {
@@ -51,9 +69,12 @@ class QuillComp extends React.Component {
     const { presentationID, slideID } = this.props.match.params
     const slideRef = firebase.database()
       .ref(`presentations/${presentationID}/slides/${slideID}`)
-
-    slideRef.child('type').set('quill')
-    slideRef.child('quillContents').set(JSON.stringify(quillContents))
+    slideRef.once('value')
+      .then((snapshot) => {
+        if (snapshot.val().type === 'quill') {
+          slideRef.child('quillContents').set(JSON.stringify(quillContents))
+        }
+      })
 
     setTimeout(() => { this.setState({saving: ''}) }, 500)
   }
@@ -88,8 +109,6 @@ class QuillComp extends React.Component {
   }
 
   render() {
-    // setTimeout(() => this.saveQuill(), 60000)
-
     return (
       <div className="text-editor">
         <CustomToolbar saving={this.state.saving} />

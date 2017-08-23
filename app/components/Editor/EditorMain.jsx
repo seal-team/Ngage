@@ -8,7 +8,7 @@ import Timeline from './Timeline'
 import QuizModal from './Quiz/QuizModal'
 import { getPresentationTitle } from '../../helpers'
 
-class EditorMain extends Component {
+export class EditorMain extends Component {
   constructor(props) {
     super(props)
 
@@ -23,21 +23,33 @@ class EditorMain extends Component {
   }
 
   componentDidMount() {
+    this.getPresentationID()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.getPresentationID()
+    }
+  }
+
+  getPresentationID = () => {
     const { presentationID } = this.props.match.params
     getPresentationTitle(presentationID)
-      .then(res => res.val())
-      .then(presTitle => this.setState({ presTitle }))
+      .then(presTitle => this.setState(prevState => ({ presTitle })))
+      .catch(console.error)
   }
 
   toggleTimeline = () => {
-    this.setState({
-      timelineIsHidden: !this.state.timelineIsHidden
-    })
+    this.setState(prevState => ({
+      timelineIsHidden: !prevState.timelineIsHidden
+    }))
   }
 
   toggleQuizModal = quizIsNew => {
-    this.setState({ quizIsNew })
-    this.setState({ quizModalIsShowing: !this.state.quizModalIsShowing })
+    this.setState(prevState => ({ quizIsNew }))
+    this.setState(prevState =>
+      ({ quizModalIsShowing: !prevState.quizModalIsShowing })
+    )
   }
 
   toggleToPresentMode = presentationID => {
@@ -50,8 +62,7 @@ class EditorMain extends Component {
 
   render() {
     const { presentationID, slideID } = this.props.match.params
-    const timelineIsHidden = this.state.timelineIsHidden
-    const quizModalIsShowing = this.state.quizModalIsShowing
+    const { timelineIsHidden, quizModalIsShowing } = this.state
 
     return (
       <div>
@@ -79,7 +90,7 @@ class EditorMain extends Component {
             <div className="column">
               <div className="slide-canvas-super-container">
                 <SlideCanvas
-                  presID={presentationID} 
+                  presID={presentationID}
                   slideID={this.state.slideID}
                   toggleQuizModal={this.toggleQuizModal}
                 />

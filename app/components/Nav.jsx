@@ -4,7 +4,7 @@ import { Link, withRouter } from 'react-router-dom'
 import WhoAmI from './WhoAmI'
 import NewPresentationModal from './NewPresentationModal'
 
-class Nav extends Component {
+export class Nav extends Component {
   constructor(props) {
     super(props)
     this.state = {
