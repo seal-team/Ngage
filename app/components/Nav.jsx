@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import WhoAmI from './WhoAmI'
 import NewPresentationModal from './NewPresentationModal'
@@ -17,7 +18,7 @@ export class Nav extends Component {
   }
 
   render() {
-    const { userName } = this.props
+    const { userName, auth } = this.props
     return (
       <nav className="navbar nav-container">
         <div className="navbar-brand">
@@ -41,18 +42,18 @@ export class Nav extends Component {
             </Link>
 
             <div className="navbar-dropdown profile-dropdown">
-              <Link className="navbar-item " to="/login">
+              { !userName && <Link className="navbar-item " to="/login">
                 Login
-              </Link>
+              </Link> }
 
               <Link className="navbar-item " to="/profile">
                 Profile
               </Link>
 
-              <Link onClick={this.props.logout}
+              {userName && <Link onClick={() => auth.signOut()}
                 className="navbar-item " to="/">
                 Logout
-              </Link>
+              </Link> }
             </div>
           </div>
         </div>
@@ -61,4 +62,9 @@ export class Nav extends Component {
   }
 }
 
-export default Nav
+const mapState = state => ({
+  user: state.user,
+  auth: state.auth
+})
+
+export default connect(mapState)(Nav)

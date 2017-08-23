@@ -22,6 +22,7 @@ class ViewerMain extends Component {
       user: '',
       disabledSlides: true,
       disable: false,
+      graphDisabled: false,
       pollData: []
     }
   }
@@ -66,6 +67,10 @@ class ViewerMain extends Component {
     this.setState({disable: !this.state.disable})
   }
 
+  disableGraph = () => {
+    this.setState({graphDisabled: !this.state.graphDisabled})
+  }
+
   render() {
     const { pollData, disabledSlides, slideType, activeSlideID } = this.state
     const { presentationID } = this.props.match.params
@@ -94,17 +99,24 @@ class ViewerMain extends Component {
             <div className="scratchpad-and-graph section columns">
               <div className="notes column">
                 <h3 className="notes-title">Your Notes</h3>
-                <Scratchpad presentationID={presentationID} userID={this.props.user} />
+                <Scratchpad
+                  presentationID={presentationID}
+                  userID={this.props.user}
+                  disabled={this.state.disable}
+                />
               </div>
               <div className="graph column">
                 <h3 className="graph-title">Quiz results</h3>
                 <div className="graph-container column">
-                  { slideType === 'quiz' && <Graph activeSlideID={activeSlideID} /> }
+                  { slideType === 'quiz' && this.state.graphDisabled && <Graph activeSlideID={activeSlideID} /> }
                 </div>
               </div>
             </div>
           </div>
         }
+        <button onClick={this.disableGraph}>
+            disable graphs
+        </button>
         <button onClick={this.disableUsers}>
             disable User chatbox and notes
         </button>
