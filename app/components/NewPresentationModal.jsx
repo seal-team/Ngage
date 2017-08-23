@@ -38,7 +38,7 @@ class NewPresentationModal extends Component {
     const newPresentKey = newPresent.key
 
     // set it as the active one
-    usersRef.child('activePresentation').set(newPresentKey)
+    // usersRef.child('activePresentation').set(newPresentKey)
 
     // add title and userID
     const newPresentationData = {

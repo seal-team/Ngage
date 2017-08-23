@@ -61,6 +61,14 @@ class ViewerMain extends Component {
           })
         }
       })
+    firebase.database()
+      .ref(`activePresentations/${presentationID}`).set('active')
+  }
+
+  componentWillUnmount() {
+    const { presentationID } = this.props.match.params
+    firebase.database()
+      .ref(`activePresentations/${presentationID}`).remove()
   }
 
   disableUsers = () => {
