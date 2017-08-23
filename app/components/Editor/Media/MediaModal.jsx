@@ -14,49 +14,42 @@ class MediaModal extends Component {
     this.state = {
       allMediaObject: {},
       urlArray: [],
-      mediaUrl: ''
+      mediaUrl: '',
+      description: 'null'
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.createTable()
   }
 
   createTable = () => {
     firebase.database().ref(`/Media/${this.props.mediaType}/`).once('value')
-      .then((snapshot) => {
-        this.setState({ allMediaObject: snapshot.val() })
-      })
+      .then(snapshot => snapshot.val())
+      .then(result => this.setState((prevState) => ({ allMediaObject: result })))
   }
 
   setSelectedItemToState = (media) => {
-    media.url2 ? (this.setState({urlArray: [media.url, media.url2]})) : (this.setState({mediaUrl: media.url}))
+    media.url2 ? (this.setState((prevState) => ({urlArray: [media.url, media.url2], description: media.description}))) :console.log('hi')
+      (this.setState((prevState) => ({mediaUrl: media.url, description: media.description})))
   }
 
   createVRSlide=() => {
     const VRurl = this.state.urlArray
+    const description = this.state.description
     const { presentationID, slideID } = this.props.match.params
-    const slideRef = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('slides')
-      .child(slideID)
-    slideRef.child('type').set(`${this.props.mediaType}`)
-    slideRef.child(`${this.props.mediaType}-contents`).set({
-      VRurl
+    const slideRef = firebase.database().ref(`/presentations/${presentationID}/slides/${slideID}`)
+    slideRef.child('type')
+      .set(`${this.props.mediaType}`)
+    slideRef.child(`${this.props.mediaType}Contents`).set({
+      VRurl, description
     })
   }
 
   createMedia = () => {
     const mediaUrl = this.state.mediaUrl
     const { presentationID, slideID } = this.props.match.params
-    const slideRef = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('slides')
-      .child(slideID)
-    slideRef.child('type')
-      .set(`${this.props.mediaType}`)
+    const slideRef = firebase.database().ref(`/presentations/${presentationID}/slides/${slideID}`)
     slideRef.child(`${this.props.mediaType}-contents`)
       .set({mediaUrl})
   }
@@ -88,11 +81,14 @@ class MediaModal extends Component {
             <div className="field">
               <label className="label has-text-left">{this.props.mediaType}</label>
               <div className="control">
-                {this.props.mediaType} STUFF map stuff in data base use Media Object from bulma
                 <div className="columns is-multiline is-mobile">
-                  {
-                    displayArray.map((media) =>
-                    <div key = {media.url} className='column is-one-third'>
+                    {displayArray.map((media) =>
+                    <div key = {media.url} className={
+                        ((media.url === this.state.urlArray[0]) && (media.url2 === this.state.urlArray[1]))
+                        || (media.url === this.state.mediaUrl)
+                        ? 'column is-one-third timeline-slide-selected'
+                        : 'column is-one-third'
+                      }>
                       <a onClick={() => this.setSelectedItemToState(media)} >
                         {media.description}<br />{media.name} <hr></hr> </a>
                     </div>
@@ -103,7 +99,7 @@ class MediaModal extends Component {
             <hr></hr>
               <div className="margin-top-sm">
                 <button className="button is-primary"
-                  onClick={() => this.renderTypeOfMedia()} >Create
+                  onClick={() => { { this.renderTypeOfMedia() }; { this.props.handleModal() } }}>Create
                 </button>
                 <span> </span>
                 <button className="button is-primary"

@@ -26,7 +26,10 @@ class VRUploader extends Component {
     fileButton.addEventListener('change', (e) => {
             // get files and put it on state
       const file = e.target.files[0]
-      this.setState({ file })
+      // this.setState({ file })
+      this.setState((prevState, props) => {
+        return {file}
+      })
     })
   }
   listenForFile2 = (e) => {
@@ -36,7 +39,10 @@ class VRUploader extends Component {
     fileButton.addEventListener('change', (e) => {
             // put files on state
       const file2 = e.target.files[0]
-      this.setState({ file2 })
+      // this.setState({ file2 })
+      this.setState((prevState, props) => {
+        return {file2}
+      })
     })
   }
   mediaNameHandleChange = (e) => {
@@ -76,11 +82,9 @@ class VRUploader extends Component {
             name: file.name,
             url: downloadUrl,
             uid: this.props.user,
-            description,
+            description: this.state.mediaDescription,
           }
-          firebase.database().ref('Media')
-            .child('VR')
-            .child(newMediaKey)
+          firebase.database().ref(`Media/VR/${newMediaKey}`)
             .update(newMediaData)
         }
     )
@@ -98,9 +102,7 @@ class VRUploader extends Component {
           const downloadUrl2 = task2.snapshot.downloadURL
           const updatepath = ('Media/VR/' + newMediaKey)
           const newMediaData2 = { url2: downloadUrl2 }
-          firebase.database().ref('Media')
-            .child('VR')
-            .child(newMediaKey)
+          firebase.database().ref(`Media/VR/${newMediaKey}`)
             .update(newMediaData2)
         }
     )

@@ -25,7 +25,10 @@ class Uploader extends Component {
     fileButton.addEventListener('change', (e) => {
             // put file on state
       const file = e.target.files[0]
-      this.setState({ file })
+      // this.setState({ file })
+      this.setState((prevState, props) => {
+        return {file}
+      })
     })
   }
 
@@ -39,7 +42,7 @@ class Uploader extends Component {
     const file = this.state.file
     const description = this.state.mediaDescription
     // following two lines put file on cloud.
-    const storageRef = firebase.storage().ref('/' + this.props.mediaType + '/' + file.name)
+    const storageRef = firebase.storage().ref(`/${this.props.mediaType}/${file.name}`)
     const task = storageRef.put(file)
     // if sucessful, log data in database with name, url, uid, description.
     task.on('state_changed',
@@ -58,9 +61,9 @@ class Uploader extends Component {
           name: file.name,
           url: downloadUrl,
           uid: this.props.user,
-          description,
+          description: this.state.mediaDescription,
         }
-        const updatepath = ('Media/' + `${this.props.mediaType}/` + newMediaKey)
+        const updatepath = (`Media/${this.props.mediaType}/${newMediaKey}`)
         update[updatepath] = newMediaData
         firebase.database().ref().update(update)
       }

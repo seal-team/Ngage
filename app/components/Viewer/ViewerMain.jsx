@@ -7,11 +7,6 @@ import SlideCanvas from './SlideCanvas'
 import Chat from './chat'
 import Scratchpad from './scratchpad'
 import Graph from './Graph'
-// const sectionStyle = {
-//   width: '100%',
-//   height: '100%',
-//   background-color: 'black'
-// }
 
 class ViewerMain extends Component {
   constructor() {
@@ -76,7 +71,7 @@ class ViewerMain extends Component {
               <div className="chat-super-container column">
                 <h3 className="chat-title">Chat</h3>
                 <div className="chat-container">
-                    <Chat presentationID={this.state.presentationID} />
+                  <Chat presentationID={this.state.presentationID} />
                 </div>
               </div>
             </div>
