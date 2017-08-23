@@ -80,6 +80,9 @@ class MediaModal extends Component {
           <section className="modal-card-body">
             <div className="field">
               <label className="label has-text-left">{this.props.mediaType}</label>
+              Select one of the following files or upload your own file.
+              <br/>
+              <br/>
               <div className="control">
                 <div className="columns is-multiline is-mobile">
                     {displayArray.map((media) =>
@@ -88,9 +91,9 @@ class MediaModal extends Component {
                         || (media.url === this.state.mediaUrl)
                         ? 'column is-one-third timeline-slide-selected'
                         : 'column is-one-third'
-                      }>
-                      <a onClick={() => this.setSelectedItemToState(media)} >
-                        {media.description}<br />{media.name} <hr></hr> </a>
+                      } onClick={() => this.setSelectedItemToState(media)}>
+                      <img src={media.thumbnailUrl}/>
+                      {media.description}
                     </div>
                     )
                   }
@@ -99,7 +102,7 @@ class MediaModal extends Component {
             <hr></hr>
               <div className="margin-top-sm">
                 <button className="button is-primary"
-                  onClick={() => { { this.renderTypeOfMedia() }; { this.props.handleModal() } }}>Create
+                  onClick={() => { { this.renderTypeOfMedia() }; { this.props.handleModal() } }}>Add To Slide
                 </button>
                 <span> </span>
                 <button className="button is-primary"
