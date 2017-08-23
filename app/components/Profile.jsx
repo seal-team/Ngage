@@ -6,6 +6,7 @@ import firebase from 'APP/fire'
 import WhoAmI from './WhoAmI'
 import NewPresentationModal from './NewPresentationModal'
 import DeletePresentationModal from './DeletePresentationModal'
+import LivePresentation from './LivePresentation'
 
 export class Profile extends Component {
   constructor() {
@@ -84,6 +85,7 @@ export class Profile extends Component {
             presentationID = {this.state.presentationID}
             uid = {user} />
           }
+          
           <section className='display-item'>
             <div className="columns">
               <div className="column"></div>
@@ -128,6 +130,8 @@ export class Profile extends Component {
                     ))}
                   </ul>
                 </div>
+
+                <LivePresentation />
               </div>
 
               <div className="column"></div>
