@@ -7,7 +7,7 @@ import VRViewer from './mediaviewer/VRViewer'
 
 import { getSlideType } from '../../helpers'
 
-class SlideCanvas extends Component {
+class SlideCanvasViewer extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -21,7 +21,7 @@ class SlideCanvas extends Component {
   }
 
   componentDidMount() {
-    const presentationID = this.props.match.params.presentationID
+    const { presentationID } = this.props.match.params
     firebase.database()
       .ref(`presentations/${presentationID}/active`)
       .on('value', snapshot => {
@@ -102,7 +102,6 @@ class SlideCanvas extends Component {
   }
 
   render() {
-    console.log('this is the info', this.state.info)
     const type = this.state.type
     let typeComp = null
     if (type === 'quill') {
@@ -152,4 +151,4 @@ class SlideCanvas extends Component {
   }
 }
 
-export default withRouter(SlideCanvas)
+export default withRouter(SlideCanvasViewer)

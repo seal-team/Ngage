@@ -1,27 +1,70 @@
-import React from 'react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
+import firebase from 'APP/fire'
 
-const data = [
-      {name: 'Page A', uv: 4000},
-      {name: 'Page B', uv: 3000},
-      {name: 'Page C', uv: 2000},
-      {name: 'Page D'},
-      {name: 'Page E', uv: 1890},
-      {name: 'Page F', uv: 2390},
-      {name: 'Page G', uv: 3490},
-];
+import { getAnswers } from '../../helpers'
 
-const Graph = () => (
-    <div>
-        <LineChart width={600} height={200} data={data}
-              margin={{top: 10, right: 30, left: 0, bottom: 0}}>
-          <XAxis dataKey="name"/>
-          <YAxis/>
-          <CartesianGrid strokeDasharray="3 3"/>
+class Graph extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      graphData: []
+    }
+  }
+
+  componentDidMount() {
+    const { presentationID } = this.props.match.params
+    const { activeSlideID } = this.props
+
+    firebase.database()
+      .ref(`presentations/${presentationID}/slides/${activeSlideID}/quiz-results`)
+      .on('value', snapshot => {
+        const pollData = snapshot.val(), graphData = []
+        
+        for (let answer in pollData) {
+          graphData.push({ answer: answer, poll: pollData[answer] })
+        }
+
+        this.setState(prevState => ({ graphData }))
+      })
+  }
+
+
+  // componentWillUnmount() {
+  //   const { presentationID } = this.props.match.params
+  //   const { activeSlideID } = this.props
+
+  //   const quizResultsRef = firebase.database()
+  //     .ref(`presentations/${presentationID}/slides/${activeSlideID}/quiz-results`)
+    
+  //   let quizResults
+  //   quizResultsRef.once('value', snapshot => {
+  //     quizResults = snapshot.val()
+  //   })
+
+  //   for (let answer in quizResults) {
+  //     quizResultsRef.child(answer).set(0)
+  //   }
+  // }
+
+  render() {
+    const { graphData } = this.state
+
+    return (
+      <BarChart
+        data={graphData}
+        width={500}
+        height={200}
+        margin={{top: 10, right: 30, left: 0, bottom: 0}}>
+          <XAxis dataKey="answer" />
+          <YAxis dataKey="poll" />
+          <CartesianGrid strokeDasharray="3 3" />
           <Tooltip/>
-          <Line connectNulls={true} type='monotone' dataKey='uv' stroke='#8884d8' fill='#8884d8' />
-        </LineChart>
-      </div>
-)
+          <Bar type="monotone" dataKey="poll" fill="#8884d8" />
+      </BarChart>
+    )
+  }
+}
 
-export default Graph
+export default withRouter(Graph)

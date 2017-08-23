@@ -3,22 +3,26 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
 
-import SlideCanvas from './SlideCanvas'
+import SlideCanvasViewer from './SlideCanvasViewer'
 import Chat from './chat'
 import Scratchpad from './scratchpad'
 import Graph from './Graph'
+
+import { getSlideType } from '../../helpers'
 
 class ViewerMain extends Component {
   constructor() {
     super()
     this.state = {
       presentationID: '',
+      activeSlideID: '',
+      slideType: '',
       firstSlide: '',
-      owner: "",
-      user: "",
+      owner: '',
+      user: '',
       disabledSlides: true,
       disable: false,
-
+      pollData: []
     }
   }
 
@@ -38,40 +42,51 @@ class ViewerMain extends Component {
       })
 
     const slides = firebase.database()
-      .ref('presentations')
-      .child(presentationID)
-      .child('slides')
+      .ref(`presentations/${presentationID}/slides`)
+      .on('value', snapshot => {
+        const value = snapshot.val()
+        const firstSlide = Object.keys(value)[0]
+        this.setState({ presentationID, firstSlide })
+      })
 
-    slides.on('value', snapshot => {
-      const value = snapshot.val()
-      const firstSlide = Object.keys(value)[0]
-      this.setState({ presentationID, firstSlide })
-    })
+    firebase.database()
+      .ref(`presentations/${presentationID}/active`)
+      .on('value', snapshot => {
+        const activeSlideID = snapshot.val()
+        if (activeSlideID) {
+          this.setState({
+            activeSlideID,
+            slideType: getSlideType(presentationID, activeSlideID)
+          })
+        }
+      })
   }
 
   disableUsers = () => {
-   this.setState({disable: !this.state.disable})
+    this.setState({disable: !this.state.disable})
   }
 
   render() {
-    const disabledSlides = this.state.disabledSlides
-    console.log('the state', this.state)
+    const { pollData, disabledSlides, slideType, activeSlideID } = this.state
+    const { presentationID } = this.props.match.params
+
     return (
       <div className="viewer-main-container">
         {this.state.firstSlide &&
           <div>
             <div className="section columns slide-and-chat">
               <div className="slide column">
-                <SlideCanvas
-                  presID={this.props.match.params.presentationID}
+                <SlideCanvasViewer
+                  presID={presentationID}
                   slideID={this.state.firstSlide}
                   disabled={disabledSlides}
+                  updateGraph={this.updateGraph}
                 />
               </div>
               <div className="chat-super-container column">
                 <h3 className="chat-title">Chat</h3>
                 <div className="chat-container">
-                  <Chat presentationID={this.state.presentationID} />
+                    <Chat presentationID={presentationID} />
                 </div>
               </div>
             </div>
@@ -79,12 +94,12 @@ class ViewerMain extends Component {
             <div className="scratchpad-and-graph section columns">
               <div className="notes column">
                 <h3 className="notes-title">Your Notes</h3>
-                <Scratchpad presentationID={this.state.presentationID} userID={this.props.user} />
+                <Scratchpad presentationID={presentationID} userID={this.props.user} />
               </div>
               <div className="graph column">
                 <h3 className="graph-title">Quiz results</h3>
                 <div className="graph-container column">
-                  <Graph />
+                  { slideType === 'quiz' && <Graph activeSlideID={activeSlideID} /> }
                 </div>
               </div>
             </div>

@@ -1,41 +1,76 @@
 import React, { Component } from 'react'
 import firebase from 'APP/fire'
 
+import { getQuestion, getAnswers } from '../../helpers'
+
 class QuizViewer extends Component {
   constructor(props) {
     super(props)
     this.state = {
       question: '',
-      answers: [],
+      answers: {},
       correctAnswer: 0,
-      selectedAnswer: 0
+      selectedAnswer: 0,
+      currentQuizResults: {}
     }
-    this.setSelectedAnswer = this.setSelectedAnswer.bind(this)
-    this.submitAnswer = this.submitAnswer.bind(this)
   }
 
   componentDidMount() {
     const { presID, slideID } = this.props
-    const slide = firebase.database()
-      .ref(`presentations/${presID}/slides/${slideID}/quiz-contents`)
-
-    slide.child('question').once('value', snapshot => {
-      const question = snapshot.val()
-      this.setState({ question })
+    this.setState({
+      question: getQuestion(presID, slideID),
+      answers: getAnswers(presID, slideID)
     })
 
-    slide.child('answers').once('value', snapshot => {
-      const answers = snapshot.val()
-      this.setState({ answers })
+    firebase.database()
+      .ref(`presentations/${presID}/slides/${slideID}/quiz-results`)
+      .on('value', snapshot => {
+        const currentQuizResults = snapshot.val()
+
+        if (currentQuizResults) {
+          this.setState(prevState => ({ currentQuizResults }))
+        }
+      })
+  }
+
+  componentWillUnmount() {
+    const { presID, slideID } = this.props
+    firebase.database()
+      .ref(`presentations/${presID}/slides/${slideID}/quiz-results`)
+      .once('value', snapshot => {
+        const currentQuizResults = snapshot.val()
+      })
+  }
+
+  submitAnswer = evt => {
+    evt.preventDefault()
+    const { presID, slideID } = this.props
+      , { answers } = this.state
+      , formData = evt.target
+      , validation = []
+
+    console.log('all answers', answers)
+
+    const quizResultsRef = firebase.database()
+      .ref(`presentations/${presID}/slides/${slideID}/quiz-results`)
+    
+    answers.forEach((answer, i) => {
+      const currentAnswer = `selected-answer-${i}`
+
+      if (formData[currentAnswer].checked) {
+        validation.push(answer)
+        
+        let currentAnswerPoll
+        quizResultsRef.child(answer).once('value', snapshot => {
+          currentAnswerPoll = snapshot.val()
+        })
+        quizResultsRef.child(answer).set(currentAnswerPoll + 1)
+      }
     })
-  }
 
-  setSelectedAnswer(i) {
-
-  }
-
-  submitAnswer() {
-
+    if (!validation.length) {
+      return alert('Must select at least one answer!')
+    }
   }
 
   render() {
@@ -49,23 +84,28 @@ class QuizViewer extends Component {
             {question}
           </h1>
 
-          <div className="quiz-view-answers">
-            {answers && answers.map((answer, i) => (
-              <div className="quiz-view-answer field is-grouped" key={i}>
-                <div className="control"
-                  onClick={() => this.setSelectedAnswer(i)}>
-                    <input type="radio" name="selected-answer" />
+          <form onSubmit={this.submitAnswer}>
+            <div className="quiz-view-answers">
+              {answers && Object.keys(answers).map((answer, i) => (
+                <div className="quiz-view-answer field is-grouped" key={i}>
+                  <div className="control">
+                    <input type="checkbox" name={`selected-answer-${i}`} />
+                  </div>
+                  <p className="subtitle">{answers[answer]}</p>
                 </div>
-                <p className="subtitle">{answer}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          <button className="button is-primary quiz-view-submit"
-            onClick={() => console.log('blah')}>
-              Submit
-          </button>
+            <button className="button is-primary quiz-view-submit"
+              type="submit">
+              Submit Answer
+            </button>
+          </form>
         </div>
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
         <div className="column"></div>
       </div>
     )
