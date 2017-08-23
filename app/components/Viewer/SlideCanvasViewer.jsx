@@ -3,6 +3,7 @@ import firebase from 'firebase'
 import { withRouter } from 'react-router-dom'
 import QuillViewer from './QuillViewer'
 import QuizViewer from './QuizViewer'
+import VRViewer from './mediaviewer/VRViewer'
 
 import { getSlideType } from '../../helpers'
 
@@ -102,14 +103,16 @@ class SlideCanvasViewer extends Component {
 
   render() {
     const type = this.state.type
-
     let typeComp = null
     if (type === 'quill') {
-        typeComp = <QuillViewer presID={this.props.presID} slideID={this.state.slideID} />
-    } else if (type === 'vr') {
-        // typeComp = <VRViewer presID={this.props.presID} slideID={this.state.slideID} />
+      typeComp = <QuillViewer presID={this.props.presID} slideID={this.state.slideID} />
+    } else if (type === 'VR') {
+      typeComp = <VRViewer
+        obj={this.state.info.VRContents.VRurl[0]}
+        mtl={this.state.info.VRContents.VRurl[1]}
+        description= {this.state.info.VRContents.description}/>
     } else if (type === 'quiz') {
-        typeComp = <QuizViewer presID={this.props.presID} slideID={this.state.slideID} />
+      typeComp = <QuizViewer presID={this.props.presID} slideID={this.state.slideID} />
     }
 
     const info = this.state.info
@@ -117,7 +120,7 @@ class SlideCanvasViewer extends Component {
       <div>
       {this.state.slides &&
         <div className="slide-canvas-container">
-          
+
           {typeComp}
 
           <div className="prev-btn-container">
