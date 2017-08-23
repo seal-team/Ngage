@@ -4,7 +4,7 @@ import firebase from 'APP/fire'
 
 class VRComp extends Component {
   popUp= () => {
-    window.open(`../VR component/VRindex.html?${this.props.obj}?${this.props.mtl}`)
+    window.open(`../../../VR component/VRindex.html?${this.props.obj}?${this.props.mtl}`)
   }
   render() {
     return (
