@@ -102,10 +102,6 @@ class QuizViewer extends Component {
             </button>
           </form>
         </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> master
         <div className="column"></div>
       </div>
     )
