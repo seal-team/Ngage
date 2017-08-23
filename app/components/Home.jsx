@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { DefaultPlayer as Video } from 'react-html5video'
-import 'react-html5video/dist/styles.css'
 
 import WhoAmI from './WhoAmI'
 
