@@ -21,9 +21,12 @@
             <!-- a-assets will load all the components at once to reduce lag -->
             <a-asset-item id="object" crossorigin="anonymous" src='audioptimised02.obj'></a-asset-item>
             <a-asset-item id="material" crossorigin="anonymous" src='audioptimised02.mtl'></a-asset-item>
-            <img id='camera-icon' src='video-camera-icon.png'>
+            <img id='camera-icon' src='image.png'>
             <img id='zoom-in' src='top.png'>
             <img id='zoom-out' src='bottom.png'>
+            <img id='zoom-extra-in' src='Zoom-extra-in.png'/>
+            <img id='zoom-extra-out' src='Zoom-extra-out.png'/>
+            
 
             <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
 
@@ -50,6 +53,18 @@
                 <a-entity class="link" geometry="primitive: circle; height: 1; width: 1" material="shader: flat; src: ${thumb}" event-set__1="_event: mousedown; scale: 1 1 1"
                     event-set__2="_event: mouseup; scale: 1.2 1.2 1" event-set__3="_event: mouseenter; scale: 1.2 1.2 1" event-set__4="_event: mouseleave; scale: 1 1 1"
                     zoom-out="on: click; target: #builded-object" sound="on: click; src: #click-sound">
+                </a-entity>                
+            </script>                
+            <script id="zoomextrain" type="text/html">
+                <a-entity class="link" geometry="primitive: circle; height: 1; width: 1" material="shader: flat; src: ${thumb}" event-set__1="_event: mousedown; scale: 1 1 1"
+                    event-set__2="_event: mouseup; scale: 1.2 1.2 1" event-set__3="_event: mouseenter; scale: 1.2 1.2 1" event-set__4="_event: mouseleave; scale: 1 1 1"
+                    zoom-extra-in="on: click; target: #builded-object" sound="on: click; src: #click-sound">
+                </a-entity>
+            </script>
+            <script id="zoomextraout" type="text/html">
+                <a-entity class="link" geometry="primitive: circle; height: 1; width: 1" material="shader: flat; src: ${thumb}" event-set__1="_event: mousedown; scale: 1 1 1"
+                    event-set__2="_event: mouseup; scale: 1.2 1.2 1" event-set__3="_event: mouseenter; scale: 1.2 1.2 1" event-set__4="_event: mouseleave; scale: 1 1 1"
+                    zoom-extra-out="on: click; target: #builded-object" sound="on: click; src: #click-sound">
                 </a-entity>
             </script>
         </a-assets>
@@ -63,6 +78,8 @@
             <a-entity template="src: #toplink" data-thumb="#camera-icon" scale=".7 .7 .7"></a-entity>
             <a-entity template="src: #zoomin" data-thumb="#zoom-in" scale=".7 .7 .7"></a-entity>
             <a-entity template="src: #zoomout" data-thumb="#zoom-out" scale=".7 .7 .7"></a-entity>
+            <a-entity template="src: #zoomextrain" data-thumb="#zoom-extra-in" scale=".7 .7 .7"></a-entity>
+            <a-entity template="src: #zoomextraout" data-thumb="#zoom-extra-out" scale=".7 .7 .7"></a-entity>
         </a-entity>
         <!-- button for bottom camera angle -->
         <a-entity id="links" layout="type: line; margin: 1.5" position="2 -8 2">
@@ -74,7 +91,8 @@
                 animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500" event-set__1="_event: mouseenter; color: springgreen"
                 event-set__2="_event: mouseleave; color: red" fuse="true" raycaster="objects: .link"></a-cursor>
         </a-camera>
-
+        <a-sky color="#222"></a-sky>
+        
     </a-scene>
 
 </body>

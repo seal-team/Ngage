@@ -51,7 +51,11 @@ export const slideMetadata = (presentationID, slideID) => {
   if (getSlideType(presentationID, slideID) === 'quill') {
     slideData.type = 'Text'
     const quillSnippet = getQuillSnippet(presentationID, slideID)
-    if (quillSnippet) slideData.content = quillSnippet.ops[0].insert.slice(0, 71) || 'Image'
+    if (quillSnippet && typeof(quillSnippet.ops[0].insert) === 'string') {
+      slideData.content = quillSnippet.ops[0].insert.slice(0, 71)
+    } else {
+      slideData.content = 'Image'
+    }
   }
   else if (getSlideType(presentationID, slideID) === 'quiz') {
     slideData.type = 'Quiz'

@@ -20,13 +20,18 @@ class MediaModal extends Component {
   }
 
   componentWillMount() {
-    this.createTable()
+    this.getDataFromDB()
   }
-
-  createTable = () => {
+  componentDidMount(){
+    this.renderList()
+  }
+  getDataFromDB = () => {
     firebase.database().ref(`/Media/${this.props.mediaType}/`).once('value')
       .then(snapshot => snapshot.val())
       .then(result => this.setState((prevState) => ({ allMediaObject: result })))
+  }
+  renderList = () => {
+
   }
 
   setSelectedItemToState = (media) => {
@@ -66,6 +71,7 @@ class MediaModal extends Component {
 
   render() {
     const allMediaObject = this.state.allMediaObject
+    console.log(allMediaObject)
     const keys = Object.keys(allMediaObject)
     const slideID = this.props.match.params.slideID
     const presentationID = this.props.match.params.presentationID
