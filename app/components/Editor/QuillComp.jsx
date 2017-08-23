@@ -22,7 +22,7 @@ class QuillComp extends React.Component {
 
     this.props.history.listen((location, action) => {
       if (change.length() > 0) {
-        this.saveQuill()
+        this.saveQuill(false)
       }
     })
   }
@@ -30,7 +30,7 @@ class QuillComp extends React.Component {
   componentDidMount() {
     this.attachQuillRefs()
     this.insertQuill()
-    let saveInterval = setInterval(this.saveQuill, 60000)
+    const saveInterval = setInterval(this.saveQuill(false), 60000)
   }
 
   componentWillUnmount() {
@@ -62,11 +62,11 @@ class QuillComp extends React.Component {
     this.insertQuill()
   }
 
-  saveQuill = () => {
-    this.setState({saving: 'is-loading'})
+  saveQuill = (updateButton) => {
+    const { presentationID, slideID } = this.props.match.params
+    updateButton && this.setState({saving: 'is-loading'})
     const quillContents = this.quillRef.getContents()
 
-    const { presentationID, slideID } = this.props.match.params
     const slideRef = firebase.database()
       .ref(`presentations/${presentationID}/slides/${slideID}`)
     slideRef.once('value')
@@ -76,7 +76,7 @@ class QuillComp extends React.Component {
         }
       })
 
-    setTimeout(() => { this.setState({saving: ''}) }, 500)
+    updateButton && setTimeout(() => { this.setState({saving: ''}) }, 500)
   }
 
   insertQuill = () => {
