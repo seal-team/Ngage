@@ -24,7 +24,7 @@ class ViewerMain extends Component {
       disabledSlides: true,
       disable: false,
       graphDisabled: false,
-      pollData: []
+      pollData: [],
     }
   }
 
@@ -94,7 +94,7 @@ class ViewerMain extends Component {
   }
 
   render() {
-    const { pollData, disabledSlides, slideType, activeSlideID } = this.state
+    const { pollData, disabledSlides, slideType, activeSlideID, title } = this.state
     const { presentationID } = this.props.match.params
 
     console.log('Viewer State', this.state)
@@ -104,6 +104,7 @@ class ViewerMain extends Component {
           <div>
             <div className="section columns slide-and-chat">
               <div className="slide column">
+              <h3 className="slide-title">{title}</h3>
                 <SlideCanvasViewer
                   presID={presentationID}
                   slideID={this.state.firstSlide}

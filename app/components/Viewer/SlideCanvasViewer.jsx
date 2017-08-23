@@ -11,7 +11,6 @@ class SlideCanvasViewer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      info: null,
       slides: null,
       type: null,
       counter: 0,
@@ -66,7 +65,6 @@ class SlideCanvasViewer extends Component {
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
       this.setState({
-        info: value,
         type: value.type,
         counter: --this.state.counter,
         slideID: currSlide
@@ -89,7 +87,6 @@ class SlideCanvasViewer extends Component {
     slide.on('value', (snapshot) => {
       const value = snapshot.val()
       this.setState({
-        info: value,
         type: value.type,
         counter: ++this.state.counter,
         slideID: currSlide
@@ -102,20 +99,22 @@ class SlideCanvasViewer extends Component {
   }
 
   render() {
-    const type = this.state.type
     let typeComp = null
-    if (type === 'quill') {
-      typeComp = <QuillViewer presID={this.props.presID} slideID={this.state.slideID} />
-    } else if (type === 'VR') {
-      typeComp = <VRViewer
-        obj={this.state.info.VRContents.VRurl[0]}
-        mtl={this.state.info.VRContents.VRurl[1]}
-        description= {this.state.info.VRContents.description}/>
-    } else if (type === 'quiz') {
-      typeComp = <QuizViewer presID={this.props.presID} slideID={this.state.slideID} />
+    if (this.state.slides) {
+      const type = this.state.type
+      const slideID = this.state.slideID
+      if (type === 'quill') {
+        typeComp = <QuillViewer presID={this.props.presID} slideID={this.state.slideID} />
+      } else if (type === 'VR') {
+        const VRContents = this.state.slides[slideID].VRContents
+        typeComp = <VRViewer
+          obj={VRContents.VRurl[0]}
+          mtl={VRContents.VRurl[1]}
+          description= {VRContents.description}/>
+      } else if (type === 'quiz') {
+        typeComp = <QuizViewer presID={this.props.presID} slideID={this.state.slideID} />
+      }
     }
-
-    const info = this.state.info
     return (
       <div>
       {this.state.slides &&
