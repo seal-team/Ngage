@@ -67,18 +67,28 @@ class ViewerMain extends Component {
         }
       })
 
-    console.log('title in didMount', this.state.title)
-
     getPresentationTitle(presentationID)
       .then(title => {
-        firebase.database()
-          .ref(`activePresentations/${presentationID}`).set(title)
+        const { owner, user } = this.state
+
+        const activePresentationRef = firebase.database()
+          .ref(`activePresentations/${presentationID}`)
+          
+        activePresentationRef.set(title)
+
+        window.onbeforeunload = e => {
+          if (owner === user) {
+            activePresentationRef.remove()
+            return null
+          }
+        }
       })
   }
 
   componentWillUnmount() {
     const { presentationID } = this.props.match.params
     const { owner, user } = this.state
+
     if (owner === user) {
       firebase.database()
         .ref(`activePresentations/${presentationID}`).remove()
@@ -151,5 +161,6 @@ class ViewerMain extends Component {
 const mapState = (state) => ({
   user: state.user
 })
+
 
 export default withRouter(connect(mapState)(ViewerMain))
