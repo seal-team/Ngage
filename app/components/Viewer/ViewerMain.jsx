@@ -34,7 +34,6 @@ class ViewerMain extends Component {
       .ref(`presentations/${presentationID}`)
       .on('value', snapshot => {
         const {owner, title} = snapshot.val()
-        //const title = snapshot.val().title
         this.setState({ owner, user: this.props.user, title })
         if (owner) {
           if (owner === this.props.user) {
