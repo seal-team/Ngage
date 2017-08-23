@@ -135,12 +135,12 @@ class Timeline extends Component {
           />
         }
         <div className="timeline-strip">
-          <div className="left-arrow-btn"
+          <a className="left-arrow-btn is-outlined is-primary"
             onClick={() => this.showPrevSlides()}>
-            <span className="icon timeline-icon">
+            <span className="icon is-large">
               <i className="fa fa-chevron-circle-left"></i>
             </span>
-          </div>
+          </a>
 
           <div id="carousel"><ul id="slides" ref={el => this.slideli = el}>
           {slides && Object.keys(slides).map((slide, i) => (
@@ -172,19 +172,19 @@ class Timeline extends Component {
             </div></li>
           ))}
           </ul></div>
-          <div className="plus-slide-btn"
+          <a className="plus-slide-btn is-outlined"
             onClick={() => this.makeNewSlide()}>
-            <span className="icon timeline-icon">
+            <span className="icon is-medium">
               <i className="fa fa-plus-square-o"></i>
             </span>
-          </div>
+          </a>
 
-          <div className="right-arrow-btn"
+          <a className="right-arrow-btn is-outlined is-primary"
             onClick={() => this.showNextSlides()}>
-            <span className="icon timeline-icon">
+            <span className="icon is-large">
               <i className="fa fa-chevron-circle-right"></i>
             </span>
-          </div>
+          </a>
         </div>
       </div>
     )
