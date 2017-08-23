@@ -35,6 +35,16 @@ export const getQuillSnippet = (presentationID, slideID) => {
   return JSON.parse(snippet)
 }
 
+export const getVRDescription = (presentationID, slideID) => {
+  let description
+  firebase.database()
+    .ref(`presentations/${presentationID}/slides/${slideID}/VRContents/description`)
+    .once('value', snapshot => {
+      description = snapshot.val()
+    })
+  return description
+}
+
 export const slideMetadata = (presentationID, slideID) => {
   const slideData = {}
   if (getSlideType(presentationID, slideID) === 'quill') {
@@ -48,7 +58,7 @@ export const slideMetadata = (presentationID, slideID) => {
   }
   else if (getSlideType(presentationID, slideID) === 'VR') {
     slideData.type = 'VR'
-    slideData.content = 'VR Name'
+    slideData.content = getVRDescription(presentationID, slideID)
   }
   return slideData
 }

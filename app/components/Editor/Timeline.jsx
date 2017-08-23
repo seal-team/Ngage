@@ -145,6 +145,7 @@ class Timeline extends Component {
           <div id="carousel"><ul id="slides" ref={el => this.slideli = el}>
           {slides && Object.keys(slides).map((slide, i) => (
             <li key={i} id={`slide${i}`}>
+            {console.log('type in timeline loop', getSlideType(presentationID, slide))}
             <div className={
               slide === slideID
                 ? `timeline-slide timeline-slide-selected timeline-slide-${getSlideType(presentationID, slide)}`

@@ -13,6 +13,12 @@ const Home = () => (
       <p className="subtitle description">A platform for creating<br />
         interactive presentations
       </p>
+      
+     {/* <Video autoPlay loop muted
+        controls={['PlayPause', 'Seek', 'Time']}>
+        <source src="../../public/media/EditorMode.webm" type="video/webm" />
+     </Video> */}
+
       <WhoAmI />
     </div>
 
