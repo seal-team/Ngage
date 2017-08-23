@@ -6,7 +6,7 @@ import firebase from 'APP/fire'
 import WhoAmI from './WhoAmI'
 import NewPresentationModal from './NewPresentationModal'
 import DeletePresentationModal from './DeletePresentationModal'
-import LivePresentation from './LivePresentation'
+import LivePresentations from './LivePresentations'
 
 export class Profile extends Component {
   constructor() {
@@ -131,7 +131,7 @@ export class Profile extends Component {
                   </ul>
                 </div>
 
-                <LivePresentation />
+                <LivePresentations />
               </div>
 
               <div className="column"></div>

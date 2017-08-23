@@ -21,14 +21,14 @@ const Home = () => (
      
       <h1 className="subtitle video-title">Edit Mode</h1>
       <div>
-        <iframe width="580" height="370"
+        <iframe width="580" height="365"
           src="https://www.youtube.com/embed/L8-TwN_uY2w?ecver=2&controls=0&loop=1">
         </iframe>
       </div>
 
       <h1 className="subtitle video-title">Present Mode</h1>
       <div>
-        <iframe width="580" height="370"
+        <iframe width="580" height="365"
           src="https://www.youtube.com/embed/L8-TwN_uY2w?ecver=2&controls=0&loop=1">
         </iframe>
       </div>

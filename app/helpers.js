@@ -47,6 +47,7 @@ export const getVRDescription = (presentationID, slideID) => {
 
 export const slideMetadata = (presentationID, slideID) => {
   const slideData = {}
+
   if (getSlideType(presentationID, slideID) === 'quill') {
     slideData.type = 'Text'
     const quillSnippet = getQuillSnippet(presentationID, slideID)
@@ -62,6 +63,9 @@ export const slideMetadata = (presentationID, slideID) => {
   }
   return slideData
 }
+
+
+
 
 // --------------------
 // --- Quiz Helpers ---
