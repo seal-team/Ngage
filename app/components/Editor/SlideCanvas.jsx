@@ -4,6 +4,7 @@ import firebase from 'APP/fire'
 
 import QuillComp from './QuillComp'
 import QuizCanvas from './Quiz/QuizCanvas'
+import VRComp from './VRComp'
 import { getSlideType } from '../../helpers'
 
 class SlideCanvas extends Component {
@@ -31,7 +32,10 @@ class SlideCanvas extends Component {
     return (
       <div className="slide-canvas-container">
         { slideType === 'quill' && <QuillComp /> }
-
+        { slideType === 'VR' && <VRComp 
+          obj={this.state.info.VRContents.VRurl[0]}
+          mtl={this.state.info.VRContents.VRurl[1]}
+          description= {this.state.info.VRContents.description}/>}
         { slideType === 'quiz' && <QuizCanvas toggleQuizModal={this.props.toggleQuizModal} /> }
       </div>
     )

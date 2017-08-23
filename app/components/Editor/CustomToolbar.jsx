@@ -43,7 +43,7 @@ export default class CustomToolbar extends React.Component {
         <span className="ql-formats">
           <button className="ql-link"></button>
           <button className="ql-image"></button>
-          <button className="ql-code-block"></button>
+          { /* <button className="ql-code-block"></button> */ }
           <button className="ql-video"></button>
         </span>
         <span className="ql-formats">

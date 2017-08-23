@@ -76,9 +76,6 @@ class Timeline extends Component {
     )
 
     this.setState({ slidesCount: this.state.slidesCount++ })
-    // this.setState((prevState, props) => {
-    //   return {slidesCount: prevState.slidesCount++}
-    // })
   }
 
   selectSlide = slide => {

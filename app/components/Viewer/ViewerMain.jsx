@@ -7,11 +7,6 @@ import SlideCanvas from './SlideCanvas'
 import Chat from './chat'
 import Scratchpad from './scratchpad'
 import Graph from './Graph'
-// const sectionStyle = {
-//   width: '100%',
-//   height: '100%',
-//   background-color: 'black'
-// }
 
 class ViewerMain extends Component {
   constructor() {
