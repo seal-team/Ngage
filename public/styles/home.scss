@@ -4,9 +4,34 @@
 
 .welcome {
   margin-top: 30px;
+  font-weight: lighter;
   text-align: center;
 }
 
 .description {
+  font-family: 'Libre Franklin', sans-serif;
   text-align: center;
+}
+
+.home-header {
+  margin-top: 5%;
+  text-align: center;
+}
+
+.logo-home {
+  margin-left: 6px;
+  font-family: 'Audiowide',
+  cursive;
+  font-size: 32px;
+  font-style: bold;
+  color: black
+}
+
+.video-title {
+  margin-top: 50px !important;
+  margin-bottom: 2px !important;
+  text-align: center;
+  font-weight: bold;
+  font-style: normal;
+  font-family: 'Libre Franklin', sans-serif;
 }

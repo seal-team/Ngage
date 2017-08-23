@@ -9,26 +9,34 @@ const Home = () => (
     <div className="column"></div>
 
     <div className="column">
-      <h1 className="title is-two-quarters welcome">Welcome to nGage.</h1>
+      <div className="home-header">
+        <span className="title is-two-quarters welcome">Welcome to</span>
+        <span className="logo-home">nGage.</span>
+      </div>
       <p className="subtitle description">A platform for creating<br />
         interactive presentations
       </p>
       
-     {/* <Video autoPlay loop muted
-        controls={['PlayPause', 'Seek', 'Time']}>
-        <source src="../../public/media/EditorMode.webm" type="video/webm" />
-     </Video> */}
-
       <WhoAmI />
+     
+      <h1 className="subtitle video-title">Edit Mode</h1>
+      <div>
+        <iframe width="580" height="370"
+          src="https://www.youtube.com/embed/L8-TwN_uY2w?ecver=2&controls=0&loop=1">
+        </iframe>
+      </div>
+
+      <h1 className="subtitle video-title">Present Mode</h1>
+      <div>
+        <iframe width="580" height="370"
+          src="https://www.youtube.com/embed/L8-TwN_uY2w?ecver=2&controls=0&loop=1">
+        </iframe>
+      </div>
+     
     </div>
 
     <div className="column"></div>
   </div>
 )
 
-const mapState = state => ({
-  user: state.user,
-  auth: state.auth
-})
-
-export default connect(mapState)(Home)
+export default Home
