@@ -8,7 +8,7 @@ import Chat from './chat'
 import Scratchpad from './scratchpad'
 import Graph from './Graph'
 
-import { getSlideType } from '../../helpers'
+import { getSlideType, getPresentationTitle } from '../../helpers'
 
 class ViewerMain extends Component {
   constructor() {
@@ -17,6 +17,7 @@ class ViewerMain extends Component {
       presentationID: '',
       activeSlideID: '',
       slideType: '',
+      title: '',
       firstSlide: '',
       owner: '',
       user: '',
@@ -31,12 +32,16 @@ class ViewerMain extends Component {
     const { presentationID } = this.props.match.params
 
     firebase.database()
-      .ref(`presentations/${presentationID}/userID`)
+      .ref(`presentations/${presentationID}`)
       .on('value', snapshot => {
-        const creator = snapshot.val()
-        this.setState({ owner: creator, user: this.props.user })
-        if (creator) {
-          if (creator === this.props.user) {
+        const { userID, title } = snapshot.val()
+        this.setState({
+          owner: userID,
+          user: this.props.user,
+          title
+        })
+        if (userID) {
+          if (userID === this.props.user) {
             this.setState({ disabledSlides: false })
           }
         }
@@ -61,6 +66,23 @@ class ViewerMain extends Component {
           })
         }
       })
+
+    console.log('title in didMount', this.state.title)
+
+    getPresentationTitle(presentationID)
+      .then(title => {
+        firebase.database()
+          .ref(`activePresentations/${presentationID}`).set(title)
+      })
+  }
+
+  componentWillUnmount() {
+    const { presentationID } = this.props.match.params
+    const { owner, user } = this.state
+    if (owner === user) {
+      firebase.database()
+        .ref(`activePresentations/${presentationID}`).remove()
+    }
   }
 
   disableUsers = () => {
@@ -75,6 +97,7 @@ class ViewerMain extends Component {
     const { pollData, disabledSlides, slideType, activeSlideID } = this.state
     const { presentationID } = this.props.match.params
 
+    console.log('Viewer State', this.state)
     return (
       <div className="viewer-main-container">
         {this.state.firstSlide &&
