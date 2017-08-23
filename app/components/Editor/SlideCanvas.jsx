@@ -15,12 +15,22 @@ class SlideCanvas extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.getSlide()
+    }
+  }
+
   componentDidMount() {
-    const { presentationID, slideID } = this.props.match.params
+    this.getSlide()
+  }
+
+  getSlide = () => {
+    const { presentationID } = this.props.match.params
     firebase.database()
       .ref(`presentations/${presentationID}/slides/`)
       .on('value', snapshot => {
-        console.log('didmount', snapshot.val()[slideID])
+        const { slideID } = this.props.match.params
         this.setState({ info: snapshot.val()[slideID] })
       })
   }
@@ -29,7 +39,6 @@ class SlideCanvas extends Component {
     const { presentationID, slideID } = this.props.match.params
     const info = this.state.info
     const slideType = getSlideType(presentationID, slideID)
-    console.log('render info', this.state.info)
     return (
       <div className="slide-canvas-container">
         { slideType === 'quill' && <QuillComp /> }
