@@ -1,6 +1,6 @@
 .viewer-main-container {
   background-color: rgb(108, 108, 108);
-  height: 100%;
+  height: 100vh;
 }
 
 //----------------------
@@ -53,7 +53,7 @@
 // ------- Chat -------
 //----------------------
 .chat-super-container {
-  height: 510px;
+  height: 540px;
   margin-left: 0px;
   margin-right: 24px;
   padding-right: 10px;
@@ -84,8 +84,8 @@
 }
 
 #chat-log {
-  height: 350px;
-  max-height: 350px;
+  height: 380px;
+  max-height: 380px;
   overflow: auto;
   background-color: white;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
@@ -114,6 +114,7 @@
   width: 888px;
   border: none;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  height: 224px
 }
 .notes-title {
   max-width: 888px;
@@ -135,7 +136,7 @@
 .graph-container {
   background-color: white;
   width: 100%;
-  height: 130px;
+  height: 224px;
 }
 
 .VR-slide-positon {
