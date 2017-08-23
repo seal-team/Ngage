@@ -11,7 +11,8 @@ class QuizViewer extends Component {
       answers: {},
       correctAnswer: 0,
       selectedAnswer: 0,
-      currentQuizResults: {}
+      currentQuizResults: {},
+      disabled: false
     }
   }
 
@@ -71,6 +72,7 @@ class QuizViewer extends Component {
     if (!validation.length) {
       return alert('Must select at least one answer!')
     }
+    this.setState({disabled: true})
   }
 
   render() {
@@ -96,7 +98,10 @@ class QuizViewer extends Component {
               ))}
             </div>
 
-            <button className="button is-primary quiz-view-submit"
+            <button
+              className="button is-primary quiz-view-submit"
+              disabled={this.state.disabled}
+              onClick={this.disableSubmit}
               type="submit">
               Submit Answer
             </button>

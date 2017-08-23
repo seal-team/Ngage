@@ -104,7 +104,7 @@ class ViewerMain extends Component {
   }
 
   render() {
-    const { pollData, disabledSlides, slideType, activeSlideID, title } = this.state
+    const { owner, user, pollData, disabledSlides, slideType, activeSlideID, title } = this.state
     const { presentationID } = this.props.match.params
 
     console.log('Viewer State', this.state)
@@ -142,18 +142,18 @@ class ViewerMain extends Component {
               <div className="graph column">
                 <h3 className="graph-title">Quiz results</h3>
                 <div className="graph-container column">
-                  { slideType === 'quiz' && this.state.graphDisabled && <Graph activeSlideID={activeSlideID} /> }
+                  { slideType === 'quiz' && !this.state.graphDisabled && <Graph activeSlideID={activeSlideID} /> }
                 </div>
               </div>
             </div>
+          {owner === user && <button onClick={this.disableGraph}>
+              Disable Graphs
+          </button>}
+          {owner === user && <button onClick={this.disableUsers}>
+              Disable Notes
+          </button>}
           </div>
         }
-        <button onClick={this.disableGraph}>
-            disable graphs
-        </button>
-        <button onClick={this.disableUsers}>
-            disable User chatbox and notes
-        </button>
       </div>
     )
   }

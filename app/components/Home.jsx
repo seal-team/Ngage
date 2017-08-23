@@ -19,7 +19,7 @@ const Home = () => (
         <source src="../../public/media/EditorMode.webm" type="video/webm" />
      </Video> */}
 
-      <WhoAmI />
+      {<WhoAmI />}
     </div>
 
     <div className="column"></div>

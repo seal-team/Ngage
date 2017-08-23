@@ -42,7 +42,7 @@ export class Nav extends Component {
             </Link>
 
             <div className="navbar-dropdown profile-dropdown">
-              { !userName && <Link className="navbar-item " to="/login">
+              { !userName && <Link className="navbar-item " to="/">
                 Login
               </Link> }
 
