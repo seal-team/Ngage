@@ -146,12 +146,20 @@ class ViewerMain extends Component {
                 </div>
               </div>
             </div>
-          {owner === user && <button onClick={this.disableGraph}>
-              Disable Graphs
-          </button>}
-          {owner === user && <button onClick={this.disableUsers}>
-              Disable Notes
-          </button>}
+          {owner === user &&
+          <a className="button is-primary disable-graph" onClick={this.disableGraph}>
+            <span class="icon is large">
+              <i class="fa"></i>
+            </span>
+            <span>Disable Graphs</span>
+          </a>}
+          {owner === user &&
+          <a className="button is-primary disable-notes" onClick={this.disableUsers} >
+            <span class="icon is large">
+              <i class="fa"></i>
+            </span>
+            <span>Disable Notes</span>
+          </a>}
           </div>
         }
       </div>
