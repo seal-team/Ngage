@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import Login from './Login'
 
 export const name = user => {
-  if (!user || !user.uid) return 'Nobody'
+  if (!user || !user.uid) return null
   return user.displayName || user.email
 }
 
