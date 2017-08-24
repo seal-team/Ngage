@@ -13,8 +13,7 @@ class SlideCanvasViewer extends Component {
     this.state = {
       slides: null,
       type: null,
-      counter: 0,
-      slideID: null
+      slideID: null,
     }
     this.submitSlideText = this.submitSlideText.bind(this)
   }
@@ -55,8 +54,8 @@ class SlideCanvasViewer extends Component {
     evt.preventDefault()
   }
 
-  toggleBack = () => {
-    const currSlide = Object.keys(this.state.slides)[(this.state.counter - 1)]
+  toggleBack = (idx) => {
+    const currSlide = Object.keys(this.state.slides)[idx - 1]
     const slide = firebase.database()
       .ref('presentations')
       .child(this.props.presID)
@@ -66,7 +65,6 @@ class SlideCanvasViewer extends Component {
       const value = snapshot.val()
       this.setState({
         type: value.type,
-        counter: --this.state.counter,
         slideID: currSlide
       })
     })
@@ -76,8 +74,8 @@ class SlideCanvasViewer extends Component {
     presentation.child('active').set(currSlide)
   }
 
-  toggleFoward = () => {
-    const currSlide = Object.keys(this.state.slides)[(this.state.counter + 1)]
+  toggleFoward = (idx) => {
+    const currSlide = Object.keys(this.state.slides)[idx + 1]
     const slide = firebase.database()
       .ref('presentations')
       .child(this.props.presID)
@@ -88,7 +86,6 @@ class SlideCanvasViewer extends Component {
       const value = snapshot.val()
       this.setState({
         type: value.type,
-        counter: ++this.state.counter,
         slideID: currSlide
       })
     })
@@ -100,9 +97,11 @@ class SlideCanvasViewer extends Component {
 
   render() {
     let typeComp = null
+    let currIdx = 0
     if (this.state.slides) {
       const type = this.state.type
       const slideID = this.state.slideID
+      currIdx = Object.keys(this.state.slides).indexOf(slideID)
       if (type === 'quill') {
         typeComp = <QuillViewer presID={this.props.presID} slideID={this.state.slideID} />
       } else if (type === 'VR') {
@@ -124,8 +123,8 @@ class SlideCanvasViewer extends Component {
 
           <div className="prev-btn-container">
             <button className="prev-slide-btn circle-btn"
-                disabled={!this.state.counter || this.props.disabled}
-                onClick={this.toggleBack} >
+                disabled={!currIdx || this.props.disabled}
+                onClick={() => this.toggleBack(currIdx)} >
                 <span className="icon">
                   <i className="fa fa-chevron-circle-left"></i>
                 </span>
@@ -135,10 +134,10 @@ class SlideCanvasViewer extends Component {
           <div className="next-btn-container">
             <button className="next-slide-btn circle-btn"
                 disabled={
-                    (this.state.counter === (Object.keys(this.state.slides).length -1)) ||
+                    (currIdx === (Object.keys(this.state.slides).length -1)) ||
                     this.props.disabled
                 }
-                onClick={this.toggleFoward}>
+                onClick={() => this.toggleFoward(currIdx)}>
                 <span className="icon">
                   <i className="fa fa-chevron-circle-right"></i>
                 </span>
