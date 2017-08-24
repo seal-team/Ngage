@@ -85,12 +85,12 @@ class ViewerMain extends Component {
           
         activePresentationRef.set(title)
 
-        window.onbeforeunload = e => {
-          if (owner === user) {
-            activePresentationRef.remove()
-            return null
-          }
-        }
+        // window.onbeforeunload = e => {
+        //   if (owner === user) {
+        //     activePresentationRef.remove()
+        //     return null
+        //   }
+        // }
       })
   }
 

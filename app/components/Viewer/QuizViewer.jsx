@@ -41,8 +41,6 @@ class QuizViewer extends Component {
       , formData = evt.target
       , validation = []
 
-    console.log('all answers', answers)
-
     const quizResultsRef = firebase.database()
       .ref(`presentations/${presID}/slides/${slideID}/quiz-results`)
     
@@ -51,7 +49,7 @@ class QuizViewer extends Component {
 
       if (formData[currentAnswer].checked) {
         validation.push(answer)
-        
+
         let currentAnswerPoll
         quizResultsRef.child(answer).once('value', snapshot => {
           currentAnswerPoll = snapshot.val()
@@ -63,7 +61,7 @@ class QuizViewer extends Component {
     if (!validation.length) {
       return alert('Must select at least one answer!')
     }
-    this.setState({disabled: true})
+    // this.setState({disabled: true})
   }
 
   render() {
@@ -95,7 +93,7 @@ class QuizViewer extends Component {
                 <button
                   className="button is-primary quiz-view-submit"
                   disabled={this.state.disabled}
-                  onClick={this.disableSubmit}
+                  onClick={() => console.log('disabling...')}
                   type="submit">
                   Submit Answer
                 </button>
