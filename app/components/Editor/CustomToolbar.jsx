@@ -51,7 +51,7 @@ export default class CustomToolbar extends React.Component {
         </span>
         <span className="ql-formats">
           <button className="ql-save" value='test'>
-            <span className={`button is-small is-success ${this.props.saving}`}>
+            <span className={`button is-small is-primary ${this.props.saving}`}>
               <span className="icon is-small">
                 <i className="fa fa-check"></i>
               </span>
