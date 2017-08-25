@@ -82,7 +82,7 @@ class ViewerMain extends Component {
 
         const activePresentationRef = firebase.database()
           .ref(`activePresentations/${presentationID}`)
-          
+
         activePresentationRef.set(title)
 
         // window.onbeforeunload = e => {
@@ -168,10 +168,11 @@ class ViewerMain extends Component {
             </div>
 
             {owner === user &&
-              <div className="presenter-controls">
-                <span className="subtitle controls-title">
+              <div>
+                <h3 className="controls-title">
                   Presenter Controls
-                </span>
+                </h3>
+                <div className="presenter-controls">
                 <button className="button is-primary control-btn"
                 onClick={() => this.disableUsers()}>
                   Disable Notes
@@ -189,6 +190,7 @@ class ViewerMain extends Component {
                   </span>
                 }
               </div>
+            </div>
             }
 
           </div>
@@ -201,6 +203,5 @@ class ViewerMain extends Component {
 const mapState = (state) => ({
   user: state.user
 })
-
 
 export default withRouter(connect(mapState)(ViewerMain))
