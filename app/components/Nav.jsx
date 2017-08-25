@@ -25,35 +25,40 @@ export class Nav extends Component {
           <Link className="navbar-item logo-container" to='/'>
             <h1 className="logo-text">nGage</h1>
           </Link>
+          <div class="navbar-burger">
+          </div>
         </div>
           {this.state.showModal
             && <NewPresentationModal handleModal={this.handleModal} />
           }
-        <div className="navbar-start navbar-item">
-          <button className="button is-primary" onClick={this.handleModal}>
-            New Presentation
-          </button>
-        </div>
+        <div className='navbar-menu'>
+          <div className="navbar-start navbar-item">
+          </div>
 
-        <div className="navbar-menu">
-          <div className="navbar-end navbar-item has-dropdown is-hoverable profile-dropdown">
-            <Link className="navbar-link is-active nav-profile" to="/profile">
-              {userName}
-            </Link>
-
-            <div className="navbar-dropdown profile-dropdown">
-              { !userName && <Link className="navbar-item " to="/">
-                Login
-              </Link> }
-
-              <Link className="navbar-item " to="/profile">
-                Profile
+          <div className="navbar-end navbar-item">
+            <a className="navbar-item button is-outlined nav-button" onClick={this.handleModal}>
+              New Presentation
+            </a>
+            
+            <div className="navbar-item has-dropdown is-outlined is-hoverable nav-profile profile-dropdown">
+              <Link className="navbar-link is-active" to="/profile">
+                {userName}
               </Link>
 
-              {userName && <Link onClick={() => auth.signOut()}
-                className="navbar-item " to="/">
-                Logout
-              </Link> }
+              <div className="navbar-dropdown ">
+                { !userName && <Link className="navbar-item " to="/">
+                  Login
+                </Link> }
+
+                <Link className="navbar-item " to="/profile">
+                  Profile
+                </Link>
+
+                {userName && <Link onClick={() => auth.signOut()}
+                  className="navbar-item " to="/">
+                  Logout
+                </Link> }
+              </div>
             </div>
           </div>
         </div>
