@@ -32,7 +32,7 @@ export const getQuillSnippet = (presentationID, slideID) => {
     .once('value', snapshot => {
       snippet = snapshot.val()
     })
-  return JSON.parse(snippet)
+    .then(() => JSON.parse(snippet))
 }
 
 export const getVRDescription = (presentationID, slideID) => {
@@ -56,12 +56,10 @@ export const slideMetadata = (presentationID, slideID) => {
     } else {
       slideData.content = 'Image'
     }
-  }
-  else if (getSlideType(presentationID, slideID) === 'quiz') {
+  } else if (getSlideType(presentationID, slideID) === 'quiz') {
     slideData.type = 'Quiz'
     slideData.content = getQuestion(presentationID, slideID)
-  }
-  else if (getSlideType(presentationID, slideID) === 'VR') {
+  } else if (getSlideType(presentationID, slideID) === 'VR') {
     slideData.type = 'VR'
     slideData.content = getVRDescription(presentationID, slideID)
   }
