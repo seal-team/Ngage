@@ -117,7 +117,7 @@ class SlideCanvasViewer extends Component {
     return (
       <div>
       {this.state.slides &&
-        <div className="slide-canvas-container">
+        <div className="slide-canvas-container-viewer">
 
           {typeComp}
 
