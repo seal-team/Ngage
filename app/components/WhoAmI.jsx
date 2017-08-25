@@ -10,19 +10,18 @@ export const name = user => {
 }
 
 const WhoAmI = ({user, auth}) => {
-  console.log('user', user, 'auth', auth)
   return (
     <div className="whoami">
       { /* <span className="whoami-user-name">Hello, {name(user)}</span> */ }
       { // If nobody is logged in, or the current user is anonymous,
-        
-        (!user || !user.uid) ?
+        (!auth.currentUser) ?
       // ...then show signin links...
       <Login auth={auth}/>
       /// ...otherwise, show a logout button.
-      : <div><span className="whoami-user-name">Hello, {name(user)}</span> <button className='logout' onClick={() => auth.signOut()}>logout</button></div>}
+      : <div className="whoami"><div class="columns"><div class="column text-center"><button class="loginBtn"></button></div></div></div>}
   </div>
-)}
+  )
+}
 
 const mapState = state => ({
   user: state.user,
