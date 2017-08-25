@@ -25,7 +25,7 @@ export class Nav extends Component {
           <Link className="navbar-item logo-container" to='/'>
             <h1 className="logo-text">nGage</h1>
           </Link>
-          <div class="navbar-burger">
+          <div className="navbar-burger">
           </div>
         </div>
           {this.state.showModal
@@ -39,7 +39,7 @@ export class Nav extends Component {
             <a className="navbar-item button is-outlined nav-button" onClick={this.handleModal}>
               New Presentation
             </a>
-            
+
             <div className="navbar-item has-dropdown is-outlined is-hoverable nav-profile profile-dropdown">
               <Link className="navbar-link is-active" to="/profile">
                 {userName}

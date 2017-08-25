@@ -122,23 +122,23 @@ class SlideCanvasViewer extends Component {
           {typeComp}
 
           <div className="prev-btn-container">
-            <button className="prev-slide-btn circle-btn"
+            <button className="circle-btn"
                 disabled={!currIdx || this.props.disabled}
                 onClick={() => this.toggleBack(currIdx)} >
-                <span className="icon">
+                <span className="icon is-large">
                   <i className="fa fa-chevron-circle-left"></i>
                 </span>
             </button>
           </div>
 
           <div className="next-btn-container">
-            <button className="next-slide-btn circle-btn"
+            <button className="circle-btn"
                 disabled={
                     (currIdx === (Object.keys(this.state.slides).length -1)) ||
                     this.props.disabled
                 }
                 onClick={() => this.toggleFoward(currIdx)}>
-                <span className="icon">
+                <span className="icon is-large">
                   <i className="fa fa-chevron-circle-right"></i>
                 </span>
             </button>
