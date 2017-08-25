@@ -135,7 +135,7 @@ class Timeline extends Component {
           />
         }
         <div className="timeline-strip">
-          <a className="left-arrow-btn is-outlined is-primary"
+          <a className="left-arrow-btn is-outlined timeline-button-color"
             onClick={() => this.showPrevSlides()}>
             <span className="icon is-large">
               <i className="fa fa-chevron-circle-left"></i>
@@ -172,14 +172,14 @@ class Timeline extends Component {
             </div></li>
           ))}
           </ul></div>
-          <a className="plus-slide-btn is-outlined"
+          <a className="plus-slide-btn is-outlined timeline-button-color"
             onClick={() => this.makeNewSlide()}>
-            <span className="icon is-medium">
+            <span className="icon is-medium add-button-toppadding">
               <i className="fa fa-plus-square-o"></i>
             </span>
           </a>
 
-          <a className="right-arrow-btn is-outlined"
+          <a className="right-arrow-btn is-outlined timeline-button-color"
             onClick={() => this.showNextSlides()}>
             <span className="icon is-large">
               <i className="fa fa-chevron-circle-right"></i>

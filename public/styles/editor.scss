@@ -142,7 +142,7 @@
   margin: 0px 10px;
 }
 .timeline-slide-selected {
-  border: 4px solid #ffdd57;
+  border: 4px solid #8FBFE0;
 }
 .arrow-div-container {
   background-color: rgb(58, 58, 58);
@@ -194,10 +194,20 @@
 
 .timeline-slide-type {
   margin-left: 15px;
-  color: rgb(210, 168, 4);
+  color: #1D8A99;
   font-weight: bold;
 }
+.slide-size-move-right{
+    margin-left: 13%;
+    margin-top: 6%;
+}
 
+.timeline-button-color{
+  color: #1ACED1;
+}
+.add-button-toppadding{
+  margin-top: 7px;
+}
 .timeline-slide-contents {
   color: black;
   font-weight: bold;
@@ -205,13 +215,13 @@
   font-size: 12px;
 }
 
-.timeline-slide-quiz {
-  background-color: rgb(61, 130, 239)
-}
+// .timeline-slide-quiz {
+//   background-color: rgb(61, 130, 239)
+// }
 
-.timeline-slide-VR {
-  background-color: rgba(237, 49, 49, 0.89)
-}
+// .timeline-slide-VR {
+//   background-color: rgba(237, 49, 49, 0.89)
+// }
 
 .timeline-icon {
   color: black

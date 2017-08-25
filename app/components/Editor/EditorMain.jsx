@@ -74,7 +74,7 @@ export class EditorMain extends Component {
         }
 
         <div className="editor-main-container">
-          <div className="columns everything-but-timeline">
+          <div id="grad1"className="columns everything-but-timeline">
             <div className="column is-2 sidebar-container">
               <h1 className="subtitle pres-label-title">Presentation:</h1>
               <h1 className="title presentation-title">{this.state.presTitle}</h1>
@@ -87,8 +87,8 @@ export class EditorMain extends Component {
               <SideBar toggleQuizModal={this.toggleQuizModal} />
             </div>
 
-            <div className="column">
-              <div className="slide-canvas-super-container">
+            <div className="columns">
+              <div className="slide-canvas-super-container slide-size-move-right">
                 <SlideCanvas
                   presID={presentationID}
                   slideID={this.state.slideID}
