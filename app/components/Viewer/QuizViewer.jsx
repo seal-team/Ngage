@@ -34,23 +34,12 @@ class QuizViewer extends Component {
       })
   }
 
-  componentWillUnmount() {
-    const { presID, slideID } = this.props
-    firebase.database()
-      .ref(`presentations/${presID}/slides/${slideID}/quiz-results`)
-      .once('value', snapshot => {
-        const currentQuizResults = snapshot.val()
-      })
-  }
-
   submitAnswer = evt => {
     evt.preventDefault()
     const { presID, slideID } = this.props
       , { answers } = this.state
       , formData = evt.target
       , validation = []
-
-    console.log('all answers', answers)
 
     const quizResultsRef = firebase.database()
       .ref(`presentations/${presID}/slides/${slideID}/quiz-results`)
@@ -60,7 +49,7 @@ class QuizViewer extends Component {
 
       if (formData[currentAnswer].checked) {
         validation.push(answer)
-        
+
         let currentAnswerPoll
         quizResultsRef.child(answer).once('value', snapshot => {
           currentAnswerPoll = snapshot.val()
@@ -72,7 +61,7 @@ class QuizViewer extends Component {
     if (!validation.length) {
       return alert('Must select at least one answer!')
     }
-    this.setState({disabled: true})
+    // this.setState({disabled: true})
   }
 
   render() {
@@ -89,22 +78,28 @@ class QuizViewer extends Component {
           <form onSubmit={this.submitAnswer}>
             <div className="quiz-view-answers">
               {answers && Object.keys(answers).map((answer, i) => (
-                <div className="quiz-view-answer field is-grouped" key={i}>
+                <div className="field is-grouped" key={i}>
                   <div className="control">
                     <input type="checkbox" name={`selected-answer-${i}`} />
                   </div>
-                  <p className="subtitle">{answers[answer]}</p>
+                  <p className="subtitle quiz-view-answer">{answers[answer]}</p>
                 </div>
               ))}
             </div>
-
-            <button
-              className="button is-primary quiz-view-submit"
-              disabled={this.state.disabled}
-              onClick={this.disableSubmit}
-              type="submit">
-              Submit Answer
-            </button>
+            
+            <div className="columns">
+              <div className="column"></div>
+              <div className="column">
+                <button
+                  className="button is-primary quiz-view-submit"
+                  disabled={this.state.disabled}
+                  onClick={() => console.log('disabling...')}
+                  type="submit">
+                  Submit Answer
+                </button>
+              </div>
+              <div className="column"></div>
+            </div>
           </form>
         </div>
         <div className="column"></div>

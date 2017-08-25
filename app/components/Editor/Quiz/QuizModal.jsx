@@ -17,7 +17,7 @@ class QuizModal extends Component {
     }
   }
 
-  submitOrUpdateQuiz = evt => {
+  submitOrUpdateQuiz = (evt, quizIsNew) => {
     evt.preventDefault()
     const formData = evt.target
     const question = formData.question.value
@@ -55,9 +55,17 @@ class QuizModal extends Component {
       correctAnswers
     })
 
-    answers.forEach(answer => {
-      slideRef.child('quiz-results').child(answer).set(0)
-    })
+    if (quizIsNew) {
+      answers.forEach(answer => {
+        slideRef.child('quiz-results').child(answer).set(0)
+      })
+    } else {
+      slideRef.child('quiz-results').remove()
+      
+      answers.forEach(answer => {
+        slideRef.child('quiz-results').child(answer).set(0)
+      })
+    }
 
     this.props.toggleQuizModal()
   }
@@ -92,7 +100,7 @@ class QuizModal extends Component {
                 {quizIsNew ? 'Add New Quiz' : 'Modify Quiz'}
               </label>
 
-              <form onSubmit={this.submitOrUpdateQuiz}>
+              <form onSubmit={evt => this.submitOrUpdateQuiz(evt, quizIsNew)}>
                 <div className="field question-container">
                   <label className="label">Question</label>
                   <div className="control">

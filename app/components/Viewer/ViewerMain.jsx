@@ -8,7 +8,7 @@ import Chat from './chat'
 import Scratchpad from './scratchpad'
 import Graph from './Graph'
 
-import { getSlideType, getPresentationTitle } from '../../helpers'
+import { getSlideType, getPresentationTitle, getAnswers } from '../../helpers'
 
 class ViewerMain extends Component {
   constructor() {
@@ -21,10 +21,10 @@ class ViewerMain extends Component {
       firstSlide: '',
       owner: '',
       user: '',
+      quizAnswers: [],
       disabledSlides: true,
       disable: false,
-      graphDisabled: false,
-      pollData: [],
+      graphDisabled: false
     }
   }
 
@@ -64,6 +64,15 @@ class ViewerMain extends Component {
             activeSlideID,
             slideType: getSlideType(presentationID, activeSlideID)
           })
+
+          const answers = getAnswers(presentationID, activeSlideID)
+
+          const quizResults = firebase.database()
+            .ref(`presentations/${presentationID}/slides/${activeSlideID}/quiz-results`)
+
+          answers && answers.forEach(answer => {
+            quizResults.child(answer).set(0)
+          })
         }
       })
 
@@ -76,12 +85,12 @@ class ViewerMain extends Component {
           
         activePresentationRef.set(title)
 
-        window.onbeforeunload = e => {
-          if (owner === user) {
-            activePresentationRef.remove()
-            return null
-          }
-        }
+        // window.onbeforeunload = e => {
+        //   if (owner === user) {
+        //     activePresentationRef.remove()
+        //     return null
+        //   }
+        // }
       })
   }
 
@@ -103,11 +112,22 @@ class ViewerMain extends Component {
     this.setState({graphDisabled: !this.state.graphDisabled})
   }
 
+  resetQuiz = () => {
+    const { presentationID, activeSlideID } = this.state
+    const answers = getAnswers(presentationID, activeSlideID)
+
+    const quizResults = firebase.database()
+      .ref(`presentations/${presentationID}/slides/${activeSlideID}/quiz-results`)
+
+    answers.forEach(answer => {
+      quizResults.child(answer).set(0)
+    })
+  }
+
   render() {
-    const { owner, user, pollData, disabledSlides, slideType, activeSlideID, title } = this.state
+    const { owner, user, disabledSlides, slideType, activeSlideID, title } = this.state
     const { presentationID } = this.props.match.params
 
-    console.log('Viewer State', this.state)
     return (
       <div className="viewer-main-container">
         {this.state.firstSlide &&
@@ -146,20 +166,31 @@ class ViewerMain extends Component {
                 </div>
               </div>
             </div>
-          {owner === user &&
-          <a className="button is-primary disable-graph" onClick={this.disableGraph}>
-            <span class="icon is large">
-              <i class="fa"></i>
-            </span>
-            <span>Disable Graphs</span>
-          </a>}
-          {owner === user &&
-          <a className="button is-primary disable-notes" onClick={this.disableUsers} >
-            <span class="icon is large">
-              <i class="fa"></i>
-            </span>
-            <span>Disable Notes</span>
-          </a>}
+
+            {owner === user &&
+              <div className="presenter-controls">
+                <span className="subtitle controls-title">
+                  Presenter Controls
+                </span>
+                <button className="button is-primary control-btn"
+                onClick={() => this.disableUsers()}>
+                  Disable Notes
+                </button>
+                {slideType === 'quiz' &&
+                  <span>
+                    <button className="button is-primary control-btn"
+                      onClick={() => this.disableGraph()}>
+                        Disable Graphs
+                    </button>
+                    <button className="button is-primary control-btn"
+                      onClick={() => this.resetQuiz()}>
+                        Reset Quiz
+                    </button>
+                  </span>
+                }
+              </div>
+            }
+
           </div>
         }
       </div>
