@@ -73,7 +73,7 @@ export class Profile extends Component {
   render() {
     const user = this.props.user
     return (
-      <div className='whoami'>
+      <div id='grad2'>
         {user && <div>
           {this.state.showModal
             && <NewPresentationModal

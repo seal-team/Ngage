@@ -179,7 +179,7 @@ class Timeline extends Component {
             </span>
           </a>
 
-          <a className="right-arrow-btn is-outlined is-primary"
+          <a className="right-arrow-btn is-outlined"
             onClick={() => this.showNextSlides()}>
             <span className="icon is-large">
               <i className="fa fa-chevron-circle-right"></i>
