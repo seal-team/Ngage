@@ -5,7 +5,7 @@ import {Feature} from './Feature'
 
 import WhoAmI from './WhoAmI'
 
-const Home = () => (
+const Home = (props) => (
   <div id="grad1">
     <section className="hero">
         <div className="columns is-desktop is-multiline">
@@ -23,13 +23,13 @@ const Home = () => (
         </div>
         <div className="columns is-desktop is-multiline">
             <div className="subtitle column video-title">
-                <h1>Editor Mode</h1>
+                <h1 className='home-title'>Editor Mode</h1>
                 <iframe width="580" height="365"
                 src="https://www.youtube.com/embed/L8-TwN_uY2w?ecver=2&controls=0&loop=1">
               </iframe>
             </div>
             <div className="subtitle column video-title">
-                <h1>Presentation Mode</h1>
+                <h1 className='home-title'>Presentation Mode</h1>
                 <iframe width="580" height="365"
                 src="https://www.youtube.com/embed/L8-TwN_uY2w?ecver=2&controls=0&loop=1">
               </iframe>
