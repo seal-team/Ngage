@@ -1,5 +1,5 @@
 .nav-container {
-  background-color: rgb(68, 68, 68);
+  background-color: rgb(255, 255, 255);
 }
 
 .nav-container:hover {
@@ -10,7 +10,7 @@
   font-family: 'Audiowide', cursive;
   font-size: 26px;
   font-style: bold;
-  color: white;
+  color: #1BCFD1;
 }
 
 .logo-container:hover {
@@ -20,12 +20,10 @@
 .nav-profile {
   color: white !important;
 }
-
+.nav-button {
+  
+}
 .nav-profile:hover {
   color: white !important;
   background-color: rgb(98, 98, 98) !important;
-}
-
-.profile-dropdown {
-
 }
