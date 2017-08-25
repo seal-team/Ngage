@@ -21,7 +21,7 @@ const Home = () => (
               <WhoAmI />
             </div>
         </div>
-        <div className="columns is-desktop is-multiline">
+        <div className="columns is-desktop is-multiline section-padding">
             <div className="subtitle column video-title">
                 <h1>Editor Mode</h1>
                 <iframe width="580" height="365"
@@ -36,8 +36,21 @@ const Home = () => (
             </div>
         </div>
     </section>
-    <div className="feature-padding"></div>
     <Feature/>
+    <footer className="footer">
+      <div className="container">
+        <div className="content has-text-centered">
+          <p>
+            <strong>nGage</strong> by <a href="http://fullstackacademy.com">FullStack Academy</a>.
+          </p>
+          <p>
+            <a className="icon" href="https://github.com/seal-team/Ngage">
+              <i className="fa fa-github"></i>
+            </a>
+          </p>
+        </div>
+      </div>
+    </footer>
   </div>
 )
 

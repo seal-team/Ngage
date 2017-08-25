@@ -2,10 +2,11 @@ import React from 'react'
 export class Feature extends React.Component {
   render() {
     return (
-        <section id ="feature" className="section-padding">
+        <section id ="feature" className="section-padding pre-footer-padding">
             <div className="container">
                     <div className="header-section column text-center subtitle">
                         <h2>Features</h2>
+                        <br/>
                         <p className = "description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem nesciunt vitae, 
                             <br/> maiores, magni dolorum aliquam.</p>
                         <hr className="bottom-line"/>

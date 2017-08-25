@@ -1,6 +1,6 @@
 #grad1 {
-  background: red; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(white, #1BCFD1); /* For Safari 5.1 to 6.0 */
+  background: #1ACED1; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(white, #1ACED1); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(white, #1BCFD1); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(white, #1BCFD1); /* For Firefox 3.6 to 15 */
   background: linear-gradient(white, #1BCFD1); /* Standard syntax (must be last) */
@@ -15,11 +15,12 @@
 }
 #hero-background2 {
   background-image: url(https://www.visme.co/wp-content/themes/visme/images/macbook.png);
-  background-size: 700px 400px;
+  background-size: 700px 390px;
   background-repeat: no-repeat;
   background-position: center bottom;
   margin-left: 3%;
   margin-right: 3%; 
+  margin-top: 4%
 }
 
 .text-center {
@@ -41,7 +42,7 @@
   align-content: center;
 }
 .home-header {
-  margin-top: 5%;
+  margin-top: 3%;
   text-align: center;
 }
 
@@ -82,6 +83,9 @@
     height: 39px;
     // color: #1BCFD1;    
 }
-.feature-padding{
-    margin-top:3%;
+.section-padding{
+    margin-top:10%;
+}
+.pre-footer-padding{
+    margin-bottom: 10%;
 }
