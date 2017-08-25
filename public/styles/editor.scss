@@ -1,8 +1,10 @@
 .body {
+  height: 100vh;
   background-color: rgb(226, 226, 226);
 }
 
 .editor-main-container {
+  height: 100vh !important;
   background-color: rgb(226, 226, 226);
   height: 900px;
   display: flex;

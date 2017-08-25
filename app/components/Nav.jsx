@@ -25,7 +25,7 @@ export class Nav extends Component {
           <Link className="navbar-item logo-container" to='/'>
             <h1 className="logo-text">nGage</h1>
           </Link>
-          <div class="navbar-burger">
+          <div className="navbar-burger">
           </div>
         </div>
           {this.state.showModal
