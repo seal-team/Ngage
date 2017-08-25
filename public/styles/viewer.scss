@@ -8,10 +8,13 @@
 //----------------------
 // ---- Slide Canvas ---
 //----------------------
-.slide-canvas-container {
+.slide-canvas-container-viewer {
   position: relative;
   border: 1px solid black;
-  margin-left: 12px
+  margin-left: 12px;
+  height: 500px;
+  width: 900px;
+  background-color: white
 }
 
 .slide-and-chat {
