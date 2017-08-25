@@ -42,7 +42,7 @@ class Login extends Component {
   }
 
   render() {
-    return (
+    return (   
       <div className="columns">
         <div className="column text-center">
           <button className='loginBtn loginBtn--google'

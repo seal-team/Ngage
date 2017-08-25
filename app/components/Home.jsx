@@ -5,7 +5,7 @@ import {Feature} from './Feature'
 
 import WhoAmI from './WhoAmI'
 
-const Home = (props) => (
+const Home = () => (
   <div id="grad1">
     <section className="hero">
         <div className="columns is-desktop is-multiline">
