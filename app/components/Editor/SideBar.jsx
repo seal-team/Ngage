@@ -75,7 +75,7 @@ class SideBar extends Component {
         <div className="sidebar-whole">
 
           {/* All Media Options */}
-          <div>
+          <div className="sidebar-btn">
             <div className="button is-primary sidebar-btn"
               onClick={() => this.toggleAcitveTab(0)}>
               <span className="sidebar-category">Media</span>
@@ -98,17 +98,16 @@ class SideBar extends Component {
               </div>
             }
           </div>
-
           {/* All Quiz Options */}
           <div>
-            <div className="button is-warning sidebar-btn"
+            <div className="button is-primary sidebar-btn"
               onClick={() => this.toggleAcitveTab(1)}>
               <span className="sidebar-category">Quiz</span>
             </div>
 
             {activeTab[1] &&
               <div className="sidebar-quiz-options options-container">
-                <button className="button is-warning multiple-choice-btn"
+                <button className="button is-primary multiple-choice-btn"
                   onClick={() => this.props.toggleQuizModal(true)}>
                     Multiple<br />
                     Choice
