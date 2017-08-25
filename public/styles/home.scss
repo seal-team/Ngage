@@ -1,9 +1,34 @@
+#grad1 {
+  background: #1ACED1; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(white, #1ACED1); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(white, #1BCFD1); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(white, #1BCFD1); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(white, #1BCFD1); /* Standard syntax (must be last) */
+}
+#hero-background {
+  background-image: url(https://cdn.lynda.com/course/124082/124082-636378817123578903-16x9.jpg);
+  background-size: 1600px 700px;
+  background-repeat: no-repeat;
+  background-position: center top;
+  margin-left: 3%;
+  margin-right: 3%; 
+}
+#hero-background2 {
+  background-image: url(https://www.visme.co/wp-content/themes/visme/images/macbook.png);
+  background-size: 700px 390px;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  margin-left: 3%;
+  margin-right: 3%; 
+  margin-top: 4%
+}
+
 .text-center {
   text-align: center;
 }
 
 .welcome {
-  margin-top: 30px;
+  margin-top: 10%;
   font-weight: lighter;
   text-align: center;
 }
@@ -12,9 +37,12 @@
   font-family: 'Libre Franklin', sans-serif;
   text-align: center;
 }
-
+.center-object{
+  text-align: center;
+  align-content: center;
+}
 .home-header {
-  margin-top: 5%;
+  margin-top: 3%;
   text-align: center;
 }
 
@@ -22,7 +50,7 @@
   margin-left: 6px;
   font-family: 'Audiowide',
   cursive;
-  font-size: 32px;
+  font-size: 52px;
   font-style: bold;
   color: black
 }
@@ -34,4 +62,30 @@
   font-weight: bold;
   font-style: normal;
   font-family: 'Libre Franklin', sans-serif;
+}
+.fea{
+	margin-top: 25px;
+}
+.fea-img {
+  width: 20%;
+}
+.heading {
+    width: 80%;
+}
+.fea i {
+    font-size: 39px;
+    color: #000000;
+    margin-top: 7px;
+}
+.vr-icon {
+    margin-top: 7px;
+    width: 39px;
+    height: 39px;
+    // color: #1BCFD1;    
+}
+.section-padding{
+    margin-top:10%;
+}
+.pre-footer-padding{
+    margin-bottom: 10%;
 }

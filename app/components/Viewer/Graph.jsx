@@ -22,14 +22,13 @@ class Graph extends Component {
       .on('value', snapshot => {
         const pollData = snapshot.val(), graphData = []
         
-        for (let answer in pollData) {
+        for (const answer in pollData) {
           graphData.push({ answer: answer, poll: pollData[answer] })
         }
 
         this.setState(prevState => ({ graphData }))
       })
   }
-
 
   // componentWillUnmount() {
   //   const { presentationID } = this.props.match.params

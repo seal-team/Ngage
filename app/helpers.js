@@ -68,9 +68,6 @@ export const slideMetadata = (presentationID, slideID) => {
   return slideData
 }
 
-
-
-
 // --------------------
 // --- Quiz Helpers ---
 // --------------------
