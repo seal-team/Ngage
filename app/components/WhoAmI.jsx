@@ -10,7 +10,6 @@ export const name = user => {
 }
 
 const WhoAmI = ({user, auth}) => {
-  console.log('user.uid', user.uid, 'auth.currentUser', auth.currentUser)
   return (
     <div className="whoami">
       { /* <span className="whoami-user-name">Hello, {name(user)}</span> */ }
