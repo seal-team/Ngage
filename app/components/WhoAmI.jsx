@@ -19,7 +19,7 @@ const WhoAmI = ({user, auth}) => {
       // ...then show signin links...
       <Login auth={auth}/>
       /// ...otherwise, show a logout button.
-      : <div class="whoami"><div class="columns"><div class="column text-center"><button class="loginBtn"></button></div></div></div>}
+      : <div className="whoami"><div class="columns"><div class="column text-center"><button class="loginBtn"></button></div></div></div>}
   </div>
   )
 }
