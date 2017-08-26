@@ -3,7 +3,6 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'APP/fire'
 
-import WhoAmI from './WhoAmI'
 import NewPresentationModal from './NewPresentationModal'
 import DeletePresentationModal from './DeletePresentationModal'
 import LivePresentations from './LivePresentations'
@@ -85,7 +84,7 @@ export class Profile extends Component {
             presentationID = {this.state.presentationID}
             uid = {user} />
           }
-          
+
           <section className='display-item'>
             <div className="columns">
               <div className="column"></div>

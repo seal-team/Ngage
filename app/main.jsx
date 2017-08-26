@@ -10,7 +10,6 @@ import { render } from 'react-dom'
 import { Provider, connect } from 'react-redux'
 
 import Routes from './routes'
-import WhoAmI, { name } from './components/WhoAmI'
 import Nav from './components/Nav'
 
 import store from './store'
@@ -37,12 +36,10 @@ class App extends Component {
     const { auth, user } = this.props
     const { userName } = this.state
 
-    console.log('userName in render ', userName)
-
     return (
       <div className="app-container">
         <Nav userName={userName} />
-        <Routes />
+        <Routes userName={userName} />
       </div>
     )
   }
