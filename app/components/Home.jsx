@@ -18,7 +18,6 @@ const Home = (props) => (
               interactive presentations
             </p>
             <div className ="column"/>
-              {console.log('prop.userName', props)}
               { props.userName
                 ? <div className="whoami"><div className="columns"><div className="column text-center"><button className="logoutBtn"></button></div></div></div>
                 : <WhoAmI /> }
