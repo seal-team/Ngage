@@ -11,7 +11,7 @@ import { Provider, connect } from 'react-redux'
 
 import Routes from './routes'
 import Nav from './components/Nav'
-
+import { name } from './components/WhoAmI'
 import store from './store'
 import { fetchUser } from './reducer'
 
