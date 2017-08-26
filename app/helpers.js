@@ -32,7 +32,7 @@ export const getQuillSnippet = (presentationID, slideID) => {
     .once('value', snapshot => {
       snippet = snapshot.val()
     })
-    .then(() => JSON.parse(snippet))
+  return JSON.parse(snippet)
 }
 
 export const getVRDescription = (presentationID, slideID) => {
