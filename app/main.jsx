@@ -42,7 +42,7 @@ class App extends Component {
     return (
       <div className="app-container">
         <Nav userName={userName} />
-        <Routes />
+        <Routes userName={userName} />
       </div>
     )
   }

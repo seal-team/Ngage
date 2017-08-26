@@ -10,15 +10,16 @@ export const name = user => {
 }
 
 const WhoAmI = ({user, auth}) => {
+  console.log('whoami', user)
   return (
     <div className="whoami">
       { /* <span className="whoami-user-name">Hello, {name(user)}</span> */ }
       { // If nobody is logged in, or the current user is anonymous,
-        (!auth.currentUser) ?
+        (!user.displayName || user.isAnonymous) ?
       // ...then show signin links...
       <Login auth={auth}/>
       /// ...otherwise, show a logout button.
-      : <div className="whoami"><div class="columns"><div class="column text-center"><button class="loginBtn"></button></div></div></div>}
+      : <div className="whoami"><div className="columns"><div className="column text-center"><button className="logoutBtn"></button></div></div></div>}
   </div>
   )
 }

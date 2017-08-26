@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import WhoAmI from './WhoAmI'
 import NewPresentationModal from './NewPresentationModal'
 
 export class Nav extends Component {

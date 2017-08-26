@@ -5,7 +5,7 @@ import {Feature} from './Feature'
 
 import WhoAmI from './WhoAmI'
 
-const Home = () => (
+const Home = (props) => (
   <div id="grad1">
     <section className="hero">
         <div className="columns is-desktop is-multiline">
@@ -18,7 +18,10 @@ const Home = () => (
               interactive presentations
             </p>
             <div className ="column"/>
-              <WhoAmI />
+              {console.log('prop.userName', props)}
+              { props.userName
+                ? <div className="whoami"><div className="columns"><div className="column text-center"><button className="logoutBtn"></button></div></div></div>
+                : <WhoAmI /> }
             </div>
         </div>
         <div className="columns is-desktop is-multiline section-padding">
@@ -41,10 +44,8 @@ const Home = () => (
       <div className="container">
         <div className="content has-text-centered">
           <p>
-            <strong>nGage</strong> by <a href="http://fullstackacademy.com">FullStack Academy</a>.
-          </p>
-          <p>
-            <a className="icon" href="https://github.com/seal-team/Ngage">
+            <strong>nGage</strong> created by <br/>Evan Reed, Liang Li, Alvin Wen, Stacy Hirschberg
+            <a className="icon margin-left-sm" href="https://github.com/seal-team/Ngage">
               <i className="fa fa-github"></i>
             </a>
           </p>
